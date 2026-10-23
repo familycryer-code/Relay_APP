@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SharedResources;
+using NLog;
 
 namespace RelayControlLibrary
 {
@@ -96,6 +97,7 @@ namespace RelayControlLibrary
 
         private void tsBlockOpen_CheckedChanged(object sender, EventArgs e)
         {
+              
             if (tsBlockOpen.Focused)
                 SendBlockState(tsBlockOpen.Checked);
         }

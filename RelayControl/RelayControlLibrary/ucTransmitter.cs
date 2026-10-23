@@ -1102,11 +1102,11 @@ namespace RelayControlLibrary
 
         public void RequestLightningCount()
         {
+
             //=====================Display throbber while parameters get requested from the master relay  =====================
             Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
             //this.enableAll(false);
-            //========================================================================================================
 
             byte[] packet = new byte[3];
 
@@ -1186,7 +1186,9 @@ namespace RelayControlLibrary
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
             //this.enableAll(false);
             //========================================================================================================
-            this.SendTransmitterSettings();
+
+
+                        this.SendTransmitterSettings();
         }
 
         private void buttonTX_Click(object sender, EventArgs e)

@@ -7840,15 +7840,31 @@ namespace RelayControl
 
         private void buttonClearCycleCount_Click(object sender, EventArgs e)
         {
-            byte[] packet = new byte[3];
+            SetBusyUi(true);
 
-            packet[0] = (byte)'O';
-            packet[1] = 0x55;
-            packet[2] = 0x0D;
+            try
+            {
+                byte[] packet = new byte[3];
 
-            this.sendPacket(packet);
-            // Queue phasing/type to send when ACK guard allows
-            this.SendRelayPhasingAndType();
+                packet[0] = (byte)'O';
+                packet[1] = 0x55;
+                packet[2] = 0x0D;
+
+                this.sendPacket(packet);
+
+                // Queue phasing/type to send when ACK guard allows
+                this.SendRelayPhasingAndType();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Clear cycle count failed");
+                this.messageHandler("Clear cycle count failed", ex);
+            }
+            finally
+            {
+                // only if this whole operation is synchronous
+                SetBusyUi(false);
+            }
         }
 
         private void textBoxCTRatio_Leave(object sender, EventArgs e)
@@ -7991,31 +8007,69 @@ namespace RelayControl
 
         private void buttonTripRelay_Click(object sender, EventArgs e)
         {
-            DialogResult dr = this.messageHandler("Trip Relay", "Do you really want to trip the relay?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            DialogResult dr = this.messageHandler(
+                "Trip Relay",
+                "Do you really want to trip the relay?",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
 
-            byte[] bytePacket;
-            TripModeDefinition tMD = new TripModeDefinition(TripModes.RemoteTrip);
-
-            if (dr == DialogResult.Yes)
+            if (dr != DialogResult.Yes)
             {
-                bytePacket = RelayModeFunctions.BytePacketFor(tMD);
+                return;
+            }
+
+            SetBusyUi(true);
+
+            try
+            {
+                TripModeDefinition tMD = new TripModeDefinition(TripModes.RemoteTrip);
+                byte[] bytePacket = RelayModeFunctions.BytePacketFor(tMD);
                 this.sendPacket(bytePacket);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Trip relay failed");
+                this.messageHandler("Trip relay failed", ex);
+            }
+            finally
+            {
+                SetBusyUi(false);
             }
         }
 
         private void buttonBlockAndTrip_Click(object sender, EventArgs e)
         {
-            DialogResult dr = this.messageHandler("Trip Relay", "Do you really want to block open and trip the relay?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            DialogResult dr = this.messageHandler(
+                "Trip Relay",
+                "Do you really want to block open and trip the relay?",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
 
-            byte[] bytePacket;
-            TripModeDefinition tMD = new TripModeDefinition(TripModes.RemoteTrip);
+            if (dr != DialogResult.Yes)
+            {
+                return;
+            }
 
-            if (dr == DialogResult.Yes)
+            SetBusyUi(true);
+
+            try
             {
                 ucBlockControl1.SendBlockState(true);
 
-                bytePacket = RelayModeFunctions.BytePacketFor(tMD);
+                TripModeDefinition tMD = new TripModeDefinition(TripModes.RemoteTrip);
+                byte[] bytePacket = RelayModeFunctions.BytePacketFor(tMD);
                 this.sendPacket(bytePacket);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Block and trip failed");
+                this.messageHandler("Block and trip failed", ex);
+            }
+            finally
+            {
+                SetBusyUi(false);
             }
         }
 
@@ -11716,8 +11770,22 @@ namespace RelayControl
 
         private void btn_RelaxClose_Click(object sender, EventArgs e)
         {
-            relaxCloseC.RelaxCloseClick = true;
-            this.ucCloseMode1.sendRelaxClose();
+            SetBusyUi(true);
+
+            try
+            {
+                relaxCloseC.RelaxCloseClick = true;
+                this.ucCloseMode1.sendRelaxClose();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Relax close failed");
+                this.messageHandler("Relax close failed", ex);
+            }
+            finally
+            {
+                SetBusyUi(false);
+            }
         }
 
         private void btn_ClearPumpProtect_Click(object sender, EventArgs e)
