@@ -1647,7 +1647,7 @@ namespace RelayControl
 
         private void checkSavedLocationAndFindRelay([CallerMemberName] string caller = null)
         {
-            LogFlow("checkSavedLocationAndFindRelay ENTRY", caller);
+           
 
             this.monitoring(false);
             this.RegisterPolling(false);
@@ -1656,11 +1656,10 @@ namespace RelayControl
             {
                 this.savedFile = new MyFile(_savedFilePath);
                 this.savedComPort = this.getSavedComPort(this.savedFile);
-                LogFlow("checkSavedLocationAndFindRelay loaded savedFile and savedComPort: " + this.savedComPort, caller);
             }
             catch (Exception ex)
             {
-                LogFlow("checkSavedLocationAndFindRelay EXCEPTION reading saved file", caller);
+                
                 this.RegisterPolling(false);
                 this.monitoring(false);
                 throw new Exception("Error Reading from Saved File", ex);
@@ -1669,11 +1668,11 @@ namespace RelayControl
             try
             {
                 this.portNames = getPortNames();
-                LogFlow("checkSavedLocationAndFindRelay got portNames count: " + (this.portNames?.Count ?? 0), caller);
+               
             }
             catch (Exception ex)
             {
-                LogFlow("checkSavedLocationAndFindRelay EXCEPTION setting port names", caller);
+                
                 this.RegisterPolling(false);
                 this.monitoring(false);
                 throw new Exception("Error Setting Port Names", ex);
@@ -1682,14 +1681,14 @@ namespace RelayControl
             try
             {
                 this.setComPortMenu(this.portNames);
-                LogFlow("checkSavedLocationAndFindRelay set COM port menu", caller);
+              
 
                 this.findRelay(this.portNames, nameof(checkSavedLocationAndFindRelay));
-                LogFlow("checkSavedLocationAndFindRelay delegated to findRelay", caller);
+              
             }
             catch (Exception ex)
             {
-                LogFlow("checkSavedLocationAndFindRelay EXCEPTION starting find thread", caller);
+               
                 this.RegisterPolling(false);
                 this.monitoring(false);
                 throw new Exception("Error Starting Find Thread", ex);
@@ -1803,11 +1802,9 @@ namespace RelayControl
         {
             SectionBits missing = this.requiredBackupMask & ~this.receivedBackupMask;
 
-            LogFlow($"TryRetryMissingBackupSections | required={this.requiredBackupMask} | received={this.receivedBackupMask} | missing={missing}");
-
             if (missing == SectionBits.None)
             {
-                LogFlow("TryRetryMissingBackupSections: all backup sections received; resuming autoload.");
+                
 
                 this.backupInProgress = false;
                 this.backupState = BackupState.Idle;
@@ -1820,7 +1817,6 @@ namespace RelayControl
                 return;
             }
 
-            LogFlow($"Retrying missing backup sections: {missing}");
 
             if ((missing & SectionBits.ArcFault) != 0)
                 this.arcFault_requestArcFaultMonitoring();
@@ -2093,17 +2089,17 @@ namespace RelayControl
         {
             if (this.ucRelayProgramming1 == null)
             {
-                LogFlow("BackupBeforeProgrammingRequested ignored: ucRelayProgramming1 is null");
+              
                 return;
             }
 
             if (this.backupInProgress || this.backupState == BackupState.Capturing)
             {
-                LogFlow($"BackupBeforeProgrammingRequested ignored: backup already active | backupInProgress={this.backupInProgress}, backupState={this.backupState}");
+                
                 return;
             }
 
-            LogFlow($"BackupBeforeProgrammingRequested: starting backup flow | caller={e.Caller}");
+           
 
             if (e.Caller == nameof(ucRelayProgramming.BackupOnly))
             {
@@ -2138,7 +2134,7 @@ namespace RelayControl
             if (this.timerResponseTimeOut != null)
                 this.timerResponseTimeOut.Enabled = false;
 
-            LogFlow(caller + " | ResetFullParameterDownloadState: reset all download state flags and timers.");
+            
         }
 
         private SavedSettingV4 reprogrammingTempSettings = new SavedSettingV4();
@@ -2154,7 +2150,7 @@ namespace RelayControl
             switch (rPEA.Command)
             {
                 case RelayProgrammingSendCommands.RequestAll:
-                    LogFlow("Programming_Send RequestAll");
+                
                     this.requestAllData(nameof(Programming_Send) + ".RequestAll");
                     break;
 
@@ -2197,7 +2193,7 @@ namespace RelayControl
                     this.ucTransmitter1.SendTransmitterSettings();
                     break;
                 case RelayProgrammingSendCommands.WriteBackupToRelay:
-                    LogFlow("Programming_Send WriteBackupToRelay");
+                   
                     this.WriteBackUpData_FileToRelay();
                     // after success, drive finalize path:
                     this.ucRelayProgramming1.finalizeReprogram(); // or call finalize directly via a new method
@@ -4132,7 +4128,7 @@ namespace RelayControl
 
         private void setRelayRevisionLabel(byte[] bytePacket)
         {
-            LogFlow("setRelayRevisionLabel ENTRY", nameof(setRelayRevisionLabel));
+           
 
             try
             {
@@ -5651,29 +5647,29 @@ namespace RelayControl
 
                 if (parsedMasterRevision == 0 || parsedMasterRevision == 0xFFFFFF)
                 {
-                    LogFlow("MASTER REVISION INVALID/PLACEHOLDER", caller);
+                    
                     return;
                 }
 
                 // Prevent duplicate or redundant processing - when in programming mode.
                 if (this.relayFound && this.ProgramState == ProgramStates.CheckingForRelay)
                 {
-                    LogFlow("MASTER REVISION DUPLICATE IGNORED", caller);
+                   
                     return;
                 }
 
                 this.masterRevision = parsedMasterRevision;
-                LogFlow("MASTER REVISION RECEIVED", caller);
+                
 
                 this.ucTransmitter1.MasterRevisionNumber = this.masterRevision;
 
                 this.ucRelayProgramming1.MasterRevisionString = revision;
                 this.ucRelayProgramming1.MasterRevisionNumber = (UInt32)this.masterRevision;
-                LogFlow("MASTER REVISION ASSIGNED TO ucRelayProgramming1", caller);
+             
 
                 if (this.ucRelayProgramming1.CompareMasterRevisionToGUI() && skipAutoloadAfterDecline)
                 {
-                    LogFlow("Skipping pending autoload after prior user decline", caller);
+                    
                 }
 
                 if (this.dNPDIGITALGRIDData != null)
@@ -5696,12 +5692,12 @@ namespace RelayControl
                 // Stop the discovery timer and clear it cleanly
                 if (this.timerCheckPortTime != null)
                 {
-                    LogFlow("revisionReceived stopping timerCheckPortTime", caller);
+                   
                     this.timerCheckPortTime.Stop();
                     this.timerCheckPortTime.Tick -= timerCheckPortTime_Tick;
                     this.timerCheckPortTime.Dispose();
                     this.timerCheckPortTime = null;
-                    LogFlow("revisionReceived disposed timerCheckPortTime", caller);
+                   
                 }
 
                 if (this.ProgramState == ProgramStates.CheckingForRelay)
@@ -5713,7 +5709,7 @@ namespace RelayControl
                     if (!tCPConnection)
                         this.toolStripStatusLabelMain.Text = "Relay Found on " + this.serialPort1.PortName;
 
-                    LogFlow("revisionReceived -> requestAllData start", caller);
+                  
                     this.requestAllData("relay-connect-serial");
                 }
             }
@@ -5757,7 +5753,7 @@ namespace RelayControl
 
         private void setFPGARevision(byte[] bytePacket)
         {
-            LogFlow("setFPGARevision ENTRY", nameof(setFPGARevision));
+            
 
             try
             {
@@ -6643,13 +6639,14 @@ namespace RelayControl
         }
         private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
         {
+            logger.Info("buttonTypePhasingRestoreDefaults_Click: restoring default relay type and phasing settings.");
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
             screenD.screenDisable = true;
 
             try
             {
-                this.SendRelayPhasingAndType();
+                this.restoreDefaultsTypeAndPhasing();
             }
             finally
             {
@@ -6675,41 +6672,68 @@ namespace RelayControl
                 byte[] packet = new byte[4];
                 packet[0] = (byte)'s';
 
+                // Relay type
                 var relayType = this.comboBox_RelayType?.SelectedItem?.ToString();
-                if (relayType == "Sequence")
+                if (string.Equals(relayType, "Sequence", StringComparison.OrdinalIgnoreCase))
                     packet[1] = (byte)'S';
-                else if (relayType == "Power")
-                    packet[1] = (byte)'P';
                 else
                     packet[1] = (byte)'P';
 
+                // Phasing
                 var phasing = this.comboBox_Phasings?.SelectedItem?.ToString();
-                if (this.Customer != Customers.CONED)
+
+                if (this.Customer == Customers.CONED)
                 {
-                    if (phasing == "ABC : CAB : BCA")
+                    // ConEd-specific encoding: use the legacy conedPhasing value if present
+                    // Otherwise fall back to standard mapping
+                    if (this.conedPhasing != 0)
+                    {
+                        packet[2] = (byte)this.conedPhasing;
+                    }
+                    else if (string.Equals(phasing, "ABC : CAB : BCA", StringComparison.OrdinalIgnoreCase))
+                    {
                         packet[2] = 0x00;
-                    else if (phasing == "CBA : BAC : ACB")
+                    }
+                    else if (string.Equals(phasing, "CBA : BAC : ACB", StringComparison.OrdinalIgnoreCase))
+                    {
+                        packet[2] = 0x01;
+                    }
+                    else
+                    {
+                        packet[2] = 0x00;
+                    }
+                }
+                else
+                {
+                    // Standard mapping for all non-ConEd customers
+                    if (string.Equals(phasing, "ABC : CAB : BCA", StringComparison.OrdinalIgnoreCase))
+                        packet[2] = 0x00;
+                    else if (string.Equals(phasing, "CBA : BAC : ACB", StringComparison.OrdinalIgnoreCase))
                         packet[2] = 0x01;
                     else
                         packet[2] = 0x00;
                 }
-                else
-                {
-                    packet[2] = (byte)this.conedPhasing;
-                }
 
+                // Voltage bit
                 try
                 {
-                    packet[2] |= (byte)protectorVoltage.SetBit;
+                    if (this.protectorVoltage != null)
+                    {
+                        packet[2] |= (byte)this.protectorVoltage.SetBit;
+                    }
                 }
                 catch (Exception ex)
                 {
                     messageHandler("Problem Setting Protector Voltage bits", ex);
                 }
 
+                // 277 V Output bit
                 try
                 {
-                    packet[2] |= 0x10;
+                    if (this.checkBox277DNPOutputs != null && this.checkBox277DNPOutputs.Checked)
+                    {
+                        packet[2] |= 0x10;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -6720,8 +6744,6 @@ namespace RelayControl
 
                 logger.Info("Relay Type/Phasing packet prepared. packet=[{0}]", BitConverter.ToString(packet));
 
-                // IMPORTANT: do not call sendPacketAck directly here.
-                // Use the queue/ACK guard path.
                 this.QueueRelayTypePhasingSendIfAllowed(packet, "Relay Type Send");
             }
             catch (Exception ex)
@@ -6736,23 +6758,26 @@ namespace RelayControl
         {
             try
             {
+                bool ackActive;
+
                 lock (_ackFlowLock)
                 {
-                    // If ACK is already active, do not start a new CT send here.
-                    // Queue phasing/type only; it will drain later when ACK clears.
-                    if (this.expectingAck)
-                    {
-                        logger.Info("SendCTRatioAndPhasing: ACK active, CT send deferred. Queueing relay/phasing only.");
-                        this.SendRelayPhasingAndType();
-                        return;
-                    }
-
-                    // Send CT ratio now (this sets expectingAck via sendPacketAck path)
-                    this.sendCTRatio(requestAfter);
-
-                    // Queue phasing/type behind CT ACK; guard method will queue because expectingAck is now true.
-                    this.SendRelayPhasingAndType();
+                    ackActive = this.expectingAck;
                 }
+
+                if (ackActive)
+                {
+                    logger.Info("SendCTRatioAndPhasing: ACK active, queueing relay/phasing only.");
+                    this.SendRelayPhasingAndType();
+                    return;
+                }
+
+                // Send CT first
+                this.sendCTRatio(requestAfter);
+
+                // Then queue phasing; since CT send should set expectingAck,
+                // QueueRelayTypePhasingSendIfAllowed should queue and drain later on ACK clear.
+                this.SendRelayPhasingAndType();
             }
             catch (Exception ex)
             {
@@ -6911,10 +6936,10 @@ namespace RelayControl
         {
             try
             {
-                LogFlow("findRelay ENTRY", caller);
+                
 
                 this.ProgramState = ProgramStates.CheckingForRelay;
-                LogFlow("findRelay set ProgramState=CheckingForRelay", caller);
+               
 
                 this.portNames = (List<string>)pN;
 
@@ -6922,15 +6947,15 @@ namespace RelayControl
                 {
                     this.portNames.Remove(this.savedComPort);
                     this.portNames.Insert(0, this.savedComPort); // move it to the top so it is the first checked
-                    LogFlow("findRelay moved savedComPort to front: " + this.savedComPort, caller);
+                   
                 }
 
                 this.checkPortsForRelay(nameof(findRelay));
-                LogFlow("findRelay delegated to checkPortsForRelay", caller);
+               
             }
             catch (Exception ex)
             {
-                LogFlow("findRelay EXCEPTION", caller);
+                
                 this.messageHandler("Error In findRelay()", ex);
             }
         }
@@ -6938,30 +6963,30 @@ namespace RelayControl
         private void checkPortsForRelay([CallerMemberName] string caller = null)
         {
             string errorMessage;
-            LogFlow("checkPortsForRelay ENTRY", caller);
+           
 
             ucRelayProgramming1.NotPollingPort = true;
 
             if (this.ProgramState == ProgramStates.Running)
             {
-                LogFlow("checkPortsForRelay EXIT: ProgramState is Running", caller);
+                
                 return;
             }
 
             while (this.portNames.Count > 0)
             {
                 string currentPort = this.portNames[0];
-                LogFlow("checkPortsForRelay checking port: " + currentPort, caller);
+             
                 this.toolStripStatusLabelMain.Text = "Checking " + currentPort + " for Relay";
 
                 if (!this.checkPortAvailability(currentPort))
                 {
-                    LogFlow("checkPortsForRelay port unavailable; removing and continuing: " + currentPort, caller);
+                   
                     this.portNames.RemoveAt(0);
                     continue;
                 }
 
-                LogFlow("checkPortsForRelay port available", caller);
+               
 
                 this.clearRemoteBuffer();
                 this.requestMasterRevisionNumber(nameof(checkPortsForRelay));
@@ -6981,19 +7006,19 @@ namespace RelayControl
                 this.timerCheckPortTime.Interval = 500;
                 this.timerCheckPortTime.Start();
 
-                LogFlow("checkPortsForRelay started timerCheckPortTime", caller);
+              
                 return; // wait for revision/timeout
             }
 
             this.ProgramState = ProgramStates.FailedToFindRelay;
-            LogFlow("checkPortsForRelay set ProgramState=FailedToFindRelay", caller);
+          
 
             errorMessage = "Unable To Locate Relay.";
             this.relayNotFound();
             this.RegisterPolling(false);
             ucRelayProgramming1.NotPollingPort = false;
 
-            LogFlow("checkPortsForRelay no relay found -> messageHandler", caller);
+         
             this.messageHandler("No Relay Found", new Exception(errorMessage));
         }
 
@@ -7084,14 +7109,13 @@ namespace RelayControl
 
         private void requestMasterRevisionNumber([CallerMemberName] string caller = null)
         {
-            LogFlow("requestMasterRevisionNumber ENTRY", caller);
+          
 
             byte[] packet = new byte[3];
             packet[0] = (byte)'R';
             packet[1] = 0x55;
             packet[2] = 0x0D;
 
-            LogFlow("requestMasterRevisionNumber sending packet: {0}", caller);
 
             this.sendPacket(packet);
         }
@@ -7112,13 +7136,13 @@ namespace RelayControl
             // Discovery timeout logic only applies while actively checking for relay
             if (this.ProgramState != ProgramStates.CheckingForRelay)
             {
-                LogFlow("timerCheckPortTime_Tick ignored: not in CheckingForRelay", nameof(timerCheckPortTime_Tick));
+               
                 return;
             }
 
             if (this.relayFound)
             {
-                LogFlow("timerCheckPortTime_Tick ignored: relay already found", nameof(timerCheckPortTime_Tick));
+                
                 return;
             }
 
@@ -7181,19 +7205,19 @@ namespace RelayControl
 
             if (this.ucRelayProgramming1 == null)
             {
-                LogFlow("Request All suppressed: ucRelayProgramming1 is null");
+              
                 return;
             }
 
             if (this.sendAll || sendAllF.SendAllFlag)
             {
-                LogFlow($"requestAllData SUPPRESSED: sendAll active | caller={caller}");
+                
                 return;
             }
 
             if (this.IsProgrammingFlowActive())
             {
-                LogFlow($"requestAllData SUPPRESSED: programming lifecycle active | caller={caller}");
+                
                 return;
             }
 
@@ -7208,27 +7232,27 @@ namespace RelayControl
             // Keep duplicate protection for normal re-entry. Allow the specific post-apply refresh through.
             if (this.ProgramState == ProgramStates.DownloadingAllParameters && !isFreshPostApplyStart)
             {
-                LogFlow($"requestAllData SUPPRESSED: already downloading | caller={caller}");
+                
                 return;
             }
 
             // Startup stage 1: only establish comms (revisions/part identifiers)
             if (isStartupDiscovery && !this.relayFound)
             {
-                LogFlow($"requestAllData startup discovery: requesting master + relay revisions | caller={caller}");
+               
                 this.requestMasterRevisionNumber(nameof(requestAllData));
                 this.requestRelayRevision();
                 this.requestFPGARevision();
 
                 this.timerResponseTimeOut.Enabled = true;
-                LogFlow($"requestAllData armed timerResponseTimeOut | caller={caller}");
+              
                 return;
             }
 
             // Startup stage 2: once comms are established, allow full start only once
             if (isStartupDiscovery && this.relayFound && startupFullDownloadStarted)
             {
-                LogFlow($"requestAllData SUPPRESSED: startup full download already started | caller={caller}");
+                
                 return;
             }
 
@@ -7236,7 +7260,7 @@ namespace RelayControl
             {
                 startupFullDownloadStarted = true;
                 this.ucRelayProgramming1.InitializeAutoload();
-                LogFlow($"requestAllData startup full download latch set | caller={caller}");
+               
             }
 
             // Normal request-all / post-apply readback path
@@ -7298,19 +7322,18 @@ namespace RelayControl
         {
             try
             {
-                LogFlow("getSavedComPort ENTRY", caller);
+               
 
                 string comPort = mF.ReadWholeFile();
 
                 // Null-safe + remove CR/LF + whitespace
                 comPort = (comPort ?? string.Empty).Trim();
 
-                LogFlow("getSavedComPort loaded value: " + comPort, caller);
+              
                 return comPort;
             }
             catch (Exception ex)
             {
-                LogFlow("getSavedComPort EXCEPTION", caller);
                 this.monitoring(false);
                 this.RegisterPolling(false);
                 throw new Exception("Error Getting Port From Saved File", ex);
@@ -7319,22 +7342,22 @@ namespace RelayControl
 
         private void saveComPort([CallerMemberName] string caller = null)
         {
-            LogFlow("saveComPort ENTRY", caller);
+            
 
             if (this.savedFile == null)
             {
-                LogFlow("saveComPort savedFile is null; skipping write", caller);
+                
                 return;
             }
 
             try
             {
                 this.savedFile.WriteWholeFile(this.serialPort1.PortName);
-                LogFlow("saveComPort wrote COM port: " + this.serialPort1.PortName, caller);
+               
             }
             catch (Exception ex)
             {
-                LogFlow("saveComPort EXCEPTION", caller);
+                
                 this.messageHandler("Error Saving COM Port", ex);
             }
         }
@@ -7818,7 +7841,6 @@ namespace RelayControl
 
         private void sendCTRatio(bool requestAfter)
         {
-           
             byte[] packet = new byte[4];
             packet[0] = (byte)'Z';
             packet[1] = (byte)this.CTRatio;
@@ -7831,7 +7853,7 @@ namespace RelayControl
                 return;
             }
 
-           
+            this.sendPacketAck(packet, "CT Ratio Send");
         }
 
         private void buttonClearCycleCount_Click(object sender, EventArgs e)
@@ -9399,7 +9421,7 @@ namespace RelayControl
                 }
                 else
                 {
-                    LogFlow("timerLiveEventAcknowledge_Tick suppressed initial failure: relay already connected");
+                    
                 }
 
                 return;
@@ -9416,7 +9438,7 @@ namespace RelayControl
                 if (!this.relayFound || this.ProgramState == ProgramStates.CheckingForRelay)
                     this.downloadProgress_Done(ProgressFormCompleteStates.Failure, "No Response From Relay.\r\nPlease Check Connection.");
                 else
-                    LogFlow("timerLiveEventAcknowledge_Tick max retries reached but relay connected; suppressing popup");
+                   
                 return;
             }
 
@@ -9920,9 +9942,7 @@ namespace RelayControl
             }
             else
             {
-                LogFlow("timerResponseTimeOut_Tick suppressed: relayFound=" + this.relayFound +
-                        ", requestedAllParameters=" + this.requestedAllParameters +
-                        ", ProgramState=" + this.ProgramState);
+                
             }
         }
 
@@ -10786,43 +10806,14 @@ namespace RelayControl
             BackUpRelayDatatoFile();
         }
 
-        private void LogFlow(string message, [CallerMemberName] string caller = null)
-        {
-            logger.Info(
-                "{0} | caller={1} | ProgramState={2} | backupState={3} | requestedAllParameters={4}" +
-                " | sendAll={5} | sendAllFlag={6} | backupInProgress={7}" +
-                " | pendingAutoloadAfterBackup={8} | pendingRestoreAfterProgramming={9} | relayCodeRevisionNumber={10}" +
-                " | relayFound={11} | activeRelay={12} | tcp={13} | serialOpen={14} | port={15}" +
-                " | masterRevision={16} | ucRelayProgramming1.MasterRevisionNumber={17} | fpgaRevision={18}",
-                message,
-                caller ?? "unknown",
-                this.ProgramState,
-                this.backupState,
-                this.requestedAllParameters,
-                this.sendAll,
-                sendAllF.SendAllFlag,
-                this.backupInProgress,
-                this.pendingAutoloadAfterBackup,
-                this.pendingRestoreAfterProgramming,
-                this.relayCodeRevisionNumber,
-                this.relayFound,
-                this.ucRelayProgramming1 != null && this.ucRelayProgramming1.ActiveRelay,
-                this.tCPConnection,
-                this.serialPort1 != null && this.serialPort1.IsOpen,
-                this.serialPort1 != null ? this.serialPort1.PortName : "n/a",
-                this.masterRevision,
-                this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.MasterRevisionNumber : 0,
-                this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.FPGARevisionNumber : 0
-            );
-        }
 
         private void BackUpRelayNoFile()
         {
-            LogFlow("BackupRelayNoFile: ENTER");
+            
 
             if (backupState == BackupState.Capturing)
             {
-                LogFlow("already capturing; skipping duplicate start");
+               
                 return;
             }
 
@@ -10844,7 +10835,7 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                LogFlow("exception; ex=" + ex.Message);
+                
                 backupInProgress = false;
                 backupTimeoutTimer?.Stop();
                 ClearBackupCaptureState();
@@ -10861,11 +10852,11 @@ namespace RelayControl
 
         private void BackUpRelayDatatoFile()
         {
-            LogFlow("BackupRelayDataFile: ENTER");
+          
 
             if (backupState == BackupState.Capturing)
             {
-                LogFlow("already capturing; skipping duplicate start");
+               
                 return;
             }
 
@@ -10898,7 +10889,7 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                LogFlow("exception; ex=" + ex.Message);
+              
                 backupInProgress = false;
                 backupTimeoutTimer?.Stop();
                 ClearBackupCaptureState();
@@ -12318,7 +12309,7 @@ namespace RelayControl
 
         private void RecoverComms(string caller, Exception ex = null)
         {
-            LogFlow(caller, "RecoverComms invoked. ex={0}");
+           
             try
             {
                 if (ex != null)
@@ -12453,36 +12444,34 @@ namespace RelayControl
 
         private void TryCompleteBackup()
         {
-            LogFlow(
-                $"TryCompleteBackup ENTER | backupInProgress={this.backupInProgress} | backupState={this.backupState} | " +
-                $"receivedBackupMask={this.receivedBackupMask} | requiredBackupMask={this.requiredBackupMask}");
+            
 
             if (!this.backupInProgress || this.backupState != BackupState.Capturing)
             {
-                LogFlow("TryCompleteBackup EXIT: backup not active or not capturing.");
+               
                 return;
             }
 
             if (this.IsBackupComplete())
             {
-                LogFlow("TryCompleteBackup: backup complete -> CompleteBackupAndContinue(null).");
+               
                 this.CompleteBackupAndContinue(null);
                 return;
             }
 
-            LogFlow("TryCompleteBackup: backup incomplete -> TryRetryMissingBackupSections().");
+            
             this.TryRetryMissingBackupSections();
         }
 
         private void CompleteBackupAndContinue(string timeoutMessageOrNull)
         {
-            LogFlow("CompleteBackupAndContinue: ENTER");
+            
 
             if (!this.backupInProgress &&
                 !this.pendingAutoloadAfterBackup &&
                 !this.ucRelayProgramming1.AutoloadDeferredUntilUiReady)
             {
-                LogFlow("CompleteBackupAndContinue: no backup in progress and no pending autoload -> exit.");
+               
                 return;
             }
 
@@ -12491,7 +12480,7 @@ namespace RelayControl
 
             if (!string.IsNullOrEmpty(timeoutMessageOrNull))
             {
-                LogFlow(timeoutMessageOrNull);
+              
 
                 EndBackupCapture(false);
                 ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
