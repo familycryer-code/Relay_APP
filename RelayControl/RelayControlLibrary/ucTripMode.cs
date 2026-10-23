@@ -351,29 +351,34 @@ namespace RelayControlLibrary
         private bool _tripSendInProgress;
         private bool sending;
 
-        private void SetBusyUi(bool busy)
-        {
-            System.Diagnostics.Trace.WriteLine(
-                $"[UIBUSY] SetBusyUi busy={busy} caller={new System.Diagnostics.StackTrace().GetFrame(1)?.GetMethod()?.Name ?? "unknown"}");
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
+        private void SetBusyUi(bool busy, string statusText = null)
+        {
             if (this.IsDisposed) return;
 
             if (this.InvokeRequired)
             {
-                System.Diagnostics.Trace.WriteLine($"[UIBUSY] InvokeRequired -> BeginInvoke busy={busy}");
-                BeginInvoke((Action)(() => SetBusyUi(busy)));
+                BeginInvoke((Action)(() => SetBusyUi(busy, statusText)));
                 return;
             }
 
-            screenD.screenDisable = busy;
-            this.UseWaitCursor = busy;
+            var caller = new System.Diagnostics.StackTrace()
+                .GetFrame(1)?.GetMethod()?.Name ?? "unknown";
+
+            logger.Info("SetBusyUi busy={0} statusText={1} caller={2}",
+                busy,
+                statusText ?? "<null>",
+                caller);
+
+            // Only if this control has it:
+            // screenD.screenDisable = busy;
+
             Application.UseWaitCursor = busy;
             Cursor.Current = busy ? Cursors.WaitCursor : Cursors.Default;
-            _tripSendInProgress = busy;
-            this.Refresh();
+            this.UseWaitCursor = busy;
 
-            System.Diagnostics.Trace.WriteLine(
-                $"[UIBUSY] Applied busy={busy} screenD.screenDisable={screenD.screenDisable} UseWaitCursor={this.UseWaitCursor}");
+            this.Refresh();
         }
 
         private void buttonSendTripMode_Click(object sender, EventArgs e)

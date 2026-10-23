@@ -21,7 +21,8 @@ namespace RelayControlLibrary
 {
     public partial class ucCloseMode : UserControl
     {
-        
+
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         public ucCloseMode()
         {
             try
@@ -289,17 +290,26 @@ namespace RelayControlLibrary
 
         private static void UiTrace(string message)
         {
-            System.Diagnostics.Trace.WriteLine($"[CLOSE] {DateTime.Now:HH:mm:ss.fff} {message}");
+            logger.Info("[CLOSE] {0}", message);
         }
-        private void SetBusyUi(bool busy)
+
+        private void SetBusyUi(bool busy, string statusText = null)
         {
             if (this.IsDisposed) return;
 
             if (this.InvokeRequired)
             {
-                BeginInvoke((Action)(() => SetBusyUi(busy)));
+                BeginInvoke((Action)(() => SetBusyUi(busy, statusText)));
                 return;
             }
+
+            var caller = new System.Diagnostics.StackTrace()
+                .GetFrame(1)?.GetMethod()?.Name ?? "unknown";
+
+            logger.Info("[CLOSE] SetBusyUi busy={0} statusText={1} caller={2}",
+                busy,
+                statusText ?? "<null>",
+                caller);
 
             screenD.screenDisable = busy;
             Application.UseWaitCursor = busy;

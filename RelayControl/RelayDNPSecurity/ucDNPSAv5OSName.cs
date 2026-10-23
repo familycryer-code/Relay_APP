@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace RelayDNPSecurity
@@ -68,12 +69,37 @@ namespace RelayDNPSecurity
             }
         }
 
+      
+        private void SetBusyUi(bool busy, string statusText = null)
+        {
+            if (this.IsDisposed) return;
+
+            if (this.InvokeRequired)
+            {
+                BeginInvoke((Action)(() => SetBusyUi(busy, statusText)));
+                return;
+            }
+
+            var caller = new System.Diagnostics.StackTrace()
+                .GetFrame(1)?.GetMethod()?.Name ?? "unknown";
+
+            //logger.Info($"SetBusyUi called from {caller} with busy={busy}, statusText={statusText}");
+
+            // if available in this control:
+            // screenD.screenDisable = busy;
+
+            Application.UseWaitCursor = busy;
+            Cursor.Current = busy ? Cursors.WaitCursor : Cursors.Default;
+            this.UseWaitCursor = busy;
+
+            this.Refresh();
+        }
         //   private void buttonSendName_Click(object sender, EventArgs e)
         public void buttonSendName_Click(object sender, EventArgs e)
         {
             //=====================Display a throbber and disbale everything on the screen=====================
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            
+            SetBusyUi(true, "Sending OS Name");
             //this.enableAll(false);
             //========================================================================================================
 

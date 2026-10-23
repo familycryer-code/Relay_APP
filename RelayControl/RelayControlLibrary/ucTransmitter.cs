@@ -1100,12 +1100,40 @@ namespace RelayControlLibrary
             RequestLightningCount();
         }
 
+
+        private void SetBusyUi(bool busy, string statusText = null)
+        {
+            if (this.IsDisposed) return;
+
+            if (this.InvokeRequired)
+            {
+                BeginInvoke((Action)(() => SetBusyUi(busy, statusText)));
+                return;
+            }
+
+            var caller = new System.Diagnostics.StackTrace()
+                .GetFrame(1)?.GetMethod()?.Name ?? "unknown";
+
+            logger.Info("SetBusyUi busy={0} statusText={1} caller={2}",
+                busy,
+                statusText ?? "<null>",
+                caller);
+
+            // Only if this control has it:
+            // screenD.screenDisable = busy;
+
+            Application.UseWaitCursor = busy;
+            Cursor.Current = busy ? Cursors.WaitCursor : Cursors.Default;
+            this.UseWaitCursor = busy;
+
+            this.Refresh();
+        }
+
         public void RequestLightningCount()
         {
 
             //=====================Display throbber while parameters get requested from the master relay  =====================
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            SetBusyUi(true, "Requesting Lightning Count");
             //this.enableAll(false);
 
             byte[] packet = new byte[3];
@@ -1117,6 +1145,9 @@ namespace RelayControlLibrary
             this.RQSEA.SendPacket = packet;
 
             OnSend(RQSEA);
+
+            SetBusyUi(false, $"LightningCount complete:");
+
         }
 
         private void buttonForceConfigMessage_Click(object sender, EventArgs e)
@@ -1126,8 +1157,7 @@ namespace RelayControlLibrary
             if (showWaitUi)
             {
                 // only for manual Fast Fire
-                Application.UseWaitCursor = true;
-                System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+                SetBusyUi(true, "Sending Fast Fire");
             }
 
             byte[] packet = new byte[3];
@@ -1140,8 +1170,7 @@ namespace RelayControlLibrary
 
             if (showWaitUi)
             {
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                SetBusyUi(false, "Sending Fast Fire");
             }
         }
 
@@ -1182,13 +1211,12 @@ namespace RelayControlLibrary
                 applyTX.applyTxSettings = true;
             }
             //=====================Display throbber while parameters get sent to the master relay  =====================
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            SetBusyUi(true, "Sending Transmitter Settings");
             //this.enableAll(false);
             //========================================================================================================
 
 
-                        this.SendTransmitterSettings();
+            this.SendTransmitterSettings();
         }
 
         private void buttonTX_Click(object sender, EventArgs e)
@@ -2398,9 +2426,7 @@ namespace RelayControlLibrary
 #if DNP
             applyDNP.applyDNPSettings = true;
 
-            Application.UseWaitCursor = true;
-            Cursor.Current = Cursors.WaitCursor;
-            Application.DoEvents();
+            SetBusyUi(true, "Sending All DNP Settings");
 
             try
             {
@@ -2408,9 +2434,7 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
-
+                SetBusyUi(false);
                 this.DNPCommLabelStatus = false;
                 this.errorHandler(ex);
             }
@@ -2497,8 +2521,7 @@ namespace RelayControlLibrary
         {
             // MessageBox.Show("read dnp settings from master processor"); // Only for testing - to be removed
             //=====================Display throbber while parameters get requested from the master relay  =====================
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            SetBusyUi(true, "Requesting DNP Settings");
             //this.enableAll(false);
             //========================================================================================================
 

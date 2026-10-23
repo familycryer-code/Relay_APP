@@ -4218,10 +4218,16 @@ namespace RelayControl
 
         private void setTransmitterSettings(byte[] bytePacket)
         {
+            logger.Info("setTransmitterSettings: Received transmitter settings packet of length {0}", bytePacket.Length);
+            
             byte[] settings = new byte[bytePacket.Length];
             int tempI = 0;
 
             timerResponseTimeOut.Enabled = false;
+
+            // This is the completion of the request-transmitter-settings response
+            // If the UI was marked busy for this request, clear it here.
+            SetBusyUi(false, "setTransmitterSettings");
 
             // update lightning count
             this.lbl_LightningCount.Text = lightC.lightningCount.ToString();
@@ -6381,6 +6387,9 @@ namespace RelayControl
 
         private void timerSCITimeOut_Tick(object sender, EventArgs e)
         {
+            logger.Info("timerSCITimeOut_Tick fired. expectingAck={0}, caller={1}",
+                this.expectingAck,
+                this.AcknowledgeCaller);
             try
             {
                 this.timerSCITimeOut.Enabled = false;
@@ -6413,7 +6422,10 @@ namespace RelayControl
                 if (this.expectingRelayRevision)
                 {
                     if (this.dataRetryCount == 3)
+                    {
                         this.noResponseError("Unable to get Relay Revision");
+                        SetBusyUi(false, "SCI timeout: Relay Revision");
+                    }
                     else
                     {
                         this.dataRetryCount++;
@@ -6423,7 +6435,10 @@ namespace RelayControl
                 else if (this.expectingFPGARevision)
                 {
                     if (this.dataRetryCount == 3)
+                    {
                         this.noResponseError("Unable to get FPGA Revision");
+                        SetBusyUi(false, "SCI timeout: FPGA Revision");
+                    }
                     else
                     {
                         this.dataRetryCount++;
@@ -6433,7 +6448,10 @@ namespace RelayControl
                 else if (this.expectingRelayParameters)
                 {
                     if (this.dataRetryCount == 3)
+                    {
                         this.noResponseError("Unable to get Relay Parameters");
+                        SetBusyUi(false, "SCI timeout: Relay Parameters");
+                    }
                     else
                     {
                         this.dataRetryCount++;
@@ -6443,7 +6461,10 @@ namespace RelayControl
                 else if (this.expectingRelayRegisters)
                 {
                     if (this.dataRetryCount == 3)
+                    {
                         this.noResponseError("Unable to get Relay Registers");
+                        SetBusyUi(false, "SCI timeout: Relay Registers");
+                    }
                     else
                     {
                         this.dataRetryCount++;
@@ -6453,7 +6474,10 @@ namespace RelayControl
                 else if (this.expectingTransmitterSettings)
                 {
                     if (this.dataRetryCount == 3)
+                    {
                         this.noResponseError("Unable to get Transmitter Settings");
+                        SetBusyUi(false, "SCI timeout: Transmitter Settings");
+                    }
                     else
                     {
                         this.dataRetryCount++;
@@ -6466,24 +6490,36 @@ namespace RelayControl
                     this.ucCloseMode1.SendTimedOut = true;
                     this.SCITimedOut = true;
                     this.noResponseError("Last operation did not complete properly");
+                    SetBusyUi(false, "SCI timeout: Last operation did not complete properly");
                 }
             }
             catch (Exception ex)
             {
+                SetBusyUi(false, "SCI timeout handler exception");
                 this.messageHandler("Error In Time Out", ex.Message);
             }
         }
 
         private void noResponseError(string p)
         {
-            if (this.IsProgrammingFlowActive())
-                return;
+            try
+            {
+                if (this.IsProgrammingFlowActive())
+                {
+                    logger.Warn("No response while programming flow active. p={0}", p);
+                    return;
+                }
 
-            this.monitoring(false);
-            this.RegisterPolling(false);
-            this.timerFindRelayTimeout.Enabled = false;
-            this.setButtonText("Start Monitoring", this.buttonToggleMonitor);
-            this.messageHandler(p, new Exception("SCI Timeout"));
+                this.monitoring(false);
+                this.RegisterPolling(false);
+                this.timerFindRelayTimeout.Enabled = false;
+                this.setButtonText("Start Monitoring", this.buttonToggleMonitor);
+                this.messageHandler(p, new Exception("SCI Timeout"));
+            }
+            finally
+            {
+                SetBusyUi(false, p);
+            }
         }
 
         private bool requestedAllParameters = false;
@@ -6493,7 +6529,7 @@ namespace RelayControl
 
             // Lock UI for async request lifecycle
             this.enableAll(false);
-            SetBusyUi(true);
+            SetBusyUi(true, "Requesting all parameters");
 
             try
             {
@@ -6506,7 +6542,7 @@ namespace RelayControl
                 ResetFullParameterDownloadState("buttonRequestRelayParamaters_Click:catch");
 
                 // Release only on immediate failure
-                SetBusyUi(false);
+                SetBusyUi(false, "Requesting all parameters");
                 this.enableAll(true);
             }
             finally
@@ -6560,6 +6596,7 @@ namespace RelayControl
 
         private void requestTransmitterSettings()
         {
+            logger.Info("requestTransmitterSettings() called");
             byte[] sendArray = new byte[3];
 
             sendArray[0] = (byte)'X';
@@ -6623,9 +6660,8 @@ namespace RelayControl
         private void buttonTypePhasingRestoreDefaults_Click(object sender, EventArgs e)
         {
             logger.Info("buttonTypePhasingRestoreDefaults_Click: restoring default relay type and phasing settings.");
-            Application.UseWaitCursor = true;
-            Cursor.Current = Cursors.WaitCursor;
-            screenD.screenDisable = true;
+
+            SetBusyUi(true, "buttonTypePhasingRestoreDefaults_Click");
 
             try
             {
@@ -6633,9 +6669,7 @@ namespace RelayControl
             }
             finally
             {
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
-                screenD.screenDisable = false;
+                SetBusyUi(false, "buttonTypePhasingRestoreDefaults_Click");
             }
         }
 
@@ -7345,13 +7379,14 @@ namespace RelayControl
         {
             string errorMessage = "None";
 
-            // Prevent stale overwrite of active ACK owner
             if (this.expectingAck && !string.IsNullOrEmpty(this.AcknowledgeCaller) &&
                 !string.Equals(this.AcknowledgeCaller, caller, StringComparison.Ordinal))
             {
                 logger.Warn(
                     "ACK already active for caller={0}; rejecting send from caller={1}. expectingAck={2}",
                     this.AcknowledgeCaller, caller, this.expectingAck);
+
+                SetBusyUi(false, "ACK busy reject: " + caller);
                 return;
             }
 
@@ -7364,43 +7399,8 @@ namespace RelayControl
                 logger.Info("sendPacketAckComm ENTER caller={0}, expectingAck={1}, programmingActive={2}, sciTimedOut={3}, packet=[{4}]",
                     caller, this.expectingAck, programmingActive, this.SCITimedOut, BitConverter.ToString(bytePacket));
 
-                if (checkBoxSerialCommsDebugging.Checked)
-                {
-                    logger.Trace(String.Format("Sending Packet: {0}", BitConverter.ToString(bytePacket)));
-                }
-
                 this.SCITimedOut = false;
 
-                var waitStart = DateTime.UtcNow;
-                while (this.expectingAck)
-                {
-                    if ((DateTime.UtcNow - waitStart).TotalMilliseconds > 1000)
-                    {
-                        programmingActive = this.IsProgrammingFlowActive();
-
-                        logger.Warn("sendPacketAckComm waiting for ACK. caller={0}, elapsedMs={1}, expectingAck={2}, programmingActive={3}, sciTimedOut={4}",
-                            caller,
-                            (int)(DateTime.UtcNow - waitStart).TotalMilliseconds,
-                            this.expectingAck,
-                            programmingActive,
-                            this.SCITimedOut);
-                        waitStart = DateTime.UtcNow;
-                    }
-
-                    Application.DoEvents();
-                }
-
-                programmingActive = this.IsProgrammingFlowActive();
-                logger.Info("sendPacketAckComm wait complete. caller={0}, expectingAck={1}, programmingActive={2}, sciTimedOut={3}",
-                    caller, this.expectingAck, programmingActive, this.SCITimedOut);
-
-                if (this.SCITimedOut)
-                {
-                    logger.Warn("sendPacketAckComm early return because SCITimedOut. caller={0}", caller);
-                    return;
-                }
-
-                errorMessage = "Error Checking if Port is open";
                 if (!this.serialPort1.IsOpen)
                 {
                     logger.Warn("sendPacketAckComm port reopened. caller={0}, port={1}, baud={2}",
@@ -7424,8 +7424,7 @@ namespace RelayControl
                 }
 
                 errorMessage = "Error Writing To Port";
-                Application.UseWaitCursor = true;
-                Cursor.Current = Cursors.WaitCursor;
+                SetBusyUi(true, "sendPacketAckComm: " + caller);
 
                 logger.Info("sendPacketAckComm writing packet. caller={0}, packet=[{1}]",
                     caller, BitConverter.ToString(bytePacket));
@@ -7434,7 +7433,8 @@ namespace RelayControl
                 {
                     this.AcknowledgeCaller = caller;
                     this.expectingAck = true;
-                    this.timerSCITimeOut.Enabled = true;
+                    this.timerSCITimeOut.Stop();
+                    this.timerSCITimeOut.Start();
                 }
 
                 this.serialPort1.Write(bytePacket, 0, bytePacket.Length);
@@ -7452,14 +7452,12 @@ namespace RelayControl
                     this.expectingAck = false;
                     this.AcknowledgeCaller = string.Empty;
                 }
-                this.timerSCITimeOut.Enabled = false;
+                this.timerSCITimeOut.Stop();
 
-                bool programmingActive = this.IsProgrammingFlowActive();
                 logger.Error(ex, "sendPacketAckComm EXCEPTION. caller={0}, expectingAck={1}, programmingActive={2}, sciTimedOut={3}",
-                    caller, this.expectingAck, programmingActive, this.SCITimedOut);
+                    caller, this.expectingAck, this.IsProgrammingFlowActive(), this.SCITimedOut);
 
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
+                SetBusyUi(false, "sendPacketAckComm: " + caller);
 
                 this.monitoring(false);
                 this.RegisterPolling(false);
@@ -7506,18 +7504,18 @@ namespace RelayControl
             if (this.pendingRelayTypePhasingPacket == null)
             {
                 logger.Info("No queued relay/phasing send to drain. origin={0}", origin);
+                SetBusyUi(false, $"Drain complete: {origin} (no queued packet)");
                 return;
             }
 
-            // Existing guard
             if (this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters)
             {
                 logger.Info("Drain blocked: parameter download active. origin={0}, caller={1}",
                     origin, this.pendingRelayTypePhasingCaller);
+                // optional: keep busy if you truly intend to retry later
                 return;
             }
 
-            // Unified guard: block while programming lifecycle is active
             if (this.IsProgrammingFlowActive())
             {
                 logger.Info(
@@ -7528,6 +7526,7 @@ namespace RelayControl
                     this.ucRelayProgramming1?.ProgramBootCodeInProgress,
                     this.ucRelayProgramming1 != null ? this.ucRelayProgramming1.CurrentStartupIntent : ucRelayProgramming.StartupIntent.None,
                     this.ucRelayProgramming1?.State);
+                // optional: keep busy if this is intentional wait
                 return;
             }
 
@@ -7761,9 +7760,8 @@ namespace RelayControl
 
         private void buttonSendCTRatio_Click(object sender, EventArgs e)
         {
-            Application.UseWaitCursor = true;
-            Cursor.Current = Cursors.WaitCursor;
-            screenD.screenDisable = true;
+            SetBusyUi(true, "buttonSendCTRatio_Click");
+            //screenD.screenDisable = true;
 
             try
             {
@@ -7775,9 +7773,8 @@ namespace RelayControl
             }
             finally
             {
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
-                screenD.screenDisable = false;
+                SetBusyUi(false, "buttonSendCTRatio_Click");
+                //screenD.screenDisable = false;
             }
         }
         private void buttonResetMaster_Click(object sender, EventArgs e)
@@ -7831,7 +7828,7 @@ namespace RelayControl
 
         private void buttonClearCycleCount_Click(object sender, EventArgs e)
         {
-            SetBusyUi(true);
+            SetBusyUi(true, "Clearing cycle count");
 
             try
             {
@@ -7854,7 +7851,7 @@ namespace RelayControl
             finally
             {
                 // only if this whole operation is synchronous
-                SetBusyUi(false);
+                SetBusyUi(false, "Clearing cycle count");
             }
         }
 
@@ -8010,7 +8007,7 @@ namespace RelayControl
                 return;
             }
 
-            SetBusyUi(true);
+            SetBusyUi(true, "Tripping relay");
 
             try
             {
@@ -8025,7 +8022,7 @@ namespace RelayControl
             }
             finally
             {
-                SetBusyUi(false);
+                SetBusyUi(false, "Tripping relay");
             }
         }
 
@@ -8043,7 +8040,7 @@ namespace RelayControl
                 return;
             }
 
-            SetBusyUi(true);
+            SetBusyUi(true, "Blocking and tripping relay");
 
             try
             {
@@ -8060,7 +8057,7 @@ namespace RelayControl
             }
             finally
             {
-                SetBusyUi(false);
+                SetBusyUi(false, "Blocking and tripping relay");
             }
         }
 
@@ -9070,8 +9067,7 @@ namespace RelayControl
             _applyPulse?.Start();
 
             this.enableAll(false);
-            Application.UseWaitCursor = true;
-            Cursor.Current = Cursors.WaitCursor;
+            SetBusyUi(true, "buttonSendAll_Click");
 
             try
             {
@@ -9086,9 +9082,7 @@ namespace RelayControl
                 this.sendAll = false;
                 sendAllF.SendAllFlag = false;
                 this.Enabled = true;
-                Application.UseWaitCursor = false;
-                this.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
+                SetBusyUi(false, "buttonSendAll_Click");
                 this.enableAll(true);
                 this.tabControlMain.Enabled = true;
             }
@@ -9307,8 +9301,7 @@ namespace RelayControl
             downloadEventsClicked = false;
 
             //=====================Remove throbber and enable everything displayed on the screen=====================
-            Application.UseWaitCursor = false;
-            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            SetBusyUi(false, "downloadProgress_Done");
             this.enableAll(true);
             //========================================================================================================
         }
@@ -9963,8 +9956,7 @@ namespace RelayControl
             {
                 this.messageHandler("Response Time Out", "Please Check Connection");
 
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                SetBusyUi(false, "timerResponseTimeOut_Tick");
                 this.enableAll(true);
             }
             else
@@ -10573,7 +10565,7 @@ namespace RelayControl
 
             try
             {
-                SetBusyUi(true);
+                SetBusyUi(true, "Sending Low Voltage Threshold");
 
                 if (numericUpDownLowVoltageThres.Value > numericUpDownLowVoltageThres.Maximum ||
                     numericUpDownLowVoltageThres.Value < numericUpDownLowVoltageThres.Minimum)
@@ -10617,7 +10609,7 @@ namespace RelayControl
             }
             finally
             {
-                SetBusyUi(false);
+                SetBusyUi(false, "Sending Low Voltage Threshold");
                 logger.Info("buttonSendLowVoltageThres_Click EXIT");
             }
         }
@@ -10845,9 +10837,9 @@ namespace RelayControl
             }
 
             // NEW: busy state starts here too
-            SetBusyUi(true);
+            SetBusyUi(true, "Backing up relay data (no file)");
             this.enableAll(false);
-            screenD.screenDisable = true;
+            //screenD.screenDisable = true;
 
             try
             {
@@ -10869,7 +10861,7 @@ namespace RelayControl
                 pendingAutoloadAfterBackup = false;
 
                 // terminal failure release
-                SetBusyUi(false);
+                SetBusyUi(false, "Backing up relay data (no file)");
                 this.enableAll(true);
                 screenD.screenDisable = false;
 
@@ -10888,7 +10880,7 @@ namespace RelayControl
             }
 
             // now we know we're starting a new capture
-            SetBusyUi(true);
+            SetBusyUi(true, "Backing up relay data (to file)");
             this.enableAll(false);
             screenD.screenDisable = true;
 
@@ -10923,7 +10915,7 @@ namespace RelayControl
                 pendingAutoloadAfterBackup = false;
 
                 // release UI on terminal failure
-                SetBusyUi(false);
+                SetBusyUi(false, "Backing up relay data (to file)");
                 this.enableAll(true);
                 screenD.screenDisable = false;
 
@@ -10955,7 +10947,7 @@ namespace RelayControl
 
                 // Keep app usable
                 ResetFullParameterDownloadState(nameof(WriteBackUpData_FileToRelay));
-                SetBusyUi(false);
+                SetBusyUi(false, "Backup restore to relay");
                 this.enableAll(true);
 
                 // IMPORTANT: restore polling/comms
@@ -11609,7 +11601,7 @@ namespace RelayControl
             this.btn_PermCl_Active.BackColor = Color.Transparent;
         }
 
-        private void SetBusyUi(bool busy, string statusText = null)
+        private void SetBusyUi(bool busy, string statusText)
         {
             if (this.IsDisposed) return;
 
@@ -11619,13 +11611,15 @@ namespace RelayControl
                 return;
             }
 
+            logger.Info("SetBusyUi busy={0} statusText={1} caller={2}",
+                busy,
+                statusText ?? "<null>",
+                new System.Diagnostics.StackTrace().GetFrame(1)?.GetMethod()?.Name ?? "unknown");
+
             screenD.screenDisable = busy;
             Application.UseWaitCursor = busy;
             Cursor.Current = busy ? Cursors.WaitCursor : Cursors.Default;
             this.UseWaitCursor = busy;
-
-            // statusText intentionally unused for now (no status label in this form yet)
-            // Keep parameter for future UI message wiring.
 
             this.Refresh();
         }
@@ -11636,7 +11630,7 @@ namespace RelayControl
 
             try
             {
-                SetBusyUi(true);
+                SetBusyUi(true, "Sending PC data");
                 logger.Info("SetBusyUi(true) done");
 
                 _pcApplyPendingConfirmation = true;
@@ -11652,7 +11646,7 @@ namespace RelayControl
             finally
             {
                 logger.Info("finally -> SetBusyUi(false)");
-                SetBusyUi(false);
+                SetBusyUi(false, "Sending PC data");
                 logger.Info("finally complete");
             }
         }
@@ -11761,7 +11755,7 @@ namespace RelayControl
 
         private void btn_RelaxClose_Click(object sender, EventArgs e)
         {
-            SetBusyUi(true);
+            SetBusyUi(true, "Relaxing close");
 
             try
             {
@@ -11775,7 +11769,7 @@ namespace RelayControl
             }
             finally
             {
-                SetBusyUi(false);
+                SetBusyUi(false, "Relaxing close");
             }
         }
 
@@ -11890,7 +11884,7 @@ namespace RelayControl
             if (this.IsDisposed)
                 return;
 
-            SetBusyUi(false);
+            SetBusyUi(false, "Manual forced update");
             this.enableAll(true);
 
             DialogResult confirmUpdate = this.ShowManualLoadDialog(forcedFullUpdate);
@@ -11929,7 +11923,7 @@ namespace RelayControl
 
             logger.Info($"RequestAutoloadPrompt before SetBusyUi form={this.Name} activeControl={this.ActiveControl?.Name ?? "null"}");
 
-            SetBusyUi(false);
+            SetBusyUi(false, "Autoload prompt");
             this.enableAll(true);
 
             logger.Info($"RequestAutoloadPrompt before first dialog form={this.Name} owner={this.Owner?.Name ?? "null"}");
@@ -11987,7 +11981,7 @@ namespace RelayControl
         if (this.IsDisposed)
             return DialogResult.Cancel;
 
-        SetBusyUi(false);
+        SetBusyUi(false, "GE or WH Select");
         this.enableAll(true);
 
         logger.Info("POPUP SHOW: GE_WH_SELECT");
@@ -12012,7 +12006,7 @@ namespace RelayControl
         if (this.IsDisposed)
             return DialogResult.Cancel;
 
-        SetBusyUi(false);
+        SetBusyUi(false, "Manual forced update");
         this.enableAll(true);
 
         try
@@ -12054,7 +12048,7 @@ namespace RelayControl
         }
         finally
         {
-            SetBusyUi(false);
+            SetBusyUi(false, "Manual forced update");
             this.enableAll(true);
         }
     }
@@ -12069,7 +12063,7 @@ namespace RelayControl
         if (this.IsDisposed)
             return DialogResult.Cancel;
 
-        SetBusyUi(false);
+        SetBusyUi(false, "Autoload prompt");
         this.enableAll(true);
 
         try
@@ -12098,7 +12092,7 @@ namespace RelayControl
         }
         finally
         {
-            SetBusyUi(false);
+            SetBusyUi(false, "Autoload prompt");
             this.enableAll(true);
         }
     }
@@ -12114,7 +12108,7 @@ namespace RelayControl
         if (this.IsDisposed)
             return;
 
-        SetBusyUi(false);
+        SetBusyUi(false, "Reprogram Completed Successfully");
         this.enableAll(true);
 
         logger.Info("POPUP SHOW: REPROGRAM_SUCCESS");
@@ -12138,7 +12132,7 @@ namespace RelayControl
         if (this.IsDisposed)
             return DialogResult.Cancel;
 
-        SetBusyUi(false);
+        SetBusyUi(false, "Relay Update In Progress");
         this.enableAll(true);
 
         logger.Info("POPUP SHOW: START_WARNING_DO_NOT_REMOVE_PORT");
@@ -12171,7 +12165,7 @@ namespace RelayControl
         if (this.IsDisposed)
             return DialogResult.Cancel;
 
-        SetBusyUi(false);
+        SetBusyUi(false, "Relay Update In Progress");
         this.enableAll(true);
 
         logger.Info("POPUP SHOW: START_WARNING_DO_NOT_REMOVE_PORT");
@@ -12255,7 +12249,7 @@ namespace RelayControl
                     this.ActiveControl?.Name ?? "null"
                 );
 
-                SetBusyUi(false);
+                SetBusyUi(false, "Autoload prompt");
                 this.enableAll(true);
 
                 // Optional but useful for z-order/focus consistency:
@@ -12445,8 +12439,8 @@ namespace RelayControl
             this.backupTimeoutTimer?.Stop();
 
             this.UseWaitCursor = false;
-            Application.UseWaitCursor = false;
-            Cursor.Current = Cursors.Default;
+            SetBusyUi(false, "RestoreNormalCommsAfterAutoloadDecline");
+            
 
             this.enableAll(true);
 
@@ -12501,7 +12495,7 @@ namespace RelayControl
                 EndBackupCapture(false);
                 ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
 
-                SetBusyUi(false);
+                SetBusyUi(false, "Sending PC data");
                 this.enableAll(true);
                 screenD.screenDisable = false;
 
@@ -12523,7 +12517,7 @@ namespace RelayControl
                     break;
 
                 default:
-                    SetBusyUi(false);
+                    SetBusyUi(false, "Parameters Loaded Successfully");
                     this.enableAll(true);
                     screenD.screenDisable = false;
                     this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");

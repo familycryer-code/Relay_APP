@@ -1,4 +1,5 @@
-﻿using SharedResources;
+﻿using NLog;
+using SharedResources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -125,15 +126,45 @@ namespace RelayControlLibrary
                     break;
             }
         }
+
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
+        private void SetBusyUi(bool busy, string statusText = null)
+        {
+            if (this.IsDisposed) return;
+
+            if (this.InvokeRequired)
+            {
+                BeginInvoke((Action)(() => SetBusyUi(busy, statusText)));
+                return;
+            }
+
+            var caller = new System.Diagnostics.StackTrace()
+                .GetFrame(1)?.GetMethod()?.Name ?? "unknown";
+
+            logger.Info("SetBusyUi busy={0} statusText={1} caller={2}",
+                busy,
+                statusText ?? "<null>",
+                caller);
+
+            // Only if this control has it:
+            // screenD.screenDisable = busy;
+
+            Application.UseWaitCursor = busy;
+            Cursor.Current = busy ? Cursors.WaitCursor : Cursors.Default;
+            this.UseWaitCursor = busy;
+
+            this.Refresh();
+        }
+
         public void buttonSend_Click(object sender, EventArgs e)
         {
             var choice = DialogResult.OK; // or MessageBox
 
             if (choice != DialogResult.OK)
                 return;
-
-            Application.UseWaitCursor = true;
-            Cursor.Current = Cursors.WaitCursor;
+         
+            SetBusyUi(true, "Sending pump mode");
             screenD.screenDisable = true;
 
             try
@@ -142,7 +173,7 @@ namespace RelayControlLibrary
             }
             finally
             {
-                Application.UseWaitCursor = false;
+                SetBusyUi(false, "Sending pump mode");   
                 Cursor.Current = Cursors.Default;
                 screenD.screenDisable = false;
             }

@@ -1,21 +1,22 @@
+using NLog;
+using SharedResources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows.Forms;
-using System.Runtime.Serialization;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using SharedResources;
 
 namespace RelayControlLibrary
 {
     public partial class ucDNP : UserControl
     {
         //private static int _ucDNPInstanceCounter = 0;
-    
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         public ucDNP()
         {
             InitializeComponent();
@@ -57,9 +58,7 @@ namespace RelayControlLibrary
 #if DNP
             applyDNP.applyDNPSettings = true;
 
-            Application.UseWaitCursor = true;
-            Cursor.Current = Cursors.WaitCursor;
-            Application.DoEvents();
+            SetBusyUi(true, "Sending all DNP settings");
 
             try
             {
@@ -67,12 +66,39 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
+                SetBusyUi(false);
 
                 this.errorHandler(ex);
             }
 #endif
+        }
+
+        private void SetBusyUi(bool busy, string statusText = null)
+        {
+            if (this.IsDisposed) return;
+
+            if (this.InvokeRequired)
+            {
+                BeginInvoke((Action)(() => SetBusyUi(busy, statusText)));
+                return;
+            }
+
+            var caller = new System.Diagnostics.StackTrace()
+                .GetFrame(1)?.GetMethod()?.Name ?? "unknown";
+
+            logger.Info("SetBusyUi busy={0} statusText={1} caller={2}",
+                busy,
+                statusText ?? "<null>",
+                caller);
+
+            // Only if this control has it:
+            // screenD.screenDisable = busy;
+
+            Application.UseWaitCursor = busy;
+            Cursor.Current = busy ? Cursors.WaitCursor : Cursors.Default;
+            this.UseWaitCursor = busy;
+
+            this.Refresh();
         }
 
         private decimal SnapFragmentSize(decimal value)
@@ -239,8 +265,7 @@ namespace RelayControlLibrary
         private void buttonRQDNPSettings_Click(object sender, EventArgs e)
         {
             //=====================Display throbber while parameters get requested from the master relay  =====================
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            SetBusyUi(true, "Requesting DNP settings");
             //this.enableAll(false);
             //========================================================================================================
 
@@ -603,8 +628,7 @@ namespace RelayControlLibrary
                     }
                
                 //=====================Remove throbber and enable everything disaplayed on the screen=====================
-                Application.UseWaitCursor = false;
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
+                SetBusyUi(false);
                 //this.enableAll(true);
                 //========================================================================================================
 

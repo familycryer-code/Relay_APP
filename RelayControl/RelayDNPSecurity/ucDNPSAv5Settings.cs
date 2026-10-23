@@ -140,8 +140,7 @@ namespace RelayDNPSecurity
         public void buttonSendSettings_Click(object sender, EventArgs e)
         {
             //=====================Display a throbber and disbale everything on the screen=====================
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            SetBusyUi(true, "Sending SAv5 Settings");
             //this.enableAll(false);
             //========================================================================================================
 
@@ -232,8 +231,7 @@ namespace RelayDNPSecurity
         public void buttonRequestSettings_Click(object sender, EventArgs e)
         {
             //=====================Display throbber while parameters get requested from the master relay  =====================
-            Application.UseWaitCursor = true; //keeps waitcursor even when the thread ends.
-            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor; //Normal mode of setting waitcursor
+            SetBusyUi(true, "Requesting SAv5 Settings");
             //this.enableAll(false);
             //========================================================================================================
 
@@ -284,6 +282,31 @@ namespace RelayDNPSecurity
             {
                 sT.SetDefault();
             }
+        }
+        private void SetBusyUi(bool busy, string statusText = null)
+        {
+            if (this.IsDisposed) return;
+
+            if (this.InvokeRequired)
+            {
+                BeginInvoke((Action)(() => SetBusyUi(busy, statusText)));
+                return;
+            }
+
+            var caller = new System.Diagnostics.StackTrace()
+                .GetFrame(1)?.GetMethod()?.Name ?? "unknown";
+
+            var msg = $"SetBusyUi busy={busy} statusText={statusText ?? "<null>"} caller={caller}";
+            System.Diagnostics.Trace.WriteLine(msg);
+
+            // if available in this control:
+            // screenD.screenDisable = busy;
+
+            Application.UseWaitCursor = busy;
+            Cursor.Current = busy ? Cursors.WaitCursor : Cursors.Default;
+            this.UseWaitCursor = busy;
+
+            this.Refresh();
         }
 
         internal void SetAll(byte[] bytePacket)
@@ -408,8 +431,7 @@ namespace RelayDNPSecurity
             }
 
             //=====================Remove throbber and enable everything disaplayed on the screen=====================
-            Application.UseWaitCursor = false;
-            System.Windows.Forms.Cursor.Current = Cursors.Default;
+            SetBusyUi(false);
             //this.enableAll(true);
             //========================================================================================================
 
