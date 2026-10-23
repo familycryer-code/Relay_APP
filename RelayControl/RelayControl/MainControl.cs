@@ -2099,8 +2099,6 @@ namespace RelayControl
                 return;
             }
 
-           
-
             if (e.Caller == nameof(ucRelayProgramming.BackupOnly))
             {
                 this.BackUpRelayNoFile();
@@ -3254,7 +3252,7 @@ namespace RelayControl
                             break;
                         }
 
-                        bool wroteDnpBackup = this.setDNPSettings(bytePacket);
+                        //bool wroteDnpBackup = this.setDNPSettings(bytePacket);
 
                         if (this.syncPhase != SyncPhase.FullParameterDownload || this.parametersLoaded)
                         {
@@ -3430,7 +3428,7 @@ namespace RelayControl
                 index <<= 8;
                 index += bytePacket[1];
 
-                logger.Info("FFT: " + (char)bytePacket[3] + ", " + (char)bytePacket[2]);
+                //logger.Info("FFT: " + (char)bytePacket[3] + ", " + (char)bytePacket[2]);
 
                 type = RelayModeFunctions.PhasorTypeFrom((char)bytePacket[3], (char)bytePacket[2]);
 
@@ -3855,13 +3853,14 @@ namespace RelayControl
             this.timerLiveEventAcknowledge.Enabled = false;
 
             focusEventGraphDownloading(eventValue);
-
+            /*
             if (dataBackup_fromRelay == true)
             {
                 byte[] snapshot = new byte[Math.Min(bytePacket.Length, 60)];
                 Array.Copy(bytePacket, snapshot, snapshot.Length);
                 CaptureBackupSection("Calibration Constants", snapshot);
             }
+            */
 
             for (int i = 0; i < 15; ++i)
             {
@@ -4114,12 +4113,12 @@ namespace RelayControl
         {
             if (_autoloadDeclineRestoreHandled)
             {
-                logger.Info("Autoload decline restore already handled; skipping duplicate.");
+                logger.Warn("Autoload decline restore already handled; skipping duplicate.");
                 return;
             }
 
             _autoloadDeclineRestoreHandled = true;
-            logger.Info("UcRelayProgramming1_AutoloadDeclined: restoring normal comms.");
+     
             this.ClearBackupCaptureState();
             this.ResetFullParameterDownloadState();
             RestoreNormalCommsAfterAutoloadDecline(nameof(UcRelayProgramming1_AutoloadDeclined));
@@ -4238,13 +4237,14 @@ namespace RelayControl
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
             //Thread.Sleep(1000);   // delay 1second
+            /*
             if (dataBackup_fromRelay == true)
             {
                 byte[] snapshot = new byte[Math.Min(bytePacket.Length, 32)];
                 Array.Copy(bytePacket, snapshot, snapshot.Length);
                 CaptureBackupSection("Transmitter Parameters", snapshot);
             }
-
+            */
             for (int i = 0; i < settings.Length; ++i)
             {
                 settings[i] = bytePacket[i];
@@ -5118,13 +5118,14 @@ namespace RelayControl
                 else                        //a non-ConEd Relay
                 {
                 }
-
+                /*
                 if (dataBackup_fromRelay == true)
                 {
                     byte[] snapshot = new byte[Math.Min(bytePacket.Length, 94)];
                     Array.Copy(bytePacket, snapshot, snapshot.Length);
                     CaptureBackupSection("Relay Parameters", snapshot);
                 }
+                */
 
                 //Reclose Voltage Btyes - Vertical
                 temp = bytePacket[1];
@@ -5944,6 +5945,7 @@ namespace RelayControl
         private void setShortRangeParameters(byte[] bytePacket)
         {
             this.ucShortRange1.SetAll(bytePacket);
+            /*
             if (dataBackup_fromRelay == true)
             {
                 byte[] snapshot = new byte[Math.Min(bytePacket.Length, 1)];
@@ -5952,8 +5954,10 @@ namespace RelayControl
 
                 CaptureBackupSection("XS", snapshot);
             }
+            */
 
         }
+        /*
         private void StartStartupBackupOnce()
         {
             if (backupInProgress)
@@ -5972,6 +5976,7 @@ namespace RelayControl
             logger.Info("Starting one-time startup backup before autoload logic.");
             BackUpRelayDatatoFile();   // do not set pendingAutoloadAfterBackup here
         }
+        */
 
         private void setTextBox(string s, TextBox tB)
         {
@@ -6058,7 +6063,7 @@ namespace RelayControl
             this.phasorReceived = true;
             this.missedMonitoringCount = 0;
 
-            logger.Info("Incoming Phasor: " + (char)packet[0] + ", " + (char)packet[1]);
+            //logger.Info("Incoming Phasor: " + (char)packet[0] + ", " + (char)packet[1]);
             phasorType = RelayModeFunctions.PhasorTypeFrom((char)packet[0], (char)packet[1]);
 
             try
@@ -6495,12 +6500,9 @@ namespace RelayControl
         {
             _requestAllPulse?.Start();
 
-            // Optional: you can keep this or remove and rely fully on backup methods.
-            // If you keep it, ensure no early release here.
+            // Lock UI for async request lifecycle
             this.enableAll(false);
-            Application.UseWaitCursor = true;
-            Cursor.Current = Cursors.WaitCursor;
-            screenD.screenDisable = true;
+            SetBusyUi(true);
 
             try
             {
@@ -6512,12 +6514,9 @@ namespace RelayControl
                 this.messageHandler("Request All Failed", ex);
                 ResetFullParameterDownloadState("buttonRequestRelayParamaters_Click:catch");
 
-                // release only on immediate failure
+                // Release only on immediate failure
                 SetBusyUi(false);
                 this.enableAll(true);
-                screenD.screenDisable = false;
-                Application.UseWaitCursor = false;
-                Cursor.Current = Cursors.Default;
             }
             finally
             {
@@ -10067,7 +10066,7 @@ namespace RelayControl
         private bool setDNPSettings(byte[] bytePacket)
         {
             bool wroteBackupSection = false;
-
+            /*
             if (dataBackup_fromRelay == true)
             {
                 byte[] snapshot = new byte[Math.Min(bytePacket.Length, 98)];
@@ -10075,7 +10074,7 @@ namespace RelayControl
                 CaptureBackupSection("DNP Data", snapshot);
                 wroteBackupSection = true;
             }
-
+            */
             try
             {
                 bool isDnpSupported = IsDnpCommSupported();
@@ -11565,13 +11564,13 @@ namespace RelayControl
             this.btn_PermCl_Active.BackColor = Color.Transparent;
         }
 
-        private void SetBusyUi(bool busy)
+        private void SetBusyUi(bool busy, string statusText = null)
         {
             if (this.IsDisposed) return;
 
             if (this.InvokeRequired)
             {
-                BeginInvoke((Action)(() => SetBusyUi(busy)));
+                BeginInvoke((Action)(() => SetBusyUi(busy, statusText)));
                 return;
             }
 
@@ -11579,6 +11578,10 @@ namespace RelayControl
             Application.UseWaitCursor = busy;
             Cursor.Current = busy ? Cursors.WaitCursor : Cursors.Default;
             this.UseWaitCursor = busy;
+
+            // statusText intentionally unused for now (no status label in this form yet)
+            // Keep parameter for future UI message wiring.
+
             this.Refresh();
         }
 
@@ -12296,7 +12299,7 @@ namespace RelayControl
             try
             {
                 if (ex != null)
-                    logger.Error(ex, "RecoverComms invoked by {0}", caller);
+                    logger.Warn(ex, "RecoverComms invoked by {0}", caller);
                 else
                     logger.Warn("RecoverComms invoked by {0}", caller);
 
@@ -12360,22 +12363,11 @@ namespace RelayControl
                     this.ucRelayProgramming1.State == RelayProgrammingStates.Finalized ||
                     this.ucRelayProgramming1.State == RelayProgrammingStates.WaitForAllData
                     );
-
-            // this.ucRelayProgramming1.ReprogrammingInProgress ||
-            //this.ucRelayProgramming1.ProgramBootCodeInProgress ||
         }
 
         public void RestoreNormalCommsAfterAutoloadDecline(string caller = "unknown")
         {
-            logger.Info(
-                "RestoreNormalCommsAfterAutoloadDecline ENTER caller={0} | pre: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, quietMode={5}, pauseMonitoring={6}",
-                caller,
-                this.pendingAutoloadAfterBackup,
-                this.pendingRestoreAfterProgramming,
-                this.backupInProgress,
-                this.quietMode,
-                this.pauseMonitoring);
-
+          
             // 1) Ask ucRelayProgramming to own and clear its own autoload/programming state
             if (this.ucRelayProgramming1 != null && !this.ucRelayProgramming1.IsDisposed)
             {
@@ -12384,7 +12376,7 @@ namespace RelayControl
 
             // 2) Clear MainControl-owned flow flags onlyBackupBeforeProgrammingRequested
             this.pendingRestoreAfterProgramming = false;
-            this.backupInProgress = false;
+            //this.backupInProgress = false;
             this.skipAutoloadAfterDecline = false;
 
             this.quietMode = false;
@@ -12403,35 +12395,20 @@ namespace RelayControl
             bool formAlive = !this.IsDisposed && !this.Disposing;
             if (formAlive && !this.ShouldAllowProgrammingTraffic() && !this.ShouldSuppressBackgroundComms())
             {
-                this.RecoverComms("methodName/catch");
+                this.RecoverComms("RestoreNormalCommsAfterAutoloadDecline");
             }
             else
             {
-                logger.Info(
-                    "RestoreNormalCommsAfterAutoloadDecline: polling restore suppressed. formAlive={0}, allowProgrammingTraffic={1}, suppressBackgroundComms={2}, state={3}",
-                    formAlive,
-                    this.ShouldAllowProgrammingTraffic(),
-                    this.ShouldSuppressBackgroundComms(),
-                    this.ucRelayProgramming1?.State);
+                
             }
 
-            logger.Info(
-                "RestoreNormalCommsAfterAutoloadDecline EXIT caller={0} | post: pendingAutoloadAfterBackup={1}, pendingRestoreAfterProgramming={2}, backupInProgress={3}, quietMode={4}, pauseMonitoring={5}",
-                caller,
-                this.pendingAutoloadAfterBackup,
-                this.pendingRestoreAfterProgramming,
-                this.backupInProgress,
-                this.quietMode,
-                this.pauseMonitoring);
         }
 
         private void TryCompleteBackup()
         {
             
-
             if (!this.backupInProgress || this.backupState != BackupState.Capturing)
             {
-               
                 return;
             }
 
@@ -12442,14 +12419,12 @@ namespace RelayControl
                 return;
             }
 
-            
             this.TryRetryMissingBackupSections();
         }
 
         private void CompleteBackupAndContinue(string timeoutMessageOrNull)
         {
             
-
             if (!this.backupInProgress &&
                 !this.pendingAutoloadAfterBackup &&
                 !this.ucRelayProgramming1.AutoloadDeferredUntilUiReady)
@@ -12464,7 +12439,6 @@ namespace RelayControl
             if (!string.IsNullOrEmpty(timeoutMessageOrNull))
             {
               
-
                 EndBackupCapture(false);
                 ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
 
@@ -12496,6 +12470,7 @@ namespace RelayControl
                     this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
                     return;
             }
+            logger.Info("Back Up Complete.");
         }
     }
 
