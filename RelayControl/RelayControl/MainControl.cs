@@ -4154,9 +4154,6 @@ namespace RelayControl
 
             _autoloadDeclineRestoreHandled = true;
      
-            //this.ClearBackupCaptureState();
-            //this.ResetFullParameterDownloadState();
-            //RestoreNormalCommsAfterAutoloadDecline(nameof(UcRelayProgramming1_AutoloadDeclined));
         }
 
 
@@ -12553,26 +12550,6 @@ namespace RelayControl
             ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
 
             bool formAlive = !this.IsDisposed && !this.Disposing;
-
-            bool allowProgrammingTraffic = this.ShouldAllowProgrammingTraffic();
-            bool suppressBackgroundComms = this.ShouldSuppressBackgroundComms();
-            bool relayProgrammingLifecycleActive = this.IsRelayProgrammingLifecycleActive();
-            bool isProgrammingFlowActive = this.IsProgrammingFlowActive();
-
-            logger.Info(
-                "RecoverComms gate: formAlive={0}, allowProgrammingTraffic={1}, suppressBackgroundComms={2}, relayLifecycleActive={3}, isProgrammingFlowActive={4}, pendingRestoreAfterProgramming={5}, backupInProgress={6}, quietMode={7}, pauseMonitoring={8}, state={9}, startupIntent={10}",
-                formAlive,
-                allowProgrammingTraffic,
-                suppressBackgroundComms,
-                relayProgrammingLifecycleActive,
-                isProgrammingFlowActive,
-                this.pendingRestoreAfterProgramming,
-                this.backupInProgress,
-                this.quietMode,
-                this.pauseMonitoring,
-                this.ucRelayProgramming1?.State,
-                this.ucRelayProgramming1?.CurrentStartupIntent
-            );
 
             if (formAlive && !this.ShouldAllowProgrammingTraffic() && !this.ShouldSuppressBackgroundComms())
             {

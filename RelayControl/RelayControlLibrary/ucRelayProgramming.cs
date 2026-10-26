@@ -643,7 +643,7 @@ namespace RelayControlLibrary
       
         private void setProgrammingFiles()
         {
-            logger.Trace("Method: {0}", nameof(setProgrammingFiles));
+            logger.Info("Method: {0}", nameof(setProgrammingFiles));
             if (this.dontReloadFromResource)
                 return;
 
@@ -824,7 +824,7 @@ namespace RelayControlLibrary
 
         private void startAutoLoad()
         {
-            logger.Trace("Method: {0}", nameof(startAutoLoad));
+            logger.Info("Method: {0}", nameof(startAutoLoad));
 
             if (this.IsManualFlowActive())
             {
@@ -878,7 +878,7 @@ namespace RelayControlLibrary
 
         public void RaiseAutoloadDeclined()
         {
-            logger.Trace("Method: {0}", nameof(RaiseAutoloadDeclined));
+            logger.Info("Method: {0}", nameof(RaiseAutoloadDeclined));
             this.waitingForAutoloadApproval = false;
             this.autoPromptsApprovedThisCycle = false;
             this.ResetAutoloadState("RaiseAutoloadDeclined");
@@ -1216,7 +1216,7 @@ namespace RelayControlLibrary
 
         private void MasterBootLoaderStart()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             this.programBootCodeInProgress = true;
             this.reprogrammingInProgress = true;
@@ -1266,7 +1266,7 @@ namespace RelayControlLibrary
 
         private void confirmProgramMasterBoot()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
             rPEA.Command = RelayProgrammingSendCommands.RawData;
 
@@ -1295,7 +1295,7 @@ namespace RelayControlLibrary
 
         private void sendMasterBootCode()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
          
 
             RelayProgrammingEventArgs rPEA = new RelayProgrammingEventArgs();
@@ -1815,7 +1815,7 @@ namespace RelayControlLibrary
 
         private void parseBootLoaderSFile(RelayProgrammingData rPD)
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
             try
             {
                 using (StringReader sR = new StringReader(rPD.FileString))
@@ -2353,7 +2353,7 @@ namespace RelayControlLibrary
   
         private void RunProgrammingStateMachine()
         {
-            logger.Trace("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            logger.Info("Method: {0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             // 1) Gateway: only proceed if a real programming flow is active
             if (!this.CanStartProgramming())
@@ -2551,6 +2551,7 @@ namespace RelayControlLibrary
 
         private void enableButtons(bool b)
         {
+            logger.Info("enableButtons in ucRelayProgramming: {0}", b);
             return;
         }
 
