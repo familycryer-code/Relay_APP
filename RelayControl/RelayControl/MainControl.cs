@@ -3285,7 +3285,7 @@ namespace RelayControl
                             break;
                         }
 
-                        //bool wroteDnpBackup = this.setDNPSettings(bytePacket);
+                        this.setDNPSettings(bytePacket);
 
                         if (this.syncPhase != SyncPhase.FullParameterDownload || this.parametersLoaded)
                         {
@@ -10152,6 +10152,8 @@ namespace RelayControl
 
         private bool setDNPSettings(byte[] bytePacket)
         {
+            logger.Info("Setting DNP Settings from Relay");
+
             bool wroteBackupSection = false;
             /*
             if (dataBackup_fromRelay == true)

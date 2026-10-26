@@ -2586,14 +2586,15 @@ namespace RelayControlLibrary
 
         private void buttonRQDNPSettings_Click(object sender, EventArgs e)
         {
-            // MessageBox.Show("read dnp settings from master processor"); // Only for testing - to be removed
-            //=====================Display throbber while parameters get requested from the master relay  =====================
+            logger.Info("buttonRQDNPSettings_Click ENTER");
+
             SetBusyUi(true, "Requesting DNP Settings");
-            //this.enableAll(false);
-            //========================================================================================================
 
             try
             {
+                logger.Info("[UIBUSY][DNP] Before Send DNP Data Request");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] Before Send DNP Data Request");
+
                 SendEventArgs sEA = new SendEventArgs(3);
 
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPDataRequestOpCode;
@@ -2601,11 +2602,32 @@ namespace RelayControlLibrary
                 sEA.SendPacket[2] = 0x0D;
 
                 this.Send(sEA);
+
+                logger.Info("[UIBUSY][DNP] After Send DNP Data Request");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] After Send DNP Data Request");
             }
             catch (Exception ex)
             {
+                logger.Error(ex, "[UIBUSY][DNP] buttonRQDNPSettings_Click exception");
+                System.Diagnostics.Trace.WriteLine($"[UIBUSY][DNP] buttonRQDNPSettings_Click exception: {ex}");
+
                 this.errorHandler(ex);
             }
+            finally
+            {
+                logger.Info("[UIBUSY][DNP] finally -> SetBusyUi(false)");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] finally -> SetBusyUi(false)");
+
+                // IMPORTANT:
+                // only clear here if this request is meant to be synchronous.
+                // if this is an async ACK request, reset from the ACK/timeout completion path instead.
+                //SetBusyUi(false, "Requesting DNP Settings");
+
+                logger.Info("[UIBUSY][DNP] finally complete");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] finally complete");
+            }
+
+            logger.Info("buttonRQDNPSettings_Click EXIT");
         }
 
         private delegate void setAllCB(byte[] bytePacket);
