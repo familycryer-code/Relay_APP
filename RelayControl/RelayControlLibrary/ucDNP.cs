@@ -240,10 +240,52 @@ namespace RelayControlLibrary
 
         private void buttonSendDeadBand_Click(object sender, EventArgs e)
         {
+            logger.Info("buttonSendDeadBand_Click ENTER");
+
+#if DNP
+            applyDNP.applyDNPSettings = true;
+
+            SetBusyUi(true, "Sending DNP DeadBand Settings");
+
             try
             {
-                SetBusyUi(true, "Sending DNP DeadBand");
+                logger.Info("[UIBUSY][DNP] Before sendDeadBand");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] Before sendDeadBand");
 
+                this.sendDeadBand();
+
+                logger.Info("[UIBUSY][DNP] After sendDeadBand");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] After sendDeadBand");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "[UIBUSY][DNP] sendDeadBand exception");
+                System.Diagnostics.Trace.WriteLine($"[UIBUSY][DNP] sendDeadBand exception: {ex}");
+
+                MessageBox.Show(ex.Message, "Send DNP DeadBand Error");
+            }
+            finally
+            {
+                logger.Info("[UIBUSY][DNP] finally -> SetBusyUi(false)");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] finally -> SetBusyUi(false)");
+
+                SetBusyUi(false, "Sending DNP DeadBand Settings");
+
+                logger.Info("[UIBUSY][DNP] finally complete");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] finally complete");
+            }
+#else
+    logger.Info("buttonSendDeadBand_Click skipped: DNP not enabled in this build");
+#endif
+
+            logger.Info("buttonSendDeadBand_Click EXIT");
+        }
+
+        private void sendDeadBand()
+        {
+            try
+            {
+                
                 SendEventArgs sEA = new SendEventArgs(_packetLength); //98
                 int index = 2;
 
@@ -270,7 +312,6 @@ namespace RelayControlLibrary
             }
             catch (Exception ex)
             {
-                SetBusyUi(false, "DeadBand send failed");
                 this.errorHandler(ex);
             }
         }
