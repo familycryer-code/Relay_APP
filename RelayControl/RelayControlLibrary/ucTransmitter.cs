@@ -1146,7 +1146,7 @@ namespace RelayControlLibrary
 
             OnSend(RQSEA);
 
-            SetBusyUi(false, $"LightningCount complete:");
+            //SetBusyUi(false, $"LightningCount complete:");
 
         }
 
