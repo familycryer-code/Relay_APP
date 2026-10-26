@@ -838,7 +838,6 @@ namespace RelayControlLibrary
                 return;
             }
 
-            this.setProgrammingFiles();
             this.RefreshPendingFirmwareFromCurrentRevisions();
 
             if (!this.AnyFirmwarePending())
@@ -862,6 +861,7 @@ namespace RelayControlLibrary
                 return;
             }
 
+            this.setProgrammingFiles();
             // Autoload behaves like manual after approval:
             this.autoLoad = true;
             this.RunProgrammingStateMachine();
@@ -1160,11 +1160,25 @@ namespace RelayControlLibrary
                 throw new Exception("Called sendNextRelayPacket from wrong state: " + this.state.ToString());
             }
         }
-      
+
 
         private void ResetAutoloadState(string caller = "unknown")
         {
-            logger.Trace("Method: {0}", caller);
+            logger.Info("AUTOLOAD RESET: caller={0}, state={1}, startupIntent={2}, autoLoad={3}, autoLoadRequested={4}, waitingForAutoloadApproval={5}, autoPromptsApprovedThisCycle={6}, reprogrammingInProgress={7}, programBootCodeInProgress={8}, reprogramMaster={9}, reprogramRelay={10}, reprogramFPGA={11}, bootLoadDone={12}, bootFirstAutoContinuation={13}",
+                caller,
+                this.state,
+                this.startupIntent,
+                this.autoLoad,
+                this.autoLoadRequested,
+                this.waitingForAutoloadApproval,
+                this.autoPromptsApprovedThisCycle,
+                this.reprogrammingInProgress,
+                this.programBootCodeInProgress,
+                this.reprogramMaster,
+                this.reprogramRelay,
+                this.reprogramFPGA,
+                this.bootLoadDone,
+                this.bootFirstAutoContinuation);
 
             this.reprogrammingInProgress = false;
             this.programBootCodeInProgress = false;
@@ -1173,6 +1187,7 @@ namespace RelayControlLibrary
             this.autoLoad = false;
             this.autoLoadRequested = false;
             this.autoPromptsApprovedThisCycle = false;
+            this.waitingForAutoloadApproval = false;
             this.bootFirstAutoContinuation = false;
 
             this.reprogramMaster = false;
@@ -1182,6 +1197,21 @@ namespace RelayControlLibrary
             this.bootLoadDone = false;
             this.startupIntent = StartupIntent.None;
 
+            logger.Info("AUTOLOAD RESET COMPLETE: caller={0}, state={1}, startupIntent={2}, autoLoad={3}, autoLoadRequested={4}, waitingForAutoloadApproval={5}, autoPromptsApprovedThisCycle={6}, reprogrammingInProgress={7}, programBootCodeInProgress={8}, reprogramMaster={9}, reprogramRelay={10}, reprogramFPGA={11}, bootLoadDone={12}, bootFirstAutoContinuation={13}",
+                caller,
+                this.state,
+                this.startupIntent,
+                this.autoLoad,
+                this.autoLoadRequested,
+                this.waitingForAutoloadApproval,
+                this.autoPromptsApprovedThisCycle,
+                this.reprogrammingInProgress,
+                this.programBootCodeInProgress,
+                this.reprogramMaster,
+                this.reprogramRelay,
+                this.reprogramFPGA,
+                this.bootLoadDone,
+                this.bootFirstAutoContinuation);
         }
 
         private void MasterBootLoaderStart()

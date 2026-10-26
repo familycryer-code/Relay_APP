@@ -1828,15 +1828,21 @@ namespace RelayControl
 
         private void EndBackupCapture(bool success)
         {
+            logger.Info("END BACKUP CAPTURE ENTER: success={0}, backupState={1}, requiredBackupMask={2}, receivedBackupMask={3}, captureActive={4}, captureSectionCount={5}",
+                success,
+                this.backupState,
+                this.requiredBackupMask,
+                this.receivedBackupMask,
+                this._backupCaptureActive,
+                this._backupCaptureSections != null ? this._backupCaptureSections.Count : 0);
+
             if (success)
             {
-                // Only persist snapshot when this cycle was a full backup capture
-                // (BeginFullParameterDownload sets requiredBackupMask != None).
                 bool isFullBackupCapture = this.requiredBackupMask != SectionBits.None;
+                logger.Info("END BACKUP CAPTURE success path: isFullBackupCapture={0}", isFullBackupCapture);
 
                 if (isFullBackupCapture)
                 {
-                    // Optional: preserve existing valid snapshot and do not overwrite
                     if (File.Exists(_relayBackupPath) && checkValidDataBackup())
                     {
                         logger.Info("Valid backup already exists; preserving existing snapshot (skip overwrite).");
@@ -1852,21 +1858,31 @@ namespace RelayControl
                     logger.Info("Required parameter download completed; skipping backup file write.");
                 }
 
-                backupState = BackupState.Complete;
+                this.backupState = BackupState.Complete;
             }
             else
             {
-                backupState = BackupState.Failed;
+                this.backupState = BackupState.Failed;
             }
 
             lock (_backupCaptureLock)
             {
-                _backupCaptureSections.Clear();
-                _backupCaptureActive = false;
+                int beforeClear = this._backupCaptureSections.Count;
+                this._backupCaptureSections.Clear();
+                this._backupCaptureActive = false;
+                logger.Info("END BACKUP CAPTURE lock cleanup: clearedSections={0}, captureActiveNow={1}", beforeClear, this._backupCaptureActive);
             }
 
-            receivedBackupMask = SectionBits.None;
-            requiredBackupMask = SectionBits.None;
+            this.receivedBackupMask = SectionBits.None;
+            this.requiredBackupMask = SectionBits.None;
+
+            logger.Info("END BACKUP CAPTURE COMPLETE: success={0}, backupState={1}, requiredBackupMask={2}, receivedBackupMask={3}, captureActive={4}, captureSectionCount={5}",
+                success,
+                this.backupState,
+                this.requiredBackupMask,
+                this.receivedBackupMask,
+                this._backupCaptureActive,
+                this._backupCaptureSections != null ? this._backupCaptureSections.Count : 0);
         }
 
         private bool IsBackupComplete()
@@ -2111,19 +2127,25 @@ namespace RelayControl
 
         private void ResetFullParameterDownloadState(string caller = "unknown")
         {
+            // clear backup-only state flags
             this.requestedAllParameters = false;
             this.parametersLoaded = false;
             this.pendingAutoloadAfterBackup = false;
             this.pendingRestoreAfterProgramming = false;
-            backupInProgress = false;
-           
+            this.backupInProgress = false;
+            this.pauseMonitoring = false;
+            this.quietMode = false;
+
+
+            // restore UI state
+            SetBusyUi(false, "Backup complete");
+            this.enableAll(true);
+            screenD.screenDisable = false;
 
             this.ProgramState = ProgramStates.Running;
 
             if (this.timerResponseTimeOut != null)
                 this.timerResponseTimeOut.Enabled = false;
-
-            
         }
 
         private SavedSettingV4 reprogrammingTempSettings = new SavedSettingV4();
@@ -12533,7 +12555,35 @@ namespace RelayControl
 
             EndBackupCapture(true);
             ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
-            //RestoreNormalCommsAfterAutoloadDecline("CompleteBackupAndContinue");
+
+            bool formAlive = !this.IsDisposed && !this.Disposing;
+
+            bool allowProgrammingTraffic = this.ShouldAllowProgrammingTraffic();
+            bool suppressBackgroundComms = this.ShouldSuppressBackgroundComms();
+            bool relayProgrammingLifecycleActive = this.IsRelayProgrammingLifecycleActive();
+            bool isProgrammingFlowActive = this.IsProgrammingFlowActive();
+
+            logger.Info(
+                "RecoverComms gate: formAlive={0}, allowProgrammingTraffic={1}, suppressBackgroundComms={2}, relayLifecycleActive={3}, isProgrammingFlowActive={4}, pendingRestoreAfterProgramming={5}, backupInProgress={6}, quietMode={7}, pauseMonitoring={8}, state={9}, startupIntent={10}",
+                formAlive,
+                allowProgrammingTraffic,
+                suppressBackgroundComms,
+                relayProgrammingLifecycleActive,
+                isProgrammingFlowActive,
+                this.pendingRestoreAfterProgramming,
+                this.backupInProgress,
+                this.quietMode,
+                this.pauseMonitoring,
+                this.ucRelayProgramming1?.State,
+                this.ucRelayProgramming1?.CurrentStartupIntent
+            );
+
+            if (formAlive && !this.ShouldAllowProgrammingTraffic() && !this.ShouldSuppressBackgroundComms())
+            {
+                this.RecoverComms("RestoreNormalCommsAfterAutoloadDecline");
+                logger.Info("Called RecoverComms after backup complete.");
+            }
+           
             logger.Info("state={0} pendingAutoloadAfterBackup={1} AutoloadDeferredUntilUiReady={2}",
                 this.ucRelayProgramming1.State,
                 this.pendingAutoloadAfterBackup,
@@ -12557,7 +12607,6 @@ namespace RelayControl
                     return;
             }
             logger.Info("Back Up Complete.");
-            RestoreNormalCommsAfterAutoloadDecline("CompleteBackupAndContinue");
         }
     }
 
