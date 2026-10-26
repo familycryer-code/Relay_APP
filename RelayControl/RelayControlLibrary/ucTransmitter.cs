@@ -1226,17 +1226,48 @@ namespace RelayControlLibrary
 
         private void buttonTX_Click(object sender, EventArgs e)
         {
-            logger.Info("buttonTX_Click: Customer={0} dnpEnabledWithKit={1} checkBoxDNPEnable.Checked={2}",
+            logger.Info("buttonTX_Click ENTER: Customer={0}, dnpEnabledWithKit={1}, checkBoxDNPEnable.Checked={2}",
                 this.Customer,
                 dnpUplinkK.dnpEnabledWithKit,
                 this.checkBoxDNPEnable.Checked);
 
-            if (this.Customer == Customers.TORONTO_HYDRO || dnpUplinkK.dnpEnabledWithKit == true)
+            if (this.Customer == Customers.TORONTO_HYDRO || dnpUplinkK.dnpEnabledWithKit)
             {
                 applyTX.applyTxSettings = true;
+                logger.Info("buttonTX_Click: applyTX.applyTxSettings set TRUE");
             }
-            //SetBusyUi(true, "Sending Transmitter Settings");
-            this.SendTransmitterSettings();
+
+            SetBusyUi(true, "Sending Transmitter Settings");
+
+            try
+            {
+                logger.Info("[UIBUSY] Before SendTransmitterSettings");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY] Before SendTransmitterSettings");
+
+                this.SendTransmitterSettings();
+
+                logger.Info("[UIBUSY] After SendTransmitterSettings");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY] After SendTransmitterSettings");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "[UIBUSY] SendTransmitterSettings exception");
+                System.Diagnostics.Trace.WriteLine($"[UIBUSY] SendTransmitterSettings exception: {ex}");
+
+                MessageBox.Show(ex.Message, "Send Transmitter Settings Error");
+            }
+            finally
+            {
+                logger.Info("[UIBUSY] finally -> SetBusyUi(false)");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY] finally -> SetBusyUi(false)");
+
+                SetBusyUi(false, "Sending Transmitter Settings");
+
+                logger.Info("[UIBUSY] finally complete");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY] finally complete");
+            }
+
+            logger.Info("buttonTX_Click EXIT");
         }
 
         public void SendTransmitterSettings()
