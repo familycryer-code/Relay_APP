@@ -2348,6 +2348,7 @@ namespace RelayControlLibrary
             this.waitForBootReady("startMasterProgramming");
 
             this.sendMasterTransferPacket();
+
         } 
   
         private void RunProgrammingStateMachine()
