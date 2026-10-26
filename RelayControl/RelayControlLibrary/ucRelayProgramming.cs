@@ -1600,7 +1600,7 @@ namespace RelayControlLibrary
             this.programmingForm.ClearAllChecks();
             logger.Trace("Reprogram Completed Successfully");
 
-            this.ResetAutoloadState("FinalizeReprogram");
+            //this.ResetAutoloadState("FinalizeReprogram");
         }
 
 
