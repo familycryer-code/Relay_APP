@@ -2469,6 +2469,7 @@ namespace RelayControlLibrary
         }
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
+            logger.Info("buttonSendAllDNPSettings_Click ENTER");
 #if DNP
             applyDNP.applyDNPSettings = true;
 
@@ -2476,15 +2477,35 @@ namespace RelayControlLibrary
 
             try
             {
+                logger.Info("[UIBUSY][DNP] Before SendAllDNPSettings");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] Before SendAllDNPSettings");
+
                 this.SendAllDNPSettings();
+
+                logger.Info("[UIBUSY][DNP] After SendAllDNPSettings, sent={0}");
+
             }
             catch (Exception ex)
             {
-                SetBusyUi(false);
-                this.DNPCommLabelStatus = false;
-                this.errorHandler(ex);
+                logger.Error(ex, "[UIBUSY][DNP] SendAllDNPSettings exception");
+                System.Diagnostics.Trace.WriteLine($"[UIBUSY][DNP] SendAllDNPSettings exception: {ex}");
+
+                MessageBox.Show(ex.Message, "Send DNP Settings Error");
             }
+            finally
+            {
+                logger.Info("[UIBUSY][DNP] finally -> SetBusyUi(false)");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] finally -> SetBusyUi(false)");
+
+                SetBusyUi(false, "Sending All DNP Settings");
+
+                logger.Info("[UIBUSY][DNP] finally complete");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] finally complete");
+            }
+#else
+            logger.Info("buttonSendAllDNPSettings_Click skipped: DNP not enabled in this build");
 #endif
+            logger.Info("buttonSendAllDNPSettings_Click EXIT");
         }
 
         private static int _DNPpacketLength = 98;

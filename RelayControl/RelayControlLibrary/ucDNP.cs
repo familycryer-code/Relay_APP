@@ -55,22 +55,43 @@ namespace RelayControlLibrary
         //private void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         public void buttonSendAllDNPSettings_Click(object sender, EventArgs e)
         {
+            logger.Info("buttonSendAllDNPSettings_Click ENTER");
 #if DNP
             applyDNP.applyDNPSettings = true;
 
-            //SetBusyUi(true, "Sending all DNP settings");
+            SetBusyUi(true, "Sending All DNP Settings");
 
-            //try
-           //{
+            try
+            {
+                logger.Info("[UIBUSY][DNP] Before SendAllDNPSettings");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] Before SendAllDNPSettings");
+
                 this.SendAllDNPSettings();
-           // }
-           // catch (Exception ex)
-            //{
-                //SetBusyUi(false);
 
-               // this.errorHandler(ex);
-            //}
+                logger.Info("[UIBUSY][DNP] After SendAllDNPSettings, sent={0}");
+               
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "[UIBUSY][DNP] SendAllDNPSettings exception");
+                System.Diagnostics.Trace.WriteLine($"[UIBUSY][DNP] SendAllDNPSettings exception: {ex}");
+
+                MessageBox.Show(ex.Message, "Send DNP Settings Error");
+            }
+            finally
+            {
+                logger.Info("[UIBUSY][DNP] finally -> SetBusyUi(false)");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] finally -> SetBusyUi(false)");
+
+                SetBusyUi(false, "Sending All DNP Settings");
+
+                logger.Info("[UIBUSY][DNP] finally complete");
+                System.Diagnostics.Trace.WriteLine("[UIBUSY][DNP] finally complete");
+            }
+#else
+            logger.Info("buttonSendAllDNPSettings_Click skipped: DNP not enabled in this build");
 #endif
+            logger.Info("buttonSendAllDNPSettings_Click EXIT");
         }
 
         private void SetBusyUi(bool busy, string statusText = null)
