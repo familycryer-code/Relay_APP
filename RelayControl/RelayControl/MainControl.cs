@@ -23,6 +23,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
@@ -2068,8 +2069,6 @@ namespace RelayControl
                     this.requiredSections,
                     this.receivedBackupMask,
                     this.requiredBackupMask);
-
-
                 return;
             }
         }
@@ -2117,6 +2116,7 @@ namespace RelayControl
             this.pendingAutoloadAfterBackup = false;
             this.pendingRestoreAfterProgramming = false;
             backupInProgress = false;
+           
 
             this.ProgramState = ProgramStates.Running;
 
@@ -2359,46 +2359,61 @@ namespace RelayControl
 
             try
             {
+                if (this.serialPort1 == null)
+                {
+                    logger.Warn("RX: serialPort1 is null; aborting receive handler.");
+                    return;
+                }
+
+                int bytesAvailable = this.serialPort1.BytesToRead;
+
+
                 while (this.serialPort1.BytesToRead > 0)
                 {
                     this.SendConfirmed = true;
 
-                    lastByte = this.receiveArray[this.rXWritePtr] = (byte)this.serialPort1.ReadByte();
+                    int readByte = this.serialPort1.ReadByte();
+                    lastByte = (byte)readByte;
+
+                    this.receiveArray[this.rXWritePtr] = lastByte;
 
                     if (checkBoxSerialCommsDebugging.Checked)
                     {
                         logger.Trace("RX BYTE: {0:X2} '{1}'", lastByte, (char)lastByte);
                     }
 
-                    if (checkBoxSerialCommsDebugging.Checked)
-                    {
-                        if (lastByte == '-')
-                        {
-                            testCount++;
-                            if (testCount == 15)
-                            {
-                                testCount = 0;
-                                logger.Trace(DateTime.Now.ToString());
-                            }
-                        }
-                    }
-
+                    // Diagnostic: if this is an ACK byte, log it explicitly
                     if (lastByte == 0x06)
                     {
+                      
                         this.SendConfirmed = true;
                         this.expectingAck = false;
+
+                        // Do not try to do a huge amount of work here; keep it minimal and safe
                         packetAcknowledged(true);
-                        this.timerSCITimeOut.Enabled = false;
+
+                        if (this.timerSCITimeOut != null)
+                        {
+                            this.timerSCITimeOut.Stop();
+                            this.timerSCITimeOut.Enabled = false;
+                        }
+
+                        //SetBusyUi(false, "ACK received");
                     }
 
+                    // Optional: this is a terminator byte
                     if (lastByte == 0x0D)
+                    {
                         dReceived = true;
+                        //  logger.Info("RX: terminator 0x0D received; dReceived=true");
+                    }
 
                     this.rXWritePtr = this.nextRXArrayAddress(this.rXWritePtr);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                logger.Error(ex, "RX: exception in receive loop.");
                 this.monitoring(false);
                 this.RegisterPolling(false);
                 this.resetCommunicationInterface();
@@ -2422,12 +2437,17 @@ namespace RelayControl
             {
                 if (!this.readSemaphoreTaken || dReceived)
                 {
+                    //logger.Info("RX: dispatching checkRawData; readSemaphoreTaken={0}; dReceived={1}",
+                        //this.readSemaphoreTaken,
+                       // dReceived);
+
                     this.BeginInvoke(new EventHandler(this.checkRawData));
                     dReceived = false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                logger.Error(ex, "RX: failed to dispatch checkRawData.");
 
                 this.monitoring(false);
                 this.RegisterPolling(false);
@@ -3043,7 +3063,7 @@ namespace RelayControl
 
                 case IncomingCommCommands.GeneralCommand:
                     this.ucGeneralCommandHandler1.HandleCommand(bytePacket);
-                    this.ucTransmitter1.RequestLightningCount();
+                    //this.ucTransmitter1.RequestLightningCount();
                     break;
 
                 case IncomingCommCommands.ArcFaultData:
@@ -4110,9 +4130,9 @@ namespace RelayControl
 
             _autoloadDeclineRestoreHandled = true;
      
-            this.ClearBackupCaptureState();
-            this.ResetFullParameterDownloadState();
-            RestoreNormalCommsAfterAutoloadDecline(nameof(UcRelayProgramming1_AutoloadDeclined));
+            //this.ClearBackupCaptureState();
+            //this.ResetFullParameterDownloadState();
+            //RestoreNormalCommsAfterAutoloadDecline(nameof(UcRelayProgramming1_AutoloadDeclined));
         }
 
 
@@ -4421,7 +4441,7 @@ namespace RelayControl
                 this.textBoxRelaySNControlPQ.Text = textBoxRelaySNControl.Text;
 
                 this.ucTransmitter1.SetDefaults(tempI);
-                this.ucTransmitter1.SendTransmitterSettingsNew();
+                this.ucTransmitter1.SendTransmitterSettings();
             }
         }
 
@@ -6387,9 +6407,12 @@ namespace RelayControl
 
         private void timerSCITimeOut_Tick(object sender, EventArgs e)
         {
-            logger.Info("timerSCITimeOut_Tick fired. expectingAck={0}, caller={1}",
+            logger.Info("ACK-TIMEOUT: tick fired; expectingAck={0}; ackCaller={1}; timerEnabled={2}; timerInterval={3}; thread={4}",
                 this.expectingAck,
-                this.AcknowledgeCaller);
+                this.AcknowledgeCaller,
+                this.timerSCITimeOut.Enabled,
+                this.timerSCITimeOut.Interval,
+                Thread.CurrentThread.ManagedThreadId);
             try
             {
                 this.timerSCITimeOut.Enabled = false;
@@ -7432,6 +7455,11 @@ namespace RelayControl
                 lock (_ackFlowLock)
                 {
                     this.AcknowledgeCaller = caller;
+                    logger.Info("ACK-STATE: setting expectingAck=true; caller={0}; currentAckCaller={1}; timerEnabled={2}; timerInterval={3}",
+                        caller,
+                        this.AcknowledgeCaller,
+                        this.timerSCITimeOut.Enabled,
+                        this.timerSCITimeOut.Interval);
                     this.expectingAck = true;
                     this.timerSCITimeOut.Stop();
                     this.timerSCITimeOut.Start();
@@ -12495,7 +12523,7 @@ namespace RelayControl
                 EndBackupCapture(false);
                 ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
 
-                SetBusyUi(false, "Sending PC data");
+                SetBusyUi(false, "complete backup");
                 this.enableAll(true);
                 screenD.screenDisable = false;
 
@@ -12505,6 +12533,11 @@ namespace RelayControl
 
             EndBackupCapture(true);
             ResetFullParameterDownloadState(nameof(CompleteBackupAndContinue));
+            //RestoreNormalCommsAfterAutoloadDecline("CompleteBackupAndContinue");
+            logger.Info("state={0} pendingAutoloadAfterBackup={1} AutoloadDeferredUntilUiReady={2}",
+                this.ucRelayProgramming1.State,
+                this.pendingAutoloadAfterBackup,
+                this.ucRelayProgramming1.CurrentStartupIntent); 
 
             switch (this.ucRelayProgramming1.CurrentStartupIntent)
             {
@@ -12524,6 +12557,7 @@ namespace RelayControl
                     return;
             }
             logger.Info("Back Up Complete.");
+            RestoreNormalCommsAfterAutoloadDecline("CompleteBackupAndContinue");
         }
     }
 

@@ -58,18 +58,18 @@ namespace RelayControlLibrary
 #if DNP
             applyDNP.applyDNPSettings = true;
 
-            SetBusyUi(true, "Sending all DNP settings");
+            //SetBusyUi(true, "Sending all DNP settings");
 
-            try
-            {
+            //try
+           //{
                 this.SendAllDNPSettings();
-            }
-            catch (Exception ex)
-            {
-                SetBusyUi(false);
+           // }
+           // catch (Exception ex)
+            //{
+                //SetBusyUi(false);
 
-                this.errorHandler(ex);
-            }
+               // this.errorHandler(ex);
+            //}
 #endif
         }
 
@@ -219,33 +219,25 @@ namespace RelayControlLibrary
 
         private void buttonSendDeadBand_Click(object sender, EventArgs e)
         {
-
             try
             {
+                SetBusyUi(true, "Sending DNP DeadBand");
+
                 SendEventArgs sEA = new SendEventArgs(_packetLength); //98
                 int index = 2;
-            //    MessageBox.Show("2 sending command D to master"); // Only for testing - to be removed
+
+                // MessageBox.Show("2 sending command D to master"); // Only for testing - to be removed
                 sEA.SendPacket[0] = (byte)RelayModeFunctions._DNPControlOpCode; // "D"
-                sEA.SendPacket[1] = (byte)'d';        //For set deadband limits
+                sEA.SendPacket[1] = (byte)'d'; // For set deadband limits
 
                 foreach (Control c in this.groupBoxDIGITALGRIDDNPDeadBand.Controls)
                 {
-                    bool failed = false;
-                    ucDNPDeadBand uDDB = new ucDNPDeadBand();
-                    try
-                    {
-                        uDDB = (ucDNPDeadBand)c;
-                    }
-                    catch //if it is not a ucDeadBand box
-                    {
-                        failed = true;
-                    }
-
-                    if (!failed)
+                    if (c is ucDNPDeadBand uDDB)
                     {
                         sEA.SendPacket[index] = (byte)uDDB.Value;
-                       // sEA.SendPacket[index] = (byte)this.deadBandVariables[index-2].Maximum; // only for testing -3/30/2026- to be removed
+                        // sEA.SendPacket[index] = (byte)this.deadBandVariables[index-2].Maximum; // testing only
                         index++;
+
                         if (index >= 90)
                             throw new Exception("Too many DeadBand Variables for single packet");
                     }
@@ -253,11 +245,11 @@ namespace RelayControlLibrary
 
                 sEA.SendPacket[sEA.SendPacket.Length - 1] = 0x0D;
 
-                
                 this.Send(sEA);
             }
             catch (Exception ex)
             {
+                SetBusyUi(false, "DeadBand send failed");
                 this.errorHandler(ex);
             }
         }

@@ -1204,6 +1204,7 @@ namespace RelayControlLibrary
             }
         }
 
+        /*
         public void SendTransmitterSettingsNew()
         {
             if (this.Customer == Customers.TORONTO_HYDRO || dnpUplinkK.dnpEnabledWithKit == true)
@@ -1215,13 +1216,27 @@ namespace RelayControlLibrary
             //this.enableAll(false);
             //========================================================================================================
 
-
+            logger.Info("SendTransmitterSettingsNew: Customer={0} dnpEnabledWithKit={1} checkBoxDNPEnable.Checked={2}",
+                this.Customer,
+                dnpUplinkK.dnpEnabledWithKit,
+                this.checkBoxDNPEnable.Checked);    
             this.SendTransmitterSettings();
         }
+        */
 
         private void buttonTX_Click(object sender, EventArgs e)
         {
-            SendTransmitterSettingsNew();
+            logger.Info("buttonTX_Click: Customer={0} dnpEnabledWithKit={1} checkBoxDNPEnable.Checked={2}",
+                this.Customer,
+                dnpUplinkK.dnpEnabledWithKit,
+                this.checkBoxDNPEnable.Checked);
+
+            if (this.Customer == Customers.TORONTO_HYDRO || dnpUplinkK.dnpEnabledWithKit == true)
+            {
+                applyTX.applyTxSettings = true;
+            }
+            //SetBusyUi(true, "Sending Transmitter Settings");
+            this.SendTransmitterSettings();
         }
 
         public void SendTransmitterSettings()
