@@ -2242,12 +2242,14 @@ namespace RelayControl
                 return;
             }
 
+            /*
             if (sEA.SendPacket[0] == (byte)'X') // explicit request packet
             {
                 // keep explicit full read request behavior
                 this.requestAllData("ucTransmitter1_Send");
                 return;
             }
+            */
 
             // Normal TX settings apply path
             this.sendPacketAck(sEA.SendPacket, "Transmitter Settings Send");
@@ -10155,15 +10157,7 @@ namespace RelayControl
             logger.Info("Setting DNP Settings from Relay");
 
             bool wroteBackupSection = false;
-            /*
-            if (dataBackup_fromRelay == true)
-            {
-                byte[] snapshot = new byte[Math.Min(bytePacket.Length, 98)];
-                Array.Copy(bytePacket, snapshot, snapshot.Length);
-                CaptureBackupSection("DNP Data", snapshot);
-                wroteBackupSection = true;
-            }
-            */
+        
             try
             {
                 bool isDnpSupported = IsDnpCommSupported();

@@ -376,8 +376,10 @@ namespace RelayControlLibrary
         private bool customerVersion = false;
         private bool badType1MessagePeriod = false;
 
+
         public void SetAllValues(byte[] bA)
         {
+            logger.Info("SetAllValues");
             if (this.InvokeRequired)
             {
                 setAllCallBack sACB = new setAllCallBack(this.setAllValues);
@@ -391,6 +393,7 @@ namespace RelayControlLibrary
 
         void setAllValues(byte[] bA)
         {
+            logger.Info("setAllValues");
             string errorString = "";
             this.version2Settings();
 
@@ -1097,7 +1100,35 @@ namespace RelayControlLibrary
 
         private void buttonRQ_Click(object sender, EventArgs e)
         {
-            RequestLightningCount();
+            logger.Info("buttonRQ_Click ENTER");
+
+            SetBusyUi(true, "Requesting Transmitter Settings");
+
+            try
+            {
+                logger.Info("[UIBUSY][TX] Before Send Transmitter Data Request");
+
+                SendEventArgs sEA = new SendEventArgs(3);
+                sEA.SendPacket[0] = (byte)'X';
+                sEA.SendPacket[1] = 0x55;
+                sEA.SendPacket[2] = 0x0D;
+
+                this.Send(sEA);
+
+                logger.Info("[UIBUSY][TX] After Send Transmitter Data Request");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "[UIBUSY][TX] buttonRQ_Click exception");
+                this.errorHandler(ex);
+                SetBusyUi(false, "Requesting Transmitter Settings");
+            }
+            finally
+            {
+                logger.Info("[UIBUSY][TX] finally complete");
+            }
+
+            logger.Info("buttonRQ_Click EXIT");
         }
 
 
@@ -1133,7 +1164,7 @@ namespace RelayControlLibrary
         {
 
             //=====================Display throbber while parameters get requested from the master relay  =====================
-            SetBusyUi(true, "Requesting Lightning Count");
+            SetBusyUi(true, "Requesting Transmitter Settings");
             //this.enableAll(false);
 
             byte[] packet = new byte[3];
