@@ -1190,11 +1190,11 @@ namespace RelayControlLibrary
             this.waitingForAutoloadApproval = false;
             this.bootFirstAutoContinuation = false;
 
-            this.reprogramMaster = false;
-            this.reprogramRelay = false;
-            this.reprogramFPGA = false;
+            //this.reprogramMaster = false;
+            //this.reprogramRelay = false;
+            //this.reprogramFPGA = false;
 
-            this.bootLoadDone = false;
+            //this.bootLoadDone = false;
             this.startupIntent = StartupIntent.None;
 
             logger.Info("AUTOLOAD RESET COMPLETE: caller={0}, state={1}, startupIntent={2}, autoLoad={3}, autoLoadRequested={4}, waitingForAutoloadApproval={5}, autoPromptsApprovedThisCycle={6}, reprogrammingInProgress={7}, programBootCodeInProgress={8}, reprogramMaster={9}, reprogramRelay={10}, reprogramFPGA={11}, bootLoadDone={12}, bootFirstAutoContinuation={13}",
@@ -2425,7 +2425,6 @@ namespace RelayControlLibrary
                     Thread.Sleep(5000);  // make sure we are up and running before we start the relay programming.  This is a bit of a hack, but it works.
                 }
                
-
                 this.startRelayProgramming();
                 return;
             }
