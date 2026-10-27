@@ -1122,7 +1122,18 @@ namespace RelayControlLibrary
 
         public void SetFlagPolartityByte()
         {
-            this.SendPacket[10] = this.flagPolarity.ByteValue;
+            byte b = 0;
+            if (this.flagPolarity.A) b |= 0x01;
+            if (this.flagPolarity.B) b |= 0x02;
+            if (this.flagPolarity.C) b |= 0x04;
+            if (this.flagPolarity.D) b |= 0x08;
+            if (this.flagPolarity.E) b |= 0x10;
+            if (this.flagPolarity.F) b |= 0x20;
+            if (this.flagPolarity.G) b |= 0x40;
+            if (this.flagPolarity.H) b |= 0x80;
+
+            this.flagPolarity.ByteValue = b;
+            this.SendPacket[10] = b;
         }
 
         private byte lEDSpeed = 20;

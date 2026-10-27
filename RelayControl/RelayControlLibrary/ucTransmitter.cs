@@ -1360,16 +1360,28 @@ namespace RelayControlLibrary
 
                 errorMessage = "Error Setting Flag Polarities";
 
-                this.TXSettings.FlagPolarity.A = radioButtonFPAClose.Checked;
-                this.TXSettings.FlagPolarity.B = radioButtonFPBClose.Checked;
-                this.TXSettings.FlagPolarity.C = radioButtonFPCClose.Checked;
-                this.TXSettings.FlagPolarity.D = radioButtonFPDClose.Checked;
-                this.TXSettings.FlagPolarity.E = radioButtonFPEClose.Checked;
-                this.TXSettings.FlagPolarity.F = radioButtonFPFClose.Checked;
-                this.TXSettings.FlagPolarity.G = radioButtonFPGClose.Checked;
-                this.TXSettings.FlagPolarity.H = radioButtonFPHClose.Checked;
-                this.TXSettings.SetFlagPolartityByte();
+                logger.Info("Setting Flag Polarity: A={0}, B={1}, C={2}, D={3}, E={4}, F={5}, G={6}, H={7}",
+                    radioButtonFPAClose.Checked,
+                    radioButtonFPBClose.Checked,
+                    radioButtonFPCClose.Checked,
+                    radioButtonFPDClose.Checked,
+                    radioButtonFPEClose.Checked,
+                    radioButtonFPFClose.Checked,
+                    radioButtonFPGClose.Checked,
+                    radioButtonFPHClose.Checked);
 
+                this.TXSettings.FlagPolarity.A = !radioButtonFPAClose.Checked;
+                this.TXSettings.FlagPolarity.B = !radioButtonFPBClose.Checked;
+                this.TXSettings.FlagPolarity.C = !radioButtonFPCClose.Checked;
+                this.TXSettings.FlagPolarity.D = !radioButtonFPDClose.Checked;
+                this.TXSettings.FlagPolarity.E = !radioButtonFPEClose.Checked;
+                this.TXSettings.FlagPolarity.F = !radioButtonFPFClose.Checked;
+                this.TXSettings.FlagPolarity.G = !radioButtonFPGClose.Checked;
+                this.TXSettings.FlagPolarity.H = !radioButtonFPHClose.Checked;
+                this.TXSettings.SetFlagPolartityByte();
+                logger.Info("FlagPolarity Byte=0x{0:X2}, SendPacket[10]=0x{1:X2}",
+    this.TXSettings.FlagPolarity.ByteValue,
+    this.TXSettings.SendPacket[10]);
 
                 //enable Flag Alarms
                 errorMessage = "Bad Error Flag Alarm Settings";
