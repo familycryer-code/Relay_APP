@@ -108,13 +108,12 @@ namespace RelayDNPSecurity
             if (!this.validUserName())
             {
                 this.onError(new Exception("Bad User Name"), "Bad SAv5 User Name");
+                return; // add
             }
 
             SendEventArgs sSEA = new SendEventArgs(_userNameLimit + 3);
             sSEA.WithAck = true;
-
             sSEA.SendPacket = getUserNamePacket();
-
             this.onSend(sSEA);
         }
 
@@ -170,13 +169,12 @@ namespace RelayDNPSecurity
             if (!this.keyBox.KeyDataValid())
             {
                 this.onError(new Exception("Bad Key Data"), "Bad SAv5 Key Data");
+                return; // add
             }
 
             SendEventArgs sSEA = new SendEventArgs(_packetLength);
             sSEA.WithAck = true;
-
             sSEA.SendPacket = this.getUserUpdateKeyPacket();
-
             this.onSend(sSEA);
         }
 
