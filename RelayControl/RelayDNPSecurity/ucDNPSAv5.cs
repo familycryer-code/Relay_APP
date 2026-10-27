@@ -16,7 +16,7 @@ namespace RelayDNPSecurity
     public partial class ucDNPSAv5 : ucDNPSAv5SuperClass
     {
         private bool _initialRequestDone = false;
-        private DateTime _lastSAv5AutoInitUtc = DateTime.MinValue;
+        
 
         public ucDNPSAv5()
         {
@@ -26,6 +26,7 @@ namespace RelayDNPSecurity
             this.VisibleChanged += ucDNPSAv5_VisibleChanged;
 
             this.Enter += ucDNPSAv5_Enter;
+            this.Leave += ucDNPSAv5_Leave;
 
             this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(778, 619);
             this.labelCurrentlyLoadedUsers.BringToFront();
@@ -57,6 +58,9 @@ namespace RelayDNPSecurity
         private static string _InvalidPublicOSKey = "Invalid Public Key.  Has it been generated?";
         private static string _AuthSymKeyAlgorithmMismatch = "Authority Key Length does not match Key Change Algorithm expected length.  Please Check and Resend";
         private bool authenticationEnabled = false;
+        private DateTime _lastSAv5AutoInitUtc = DateTime.MinValue;
+        private DateTime _lastFullRequestUtc = DateTime.MinValue;
+        private DateTime _lastSAv5TabLeaveUtc = DateTime.MinValue;
 
         private static byte[] _defaultAuthorityKey = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06,
                                                        0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
@@ -113,17 +117,31 @@ namespace RelayDNPSecurity
             InitializeSAv5TabDefaultsOnEnter();
         }
 
+        private void ucDNPSAv5_Leave(object sender, EventArgs e)
+        {
+            _lastSAv5TabLeaveUtc = DateTime.UtcNow;
+        }
+
         private void InitializeSAv5TabDefaultsOnEnter()
         {
             try
             {
-                if ((DateTime.UtcNow - _lastSAv5AutoInitUtc).TotalSeconds < 2)
+                // Startup already did initial full request; don't auto-refresh immediately on first enter.
+                if (_initialRequestDone && _lastSAv5AutoInitUtc == DateTime.MinValue)
+                    return;
+
+                // skip if full request just happened
+                if ((DateTime.UtcNow - _lastFullRequestUtc).TotalSeconds < 8)
+                    return;
+
+                // only refresh if user was away from tab for 30+ seconds
+                if (_lastSAv5AutoInitUtc != DateTime.MinValue &&
+                    (DateTime.UtcNow - _lastSAv5TabLeaveUtc).TotalSeconds < 30)
                     return;
 
                 _lastSAv5AutoInitUtc = DateTime.UtcNow;
 
                 BeginBusy("SAv5TabEnterInit");
-
                 this.ucDNPSAv5Settings1.RequestSettings();
                 this.ucDNPSAv5OSName1.RequestName();
                 this.requestLoadedUsers();
@@ -137,6 +155,7 @@ namespace RelayDNPSecurity
 
         public void RequestAllData()
         {
+            _lastFullRequestUtc = DateTime.UtcNow;
             BeginBusy("RequestAllData");
             this.requestLoadedUsers();
             this.ucDNPSAv5OSName1.RequestName();
