@@ -1598,46 +1598,29 @@ namespace RelayControlLibrary
 
         public void setFlagPolarity(byte p)
         {
-            if ((p & 1) == 1)
-                this.radioButtonFPAClose.Checked = true;
-            else
-                this.radioButtonFPAOpen.Checked = true;
+            this.radioButtonFPAClose.Checked = (p & 0x01) == 0;
+            this.radioButtonFPAOpen.Checked = (p & 0x01) != 0;
 
-            if ((p & 2) == 2)
-                this.radioButtonFPBClose.Checked = true;
-            else
-                this.radioButtonFPBOpen.Checked = true;
+            this.radioButtonFPBClose.Checked = (p & 0x02) == 0;
+            this.radioButtonFPBOpen.Checked = (p & 0x02) != 0;
 
-            if ((p & 4) == 4)
-                this.radioButtonFPCClose.Checked = true;
-            else
-                this.radioButtonFPCOpen.Checked = true;
+            this.radioButtonFPCClose.Checked = (p & 0x04) == 0;
+            this.radioButtonFPCOpen.Checked = (p & 0x04) != 0;
 
-            if ((p & 8) == 8)
-                this.radioButtonFPDClose.Checked = true;
-            else
-                this.radioButtonFPDOpen.Checked = true;
+            this.radioButtonFPDClose.Checked = (p & 0x08) == 0;
+            this.radioButtonFPDOpen.Checked = (p & 0x08) != 0;
 
-            if ((p & 16) == 16)
-                this.radioButtonFPEClose.Checked = true;
-            else
-                this.radioButtonFPEOpen.Checked = true;
+            this.radioButtonFPEClose.Checked = (p & 0x10) == 0;
+            this.radioButtonFPEOpen.Checked = (p & 0x10) != 0;
 
-            if ((p & 32) == 32)
-                this.radioButtonFPFClose.Checked = true;
-            else
-                this.radioButtonFPFOpen.Checked = true;
+            this.radioButtonFPFClose.Checked = (p & 0x20) == 0;
+            this.radioButtonFPFOpen.Checked = (p & 0x20) != 0;
 
-            if ((p & 64) == 64)
-                this.radioButtonFPGClose.Checked = true;
-            else
-                this.radioButtonFPGOpen.Checked = true;
+            this.radioButtonFPGClose.Checked = (p & 0x40) == 0;
+            this.radioButtonFPGOpen.Checked = (p & 0x40) != 0;
 
-            if ((p & 128) == 128)
-                this.radioButtonFPHClose.Checked = true;
-            else
-                this.radioButtonFPHOpen.Checked = true;
-
+            this.radioButtonFPHClose.Checked = (p & 0x80) == 0;
+            this.radioButtonFPHOpen.Checked = (p & 0x80) != 0;
         }
 
         public byte dNPCoverFlags = 0;

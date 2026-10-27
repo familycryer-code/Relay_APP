@@ -497,6 +497,7 @@ namespace RelayControlLibrary
 
         private void setAll(byte[] bytePacket)
         {
+           
             int localTemp;
             int powerPercent;
             int monByteLength;
