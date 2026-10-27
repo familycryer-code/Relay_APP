@@ -249,6 +249,7 @@ namespace RelayControl
 
 
                 this.ucDNPSAv51.Send += standardizedSendData;
+                this.ucDNPSAv51.LogMessage += msg => logger.Info(msg);
                 this.ucCalibration2.Send += new ucCalibration.SendHandler(ucCalibration2_Send);
                 this.ucBlockControl1.Send += standardizedSendData;
                 this.ucRemoteCommandBlock1.Send += standardizedSendData;

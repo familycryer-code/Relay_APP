@@ -10,11 +10,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+
 namespace RelayDNPSecurity
 {
     public partial class ucDNPSAv5 : ucDNPSAv5SuperClass
     {
         private bool _initialRequestDone = false;
+       
         public ucDNPSAv5()
         {
             InitializeComponent();
@@ -105,6 +107,7 @@ namespace RelayDNPSecurity
 
         public void RequestAllData()
         {
+            BeginBusy("RequestAllData");
             this.requestLoadedUsers();
             this.ucDNPSAv5OSName1.RequestName();
             this.ucDNPSAv5Settings1.RequestSettings();
@@ -124,81 +127,92 @@ namespace RelayDNPSecurity
 
         private void DNPSAv5_Send(object o, SendEventArgs sSEA)
         {
-            
+            BeginBusy("DNPSAv5_Send");
             this.onSend(sSEA);
             this.requestLoadedUsers();
             this.showDNPSAV5Error = true;
         }
 
+        
         private void DNPSAv5_Error(object o, ExceptionEventArgs eEA)
         {
-#if DEBUG
-                this.onError(eEA.InnerException, eEA.Title);
-#else
+            Log($"DNPSAv5_Error: title='{eEA?.Title}', ex='{eEA?.InnerException?.Message}'");
+            EndBusy("DNPSAv5_Error");
             this.showSAV5ErrorMessage();
             return;
-#endif
         }
 
+        // replace Message(...) with this hardened/logged version
+        // REPLACE Message(...)
         public void Message(byte[] bytePacket)
         {
-            switch ((char)bytePacket[0])
+            if (bytePacket == null || bytePacket.Length < 1)
+            {
+                Log($"Message: invalid packet len={bytePacket?.Length ?? 0}");
+                EndBusy("Message invalid packet");
+                this.showSAV5ErrorMessage();
+                return;
+            }
+
+            char op = (char)bytePacket[0];
+            Log($"Message: opcode='{op}', len={bytePacket.Length}, pendingOps={_pendingOps}");
+
+            switch (op)
             {
                 case 'E': // Error
                     this.handleErrorPacket(bytePacket);
+                    EndBusy("Message E");
                     break;
                 case 'U': // Users
                     this.ShowLoadedUserNumbers(bytePacket);
+                    EndBusy("Message U");
                     break;
                 case 'O': // OS Name First Packet
                     this.setOSName(bytePacket, 1);
+                    EndBusy("Message O");
                     break;
                 case 'o': // OS Name Second Packet
                     this.setOSName(bytePacket, 2);
+                    EndBusy("Message o");
                     break;
                 case 'S': // Settings
                     this.setSettings(bytePacket);
+                    EndBusy("Message S");
                     break;
                 default:
-#if DEBUG
-        this.onError(
-            new Exception(((char)bytePacket[0]).ToString() + " is not a valid SAv5 SCI Command"),
-            "Error in SAv5 Message");
-#else
+                    Log($"Message: unknown opcode='{op}'");
+                    EndBusy("Message unknown opcode");
                     this.showSAV5ErrorMessage();
                     return;
-#endif
-#if DEBUG
-        break;
-#endif
             }
-
         }
 
         //private void setOSName(byte[] bytePacket, int p)
+        // update setOSName(...)
+        // REPLACE setOSName(...)
         public void setOSName(byte[] bytePacket, int p)
         {
-            string workingString = Encoding.ASCII.GetString(bytePacket, 1, 35);
-
             try
             {
+                if (bytePacket == null)
+                    throw new Exception("setOSName received null packet");
+
+                string workingString = string.Empty;
+
                 if (p == 1)
                 {
-                    this.remoteOSNameLength = bytePacket[1];
-                    //TEST this will need to be cleaned up, name comes all in one packet now
+                    if (bytePacket.Length < 2)
+                        throw new Exception($"setOSName p1 short packet len={bytePacket.Length}");
 
-                    if (this.remoteOSNameLength <= 70)
-                    {
-                        workingString = Encoding.ASCII.GetString(bytePacket, 2, this.remoteOSNameLength);
-                        this.remoteOSNameLength = 0;
-                    }
-                    else
-                    {
-                        workingString = Encoding.ASCII.GetString(bytePacket, 2, 70);
-                    }
+                    this.remoteOSNameLength = bytePacket[1];
+                    int copyLen = Math.Min(Math.Min(this.remoteOSNameLength, 70), Math.Max(0, bytePacket.Length - 2));
+
+                    workingString = copyLen > 0 ? Encoding.ASCII.GetString(bytePacket, 2, copyLen) : string.Empty;
                     this.oSName = workingString;
-                    //this.ucDNPSAv5OSName1.OSName = this.oSName;
+                    Log($"setOSName p1: remoteOSNameLength={this.remoteOSNameLength}, copyLen={copyLen}");
+
                     this.ucDNPSAv5OSName1.OSName = this.SerialNumber.ToString();
+
                     if (this.oSName.Contains("?") && this.ucDNPSAv5OSName1.RequestOSNameClicked)
                     {
                         this.ucDNPSAv5OSName1.RequestOSNameClicked = false;
@@ -207,38 +221,35 @@ namespace RelayDNPSecurity
                 }
                 else if (p == 2)
                 {
-                    if (this.remoteOSNameLength < 35)
-                        workingString = Encoding.ASCII.GetString(bytePacket, 1, this.remoteOSNameLength);
-                    else
-                        workingString = Encoding.ASCII.GetString(bytePacket, 1, 35);
+                    int requested = this.remoteOSNameLength < 35 ? this.remoteOSNameLength : 35;
+                    int copyLen = Math.Min(requested, Math.Max(0, bytePacket.Length - 1));
+                    workingString = copyLen > 0 ? Encoding.ASCII.GetString(bytePacket, 1, copyLen) : string.Empty;
+                    Log($"setOSName p2: requested={requested}, copyLen={copyLen}");
+
                     this.oSName += workingString;
                     this.ucDNPSAv5OSName1.OSName = this.oSName;
                 }
                 else
+                {
                     throw new Exception(p.ToString() + " is a bad number for setOSName()");
+                }
             }
-#if DEBUG
-catch (Exception ex)
-#else
-            catch (Exception)
-#endif
+            catch (Exception ex)
             {
-#if DEBUG
-    this.onError(
-        new Exception("Error Setting OS/Relay Name: " + ex.ToString()),
-        "Error in SAv5 Setting OS");
-#else
+                Log($"setOSName exception: {ex.Message}");
+                EndBusy("setOSName exception");
                 this.showSAV5ErrorMessage();
                 return;
-#endif
             }
         }
 
+        // REPLACE showSAV5ErrorMessage()
         private void showSAV5ErrorMessage()
         {
             if (showDNPSAV5Error)
             {
                 showDNPSAV5Error = false;
+                EndBusy("showSAV5ErrorMessage");
                 string dNPSAV5ErrorString = "Error in DNP SAV5 Security Settings. Check Security Settings";
                 this.onError(new Exception(dNPSAV5ErrorString), "Error in DNP SAV5 Security Settings");
             }
@@ -249,8 +260,17 @@ catch (Exception ex)
             this.ucDNPSAv5Settings1.SetAll(bytePacket);
         }
 
+        // update handleErrorPacket(...)
+        // REPLACE handleErrorPacket(...)
         private void handleErrorPacket(byte[] bytePacket)
         {
+            if (bytePacket == null || bytePacket.Length < 2)
+            {
+                Log($"handleErrorPacket: invalid packet len={bytePacket?.Length ?? 0}");
+                this.showSAV5ErrorMessage();
+                return;
+            }
+
             string exceptionMessage;
 
             switch (bytePacket[1])
@@ -276,58 +296,67 @@ catch (Exception ex)
                         exceptionMessage = null;
                     break;
             }
+
             if (exceptionMessage != null)
             {
-#if DEBUG
-                this.onError(new Exception(exceptionMessage), "Error in SAv5 Handling Error Packet");
-#else
+                Log($"handleErrorPacket: code={bytePacket[1]}, message='{exceptionMessage}'");
                 this.showSAV5ErrorMessage();
                 return;
-#endif
             }
+
+            Log($"handleErrorPacket: code={bytePacket[1]}, message='<none>'");
         }
 
+        // update ShowLoadedUserNumbers(...)
+        // REPLACE ShowLoadedUserNumbers(...)
         private void ShowLoadedUserNumbers(byte[] bytePacket)
         {
-            int i = 1;
-
             try
             {
-                this.userNumbers = new List<byte>();
+                if (bytePacket == null || bytePacket.Length < 2)
+                    throw new Exception($"ShowLoadedUserNumbers short packet len={bytePacket?.Length ?? 0}");
 
-                while (bytePacket[i] != 0)
+                this.userNumbers = new List<byte>();
+                int i = 1;
+                bool terminatorFound = false;
+
+                while (i < bytePacket.Length)
                 {
+                    if (bytePacket[i] == 0)
+                    {
+                        terminatorFound = true;
+                        break;
+                    }
+
                     this.userNumbers.Add(bytePacket[i]);
                     i++;
                 }
 
+                Log($"ShowLoadedUserNumbers: len={bytePacket.Length}, users={this.userNumbers.Count}, terminatorFound={terminatorFound}");
+
+                if (!terminatorFound)
+                    throw new Exception("ShowLoadedUserNumbers terminator not found");
+
                 this.displayUserNumbers(this.userNumbers);
             }
-#if DEBUG
-catch (Exception ex)
-#else
-            catch (Exception)
-#endif
+            catch (Exception ex)
             {
-#if DEBUG
-    this.onError(
-        new Exception("Error Populating User Numbers List: " + ex.Message, ex),
-        "Error in SAv5 Showing user Numbers");
-#else
+                Log($"ShowLoadedUserNumbers exception: {ex.Message}");
+                EndBusy("ShowLoadedUserNumbers exception");
                 this.showSAV5ErrorMessage();
                 return;
-#endif
             }
         }
 
+        // fix null-check order in displayUserNumbers(...)
+        // REPLACE displayUserNumbers(...)
         private void displayUserNumbers(List<byte> list)
         {
-
             try
             {
                 this.labelCurrentlyLoadedUsers.Text = "";
 
-                if (list.Count == 0 || list == null)
+                if (list == null || list.Count == 0)
                 {
                     this.labelCurrentlyLoadedUsers.Text = "No Users Loaded";
                 }
@@ -337,30 +366,25 @@ catch (Exception ex)
                     {
                         this.labelCurrentlyLoadedUsers.Text += b.ToString() + ", ";
                     }
-                    // Remove the last ", "
-                    this.labelCurrentlyLoadedUsers.Text = this.labelCurrentlyLoadedUsers.Text.Substring(0, this.labelCurrentlyLoadedUsers.Text.Length - 2);
+
+                    this.labelCurrentlyLoadedUsers.Text =
+                        this.labelCurrentlyLoadedUsers.Text.Substring(0, this.labelCurrentlyLoadedUsers.Text.Length - 2);
                 }
             }
-#if DEBUG
-catch (Exception ex)
-#else
-            catch (Exception)
-#endif
+            catch (Exception ex)
             {
-#if DEBUG
-    this.onError(
-        new Exception("Error populating User Numbers: " + ex.Message, ex),
-        "Error in SAv5 Dsiplaying User Numbers");
-#else
+                Log($"displayUserNumbers exception: {ex.Message}");
+                EndBusy("displayUserNumbers exception");
                 this.showSAV5ErrorMessage();
                 return;
-#endif
             }
         }
 
+        // remove debug popup
+        // REPLACE buttonGetLoadedUsers_Click(...)
         private void buttonGetLoadedUsers_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Requesting DNPSAv5 loaded users 1");
+            BeginBusy("buttonGetLoadedUsers_Click");
             this.requestLoadedUsers();
         }
 
@@ -375,20 +399,12 @@ catch (Exception ex)
 
                 this.onSend(sSEA);
             }
-#if DEBUG
-catch (Exception ex)
-#else
             catch (Exception)
-#endif
+
             {
-#if DEBUG
-    this.onError(
-        new Exception("Error Loading Loaded Users", ex),
-        "Error in SAv5 Requesting User");
-#else
+
                 this.showSAV5ErrorMessage();
                 return;
-#endif
             }
         }
 
@@ -403,6 +419,36 @@ catch (Exception ex)
         private void buttonLoadDefaultAuthorityKey_Click(object sender, EventArgs e)
         {
             this.ucDNPSAv5AuthoritySym1.SetAuthorityKey(_defaultAuthorityKey);
+        }
+
+        public event Action<string> LogMessage;
+
+        private void Log(string msg)
+        {
+            try { LogMessage?.Invoke("[DNPSAv5] " + msg); } catch { }
+        }
+
+        private int _pendingOps = 0;
+
+        private void BeginBusy(string reason)
+        {
+            _pendingOps++;
+            Log($"BeginBusy reason='{reason}', pendingOps={_pendingOps}");
+            this.UseWaitCursor = true;
+            Application.UseWaitCursor = true;
+        }
+
+        private void EndBusy(string reason)
+        {
+            if (_pendingOps > 0) _pendingOps--;
+            Log($"EndBusy reason='{reason}', pendingOps={_pendingOps}");
+
+            if (_pendingOps == 0)
+            {
+                this.UseWaitCursor = false;
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+            }
         }
 
     }

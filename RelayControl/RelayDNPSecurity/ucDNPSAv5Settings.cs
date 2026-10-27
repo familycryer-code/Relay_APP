@@ -129,7 +129,7 @@ namespace RelayDNPSecurity
             }
             set
             {
-                if (AuthenticationEnabled)
+                if (value)
                     checkBoxAuthenticationEnabled.Checked = true;
                 else
                     checkBoxAuthenticationEnabled.Checked = false;
