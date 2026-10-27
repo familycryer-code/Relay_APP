@@ -45,6 +45,11 @@ namespace RelayDNPSecurity
 
         public List<DNPSAv5SecurityStatisticItem> statisticPoints = new List<DNPSAv5SecurityStatisticItem>();
         private static int _packetLength = 98;
+        private int _loadedKeyChangeAlgorithmIndex = -1;
+        private int _loadedMacAlgorithmIndex = -1;
+        private bool _loadedAuthenticationEnabled = false;
+        private bool _loadedBaselineValid = false;
+
 
         public void initializeSecurityStatistics()
         {
@@ -102,17 +107,7 @@ namespace RelayDNPSecurity
             this.checkBoxSHA1.Location = new System.Drawing.Point(19, 65);
             this.checkBoxAggressiveMode.Location = new System.Drawing.Point(19, 20);
 
-            // Set Font of only the groupBoxSecurityStats Title in bold. keep rest of items in side in regular ( non bold ) font
-            /*groupBoxSecurityStats.Font = new Font(groupBoxSecurityStats.Font, FontStyle.Bold);
-            foreach (Control ctrl in groupBoxSecurityStats.Controls)
-            {
-                ctrl.Font = new Font(
-                    groupBoxSecurityStats.Font.FontFamily,
-                    groupBoxSecurityStats.Font.Size,
-                    FontStyle.Regular
-                );
-            }*/
-
+           
             this.panel_DNPSAv5set.Location = new System.Drawing.Point(337, 18);
             this.panel_DNPSAv5set.Size = new System.Drawing.Size(605, 492);
 
@@ -162,7 +157,7 @@ namespace RelayDNPSecurity
             }
 
             var parentSAv5 = host as ucDNPSAv5;
-            if (parentSAv5 != null)
+            if (parentSAv5 != null && this.RequiresAuthorityKeyValidationForApply())
             {
                 if (!parentSAv5.ValidateAuthorityKeyForSelectedAlgorithm(out string validationError))
                 {
@@ -451,6 +446,11 @@ namespace RelayDNPSecurity
                 this.onError(new Exception("Error Setting DNP SAv5 Settings: " + ex), "Error Setting SAv5 Settings");
             }
 
+            _loadedKeyChangeAlgorithmIndex = this.comboBoxKeyChangeAlogrithm.SelectedIndex;
+            _loadedMacAlgorithmIndex = this.comboBoxMACAlogrithm.SelectedIndex;
+            _loadedAuthenticationEnabled = this.checkBoxAuthenticationEnabled.Checked;
+            _loadedBaselineValid = true;
+
             SetBusyUi(false);
         }
         private int CoerceIndex(System.Windows.Forms.ComboBox cb, int idx)
@@ -488,6 +488,17 @@ namespace RelayDNPSecurity
         public int GetMacAlgorithmIndexForDebug()
         {
             return this.comboBoxMACAlogrithm?.SelectedIndex ?? -1;
+        }
+
+        public bool RequiresAuthorityKeyValidationForApply()
+        {
+            if (!_loadedBaselineValid) return true; // safe fallback
+
+            bool keyAlgChanged = this.comboBoxKeyChangeAlogrithm.SelectedIndex != _loadedKeyChangeAlgorithmIndex;
+            bool macChanged = this.comboBoxMACAlogrithm.SelectedIndex != _loadedMacAlgorithmIndex;
+            bool authChanged = this.checkBoxAuthenticationEnabled.Checked != _loadedAuthenticationEnabled;
+
+            return keyAlgChanged || macChanged || authChanged;
         }
     }
 }

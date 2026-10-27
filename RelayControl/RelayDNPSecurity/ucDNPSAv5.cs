@@ -16,13 +16,16 @@ namespace RelayDNPSecurity
     public partial class ucDNPSAv5 : ucDNPSAv5SuperClass
     {
         private bool _initialRequestDone = false;
-       
+        private DateTime _lastSAv5AutoInitUtc = DateTime.MinValue;
+
         public ucDNPSAv5()
         {
             InitializeComponent();
 
             this.intializeComponentEvents();
             this.VisibleChanged += ucDNPSAv5_VisibleChanged;
+
+            this.Enter += ucDNPSAv5_Enter;
 
             this.labelCurrentlyLoadedUsers.Location = new System.Drawing.Point(778, 619);
             this.labelCurrentlyLoadedUsers.BringToFront();
@@ -103,6 +106,33 @@ namespace RelayDNPSecurity
                 this.labelCurrentlyLoadedUsers.Visible = true;
             if (this.tab_subTabsDNPSAv5.SelectedTab == this.tabPage1)
                 this.labelCurrentlyLoadedUsers.Visible = false;
+        }
+
+        private void ucDNPSAv5_Enter(object sender, EventArgs e)
+        {
+            InitializeSAv5TabDefaultsOnEnter();
+        }
+
+        private void InitializeSAv5TabDefaultsOnEnter()
+        {
+            try
+            {
+                if ((DateTime.UtcNow - _lastSAv5AutoInitUtc).TotalSeconds < 2)
+                    return;
+
+                _lastSAv5AutoInitUtc = DateTime.UtcNow;
+
+                BeginBusy("SAv5TabEnterInit");
+
+                this.ucDNPSAv5Settings1.RequestSettings();
+                this.ucDNPSAv5OSName1.RequestName();
+                this.requestLoadedUsers();
+            }
+            catch (Exception ex)
+            {
+                Log($"InitializeSAv5TabDefaultsOnEnter exception: {ex.Message}");
+                EndBusy("SAv5TabEnterInit exception");
+            }
         }
 
         public void RequestAllData()
@@ -243,16 +273,17 @@ namespace RelayDNPSecurity
             }
         }
 
-        // REPLACE showSAV5ErrorMessage()
+      
+
         private void showSAV5ErrorMessage()
         {
-            if (showDNPSAV5Error)
-            {
-                showDNPSAV5Error = false;
-                EndBusy("showSAV5ErrorMessage");
-                string dNPSAV5ErrorString = "Error in DNP SAV5 Security Settings. Check Security Settings";
-                this.onError(new Exception(dNPSAV5ErrorString), "Error in DNP SAV5 Security Settings");
-            }
+            EndBusy("showSAV5ErrorMessage");
+            MessageBox.Show("SAv5 Error", "SAv5 Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        private void showSAV5ErrorMessage(object sender, ErrorEventArgs eEA)
+        {
+            EndBusy("showSAV5ErrorMessage");
+            MessageBox.Show("SAv5 Error", "SAv5 Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void setSettings(byte[] bytePacket)
