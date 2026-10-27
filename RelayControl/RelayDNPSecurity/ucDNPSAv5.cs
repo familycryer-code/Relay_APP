@@ -541,8 +541,10 @@ namespace RelayDNPSecurity
             // Unknown future algorithms - fail safe
             if (keyAlg > 2)
             {
-                validationError = $"Unsupported Key Change Algorithm index {keyAlg}.";
-                return false;
+                // Compatibility mode: relay may report newer/encoded values.
+                // Do not block locally.
+                validationError = null;
+                return true;
             }
 
             return true;

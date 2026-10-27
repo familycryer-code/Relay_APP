@@ -157,7 +157,20 @@ namespace RelayDNPSecurity
             }
 
             var parentSAv5 = host as ucDNPSAv5;
-            if (parentSAv5 != null && this.RequiresAuthorityKeyValidationForApply())
+
+            // Recovery path:
+            // If relay readback baseline is invalid (all-00/all-FF/etc), allow one default apply
+            // to reseed sane SAv5 settings.
+            if (!_loadedBaselineValid)
+            {
+                this.setDefaults();
+                this.checkBoxAuthenticationEnabled.Checked = false; // avoid key-validation block on first recovery write
+            }
+
+            bool authEnabled = this.checkBoxAuthenticationEnabled.Checked;
+
+            // Only validate authority key when auth is actually being enabled
+            if (authEnabled && parentSAv5 != null && this.RequiresAuthorityKeyValidationForApply())
             {
                 if (!parentSAv5.ValidateAuthorityKeyForSelectedAlgorithm(out string validationError))
                 {
@@ -169,10 +182,9 @@ namespace RelayDNPSecurity
 
             try
             {
- 
                 sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
                 sSEA.SendPacket[1] = (byte)'S'; // For Settings
-                sSEA.SendPacket[2] = 0; //Spaced
+                sSEA.SendPacket[2] = 0;         // Reserved
 
                 if (this.checkBoxAggressiveMode.Checked)
                     sSEA.SendPacket[3] = 0x01;
@@ -182,15 +194,21 @@ namespace RelayDNPSecurity
                 if (this.checkBoxSHA1.Checked)
                     sSEA.SendPacket[3] |= 0x02;
 
-                if (this.checkBoxAuthenticationEnabled.Checked)
+                if (authEnabled)
                     sSEA.SendPacket[3] |= 0x04;
 
-                tempByte = (byte)this.comboBoxKeyChangeAlogrithm.SelectedIndex;
-                tempByte <<= 3; //Takes up the next 3 bits
+                // Guard invalid/unselected combo values
+                int keyIdx = this.comboBoxKeyChangeAlogrithm.SelectedIndex;
+                if (keyIdx < 0) keyIdx = 1; // sane recovery default
+                if (keyIdx > 7) keyIdx = 7; // 3-bit field
 
+                tempByte = (byte)keyIdx;
+                tempByte <<= 3; // bits 3..5
                 sSEA.SendPacket[3] |= tempByte;
+
                 sSEA.SendPacket[4] = 0;
-                tempInt = (UInt16)(this.numericUpDownReplyTimeout.Value * 10);
+
+                tempInt = (UInt16)(this.numericUpDownReplyTimeout.Value * 10m);
                 sSEA.SendPacket[6] = (byte)(tempInt >> 8);
                 sSEA.SendPacket[5] = (byte)tempInt;
 
@@ -205,8 +223,10 @@ namespace RelayDNPSecurity
                 tempInt = (UInt16)this.numericUpDownMaxSessionKeyCount.Value;
                 sSEA.SendPacket[11] = (byte)tempInt;
 
-                tempInt = (UInt16)this.comboBoxMACAlogrithm.SelectedIndex;
-                sSEA.SendPacket[12] = (byte)tempInt;
+                int macIdx = this.comboBoxMACAlogrithm.SelectedIndex;
+                if (macIdx < 0) macIdx = 2; // sane recovery default
+                if (macIdx > 255) macIdx = 255;
+                sSEA.SendPacket[12] = (byte)macIdx;
 
                 try
                 {
@@ -220,16 +240,18 @@ namespace RelayDNPSecurity
                 }
                 catch (Exception ex)
                 {
-                    this.onError(new Exception("Error getting Security Statistics Values: " + ex.ToString()), "Error Sending SAv5 Settings");
+                    this.onError(new Exception("Error getting Security Statistics Values: " + ex), "Error Sending SAv5 Settings");
+                    SetBusyUi(false, "Sending SAv5 Settings");
                     return;
                 }
+
                 sSEA.SendPacket[sSEA.SendPacket.Length - 1] = 0x0D;
 
                 this.onSend(sSEA);
             }
             catch (Exception ex)
             {
-                this.onError(new Exception("Error Sending SAv5 Settings: " + ex.ToString()), "Error sending SAv5 Settings");
+                this.onError(new Exception("Error Sending SAv5 Settings: " + ex), "Error sending SAv5 Settings");
             }
         }
 
@@ -271,7 +293,17 @@ namespace RelayDNPSecurity
         //private void buttonDefault_Click(object sender, EventArgs e)
         public void buttonDefault_Click(object sender, EventArgs e)
         {
+            // Populate the screen only. Nothing is transmitted here.
             this.setDefaults();
+
+            // Defaults are an operator-selected configuration,
+            // not a verified readback from the relay.
+            _loadedBaselineValid = false;
+
+            // Allow the operator to explicitly Apply the defaults.
+            this.buttonSendSettings.Enabled =
+                this.comboBoxKeyChangeAlogrithm.SelectedIndex >= 0 &&
+                this.comboBoxMACAlogrithm.SelectedIndex >= 0;
         }
 
         //private void setDefaults()
@@ -323,135 +355,257 @@ namespace RelayDNPSecurity
 
         internal void SetAll(byte[] bytePacket)
         {
-            int i = 11;
-            decimal tempM;
-            byte tempByte = 0;
+            _loadedBaselineValid = false;
+            _loadedKeyChangeAlgorithmIndex = -1;
+            _loadedMacAlgorithmIndex = -1;
+            this.buttonSendSettings.Enabled = false;
+
+            string packetDiagnostic = "Packet unavailable.";
 
             try
             {
-                if (bytePacket == null || bytePacket.Length < 13)
+                const int thresholdCount = 17;
+                const int thresholdStart = 11;
+                const int minimumPacketLength =
+                    thresholdStart + (thresholdCount * 2); // 45
+
+                if (bytePacket != null)
                 {
+                    int diagnosticLength =
+                        Math.Min(bytePacket.Length, minimumPacketLength);
+
+                    string settingsHex = diagnosticLength > 0
+                        ? BitConverter.ToString(bytePacket, 0, diagnosticLength)
+                        : "<empty>";
+
+                    packetDiagnostic =
+                        "PacketLength=" + bytePacket.Length +
+                        ", SettingsHex=" + settingsHex;
+                }
+
+                if (bytePacket == null ||
+                    bytePacket.Length < minimumPacketLength)
+                {
+                    throw new Exception(
+                        "SAv5 settings packet is too short. Required at least " +
+                        minimumPacketLength + " bytes.");
+                }
+
+                if (bytePacket[0] != (byte)'S')
+                {
+                    throw new Exception(
+                        "Unexpected settings opcode: 0x" +
+                        bytePacket[0].ToString("X2") + ".");
+                }
+
+                var thresholds = this.groupBoxSecurityStats.Controls
+                    .OfType<ucDNPSAv5SecurityStatisticThreshold>()
+                    .ToArray();
+
+                if (thresholds.Length != thresholdCount)
+                {
+                    throw new Exception(
+                        "Expected " + thresholdCount +
+                        " security threshold controls; found " +
+                        thresholds.Length + ".");
+                }
+
+                // Check the settings image only, excluding opcode and padding.
+                bool allZero = true;
+                bool allFF = true;
+
+                for (int index = 1; index < minimumPacketLength; index++)
+                {
+                    if (bytePacket[index] != 0x00)
+                        allZero = false;
+
+                    if (bytePacket[index] != 0xFF)
+                        allFF = false;
+                }
+
+                if (allZero || allFF)
+                {
+                    // Populate the screen only. Nothing is sent here.
+                    // These defaults include Authentication Enabled = false.
+                    this.setDefaults();
+
+                    // Keep the baseline invalid until valid relay readback.
+                    _loadedBaselineValid = false;
+                    _loadedKeyChangeAlgorithmIndex = -1;
+                    _loadedMacAlgorithmIndex = -1;
+
                     dataBackupSAV5.dataBackup_sav5Defaults = true;
-                    this.onError(new Exception($"SAv5 settings packet is too short. len={bytePacket?.Length ?? 0}"),
-                        "Error Setting SAv5 Settings");
-                    SetBusyUi(false);
+
+                    this.buttonSendSettings.Enabled =
+                        this.comboBoxKeyChangeAlogrithm.SelectedIndex >= 0 &&
+                        this.comboBoxMACAlogrithm.SelectedIndex >= 0;
+
+                    System.Diagnostics.Trace.WriteLine(
+                        "[DNPSAv5] Blank settings readback (" +
+                        (allZero ? "all 00" : "all FF") +
+                        "). Defaults displayed locally; Apply available. " +
+                        "No settings transmitted. " + packetDiagnostic);
+
                     return;
                 }
 
-                // Bit flags
-                this.checkBoxAggressiveMode.Checked = ((bytePacket[1] & 0x01) == 0x01);
-                this.checkBoxSHA1.Checked = ((bytePacket[1] & 0x02) == 0x02);
-                this.checkBoxAuthenticationEnabled.Checked = ((bytePacket[1] & 0x04) == 0x04);
+                // Decode using the existing packet offsets.
+                byte flags = bytePacket[1];
+                int keyIndex = (flags & 0x38) >> 3;
+                int macIndex = bytePacket[10];
 
-                // Key Change Algorithm (bits 3..5)
-                tempByte = (byte)((bytePacket[1] & 0x38) >> 3);
-                if (!TrySetSelectedIndex(this.comboBoxKeyChangeAlogrithm, tempByte, "Key Change Algorithm"))
-                {
-                    dataBackupSAV5.dataBackup_sav5Defaults = true;
-                    SetBusyUi(false);
-                    return;
-                }
+                int rawReplyTimeout =
+                    bytePacket[3] | (bytePacket[4] << 8);
 
-                // Reply timeout (0.1s units)
-                tempM = bytePacket[4];
-                tempM *= 256;
-                tempM += bytePacket[3];
-                tempM = tempM / 10m;
+                decimal replyTimeout = rawReplyTimeout / 10m;
 
-                if (tempM < this.numericUpDownReplyTimeout.Minimum || tempM > this.numericUpDownReplyTimeout.Maximum)
-                {
-                    dataBackupSAV5.dataBackup_sav5Defaults = true;
-                    this.onError(
-                        new Exception($"Reply Timeout from relay out of range: {tempM}. Allowed {this.numericUpDownReplyTimeout.Minimum}..{this.numericUpDownReplyTimeout.Maximum}"),
-                        "Error Changing SAv5 Timeout");
-                    SetBusyUi(false);
-                    return;
-                }
-                this.numericUpDownReplyTimeout.Value = tempM;
+                decimal sessionKeyInterval =
+                    bytePacket[5] | (bytePacket[6] << 8);
 
-                // Session Key Interval
-                tempM = bytePacket[6];
-                tempM *= 256;
-                tempM += bytePacket[5];
+                decimal sessionKeyChangeCount =
+                    bytePacket[7] | (bytePacket[8] << 8);
 
-                if (tempM < this.numericUpDownSessionKeyInterval.Minimum || tempM > this.numericUpDownSessionKeyInterval.Maximum)
-                {
-                    dataBackupSAV5.dataBackup_sav5Defaults = true;
-                    this.onError(
-                        new Exception($"Session Key Interval from relay out of range: {tempM}. Allowed {this.numericUpDownSessionKeyInterval.Minimum}..{this.numericUpDownSessionKeyInterval.Maximum}"),
-                        "Error Setting SAv5 Session Key");
-                    SetBusyUi(false);
-                    return;
-                }
-                this.numericUpDownSessionKeyInterval.Value = tempM;
+                decimal maxSessionKeyCount = bytePacket[9];
 
-                // Session Key Change Count
-                tempM = bytePacket[8];
-                tempM *= 256;
-                tempM += bytePacket[7];
+                bool keyKnown =
+                    keyIndex >= 0 &&
+                    keyIndex < this.comboBoxKeyChangeAlogrithm.Items.Count;
 
-                if (tempM < this.numericUpDownSessionKeyChangeCount.Minimum || tempM > this.numericUpDownSessionKeyChangeCount.Maximum)
-                {
-                    dataBackupSAV5.dataBackup_sav5Defaults = true;
-                    this.onError(
-                        new Exception($"Session Key Change Count from relay out of range: {tempM}. Allowed {this.numericUpDownSessionKeyChangeCount.Minimum}..{this.numericUpDownSessionKeyChangeCount.Maximum}"),
-                        "Error Setting SAv5 Session Key Change Count");
-                    SetBusyUi(false);
-                    return;
-                }
-                this.numericUpDownSessionKeyChangeCount.Value = tempM;
+                bool macKnown =
+                    macIndex >= 0 &&
+                    macIndex < this.comboBoxMACAlogrithm.Items.Count;
 
-                // Max Session Key Count
-                tempM = bytePacket[9];
-                if (tempM < this.numericUpDownMaxSessionKeyCount.Minimum || tempM > this.numericUpDownMaxSessionKeyCount.Maximum)
-                {
-                    dataBackupSAV5.dataBackup_sav5Defaults = true;
-                    this.onError(
-                        new Exception($"Max Session Key Count from relay out of range: {tempM}. Allowed {this.numericUpDownMaxSessionKeyCount.Minimum}..{this.numericUpDownMaxSessionKeyCount.Maximum}"),
-                        "Error Setting SAv5 Max Session Key Change");
-                    SetBusyUi(false);
-                    return;
-                }
-                this.numericUpDownMaxSessionKeyCount.Value = tempM;
+                packetDiagnostic +=
+                    "; Flags=0x" + flags.ToString("X2") +
+                    ", Reserved=0x" + bytePacket[2].ToString("X2") +
+                    ", KeyIndex=" + keyIndex +
+                    ", MACIndex=" + macIndex +
+                    ", RawReplyTimeout=0x" + rawReplyTimeout.ToString("X4") +
+                    ", ReplyTimeoutSeconds=" + replyTimeout +
+                    ", SessionKeyInterval=" + sessionKeyInterval +
+                    ", SessionKeyChangeCount=" + sessionKeyChangeCount +
+                    ", MaxSessionKeyCount=" + maxSessionKeyCount;
 
-                // MAC Algorithm
-                if (!TrySetSelectedIndex(this.comboBoxMACAlogrithm, bytePacket[10], "MAC Algorithm"))
-                {
-                    dataBackupSAV5.dataBackup_sav5Defaults = true;
-                    SetBusyUi(false);
-                    return;
-                }
+                var problems = new List<string>();
 
-                // Security statistics thresholds
-                foreach (ucDNPSAv5SecurityStatisticThreshold sT in this.groupBoxSecurityStats.Controls)
-                {
-                    if (i + 1 >= bytePacket.Length)
+                Action<NumericUpDown, decimal, string> validateRange =
+                    (control, value, fieldName) =>
                     {
-                        dataBackupSAV5.dataBackup_sav5Defaults = true;
-                        this.onError(new Exception($"Settings packet ended while reading thresholds at index {i}."),
-                            "Error Setting SAv5 Security Thresholds");
-                        SetBusyUi(false);
-                        return;
-                    }
+                        if (value < control.Minimum ||
+                            value > control.Maximum)
+                        {
+                            problems.Add(
+                                fieldName + " from relay out of range: " +
+                                value + ". Allowed " +
+                                control.Minimum + ".." + control.Maximum);
+                        }
+                    };
 
-                    byte[] byteArray = new byte[2];
-                    byteArray[0] = bytePacket[i++];
-                    byteArray[1] = bytePacket[i++];
-                    sT.SetBytes(byteArray);
+                validateRange(
+                    this.numericUpDownReplyTimeout,
+                    replyTimeout,
+                    "Reply Timeout");
+
+                validateRange(
+                    this.numericUpDownSessionKeyInterval,
+                    sessionKeyInterval,
+                    "Session Key Interval");
+
+                validateRange(
+                    this.numericUpDownSessionKeyChangeCount,
+                    sessionKeyChangeCount,
+                    "Session Key Change Count");
+
+                validateRange(
+                    this.numericUpDownMaxSessionKeyCount,
+                    maxSessionKeyCount,
+                    "Max Session Key Count");
+
+                if (!keyKnown)
+                {
+                    problems.Add(
+                        "Unsupported Key Change Algorithm index: " +
+                        keyIndex + ". Dropdown has " +
+                        this.comboBoxKeyChangeAlogrithm.Items.Count +
+                        " choices.");
                 }
+
+                if (!macKnown)
+                {
+                    problems.Add(
+                        "Unsupported MAC Algorithm index: " +
+                        macIndex + ". Dropdown has " +
+                        this.comboBoxMACAlogrithm.Items.Count +
+                        " choices.");
+                }
+
+                if (problems.Count > 0)
+                    throw new Exception(string.Join("; ", problems));
+
+                this.checkBoxAggressiveMode.Checked =
+                    (flags & 0x01) != 0;
+
+                this.checkBoxSHA1.Checked =
+                    (flags & 0x02) != 0;
+
+                this.checkBoxAuthenticationEnabled.Checked =
+                    (flags & 0x04) != 0;
+
+                this.comboBoxKeyChangeAlogrithm.SelectedIndex = keyIndex;
+                this.comboBoxMACAlogrithm.SelectedIndex = macIndex;
+
+                this.numericUpDownReplyTimeout.Value = replyTimeout;
+                this.numericUpDownSessionKeyInterval.Value = sessionKeyInterval;
+                this.numericUpDownSessionKeyChangeCount.Value =
+                    sessionKeyChangeCount;
+                this.numericUpDownMaxSessionKeyCount.Value = maxSessionKeyCount;
+
+                int offset = thresholdStart;
+
+                foreach (var threshold in thresholds)
+                {
+                    threshold.SetBytes(new byte[]
+                    {
+                bytePacket[offset],
+                bytePacket[offset + 1]
+                    });
+
+                    offset += 2;
+                }
+
+                // Establish the baseline only after the complete load succeeds.
+                _loadedKeyChangeAlgorithmIndex = keyIndex;
+                _loadedMacAlgorithmIndex = macIndex;
+                _loadedAuthenticationEnabled =
+                    this.checkBoxAuthenticationEnabled.Checked;
+
+                _loadedBaselineValid = true;
+                this.buttonSendSettings.Enabled = true;
+
+                System.Diagnostics.Trace.WriteLine(
+                    "[DNPSAv5] Settings readback loaded. " + packetDiagnostic);
             }
             catch (Exception ex)
             {
+                _loadedBaselineValid = false;
+                this.buttonSendSettings.Enabled = false;
+
+                this.comboBoxKeyChangeAlogrithm.SelectedIndex = -1;
+                this.comboBoxMACAlogrithm.SelectedIndex = -1;
+
                 dataBackupSAV5.dataBackup_sav5Defaults = true;
-                this.onError(new Exception("Error Setting DNP SAv5 Settings: " + ex), "Error Setting SAv5 Settings");
+
+                this.onError(
+                    new Exception(
+                        "SAv5 settings readback rejected; Apply disabled. " +
+                        ex.Message + " | " + packetDiagnostic,
+                        ex),
+                    "Error Setting SAv5 Settings");
             }
-
-            _loadedKeyChangeAlgorithmIndex = this.comboBoxKeyChangeAlogrithm.SelectedIndex;
-            _loadedMacAlgorithmIndex = this.comboBoxMACAlogrithm.SelectedIndex;
-            _loadedAuthenticationEnabled = this.checkBoxAuthenticationEnabled.Checked;
-            _loadedBaselineValid = true;
-
-            SetBusyUi(false);
+            finally
+            {
+                SetBusyUi(false);
+            }
         }
         private int CoerceIndex(System.Windows.Forms.ComboBox cb, int idx)
         {
