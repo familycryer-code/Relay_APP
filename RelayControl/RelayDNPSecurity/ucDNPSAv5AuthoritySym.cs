@@ -91,5 +91,26 @@ namespace RelayDNPSecurity
 
             this.onSend(sSEA);
         }
+
+        public int GetCurrentKeyLengthForDebug()
+        {
+            try
+            {
+                if (this.keyBox == null)
+                    return -1;
+
+                // If UI key is invalid/incomplete, GetKey may throw.
+                // Return 0 to signal "not usable for send".
+                if (!this.keyBox.KeyDataValid())
+                    return 0;
+
+                byte[] key = this.keyBox.GetKey();
+                return key == null ? 0 : key.Length;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
     }
 }

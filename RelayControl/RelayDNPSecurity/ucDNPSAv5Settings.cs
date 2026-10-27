@@ -155,9 +155,26 @@ namespace RelayDNPSecurity
             byte tempByte;
             sSEA.WithAck = true;
 
+            var host = this.Parent as System.Windows.Forms.Control;
+            while (host != null && !(host is ucDNPSAv5))
+            {
+                host = host.Parent;
+            }
+
+            var parentSAv5 = host as ucDNPSAv5;
+            if (parentSAv5 != null)
+            {
+                if (!parentSAv5.ValidateAuthorityKeyForSelectedAlgorithm(out string validationError))
+                {
+                    this.onError(new Exception(validationError), "Error Sending SAv5 Settings");
+                    SetBusyUi(false, "Sending SAv5 Settings");
+                    return;
+                }
+            }
+
             try
             {
-         //       MessageBox.Show("12 sending command D to master"); // Only for testing - to be removed
+ 
                 sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
                 sSEA.SendPacket[1] = (byte)'S'; // For Settings
                 sSEA.SendPacket[2] = 0; //Spaced
@@ -461,6 +478,16 @@ namespace RelayDNPSecurity
 
             cb.SelectedIndex = coerced;
             return true;
+        }
+
+        public int GetKeyChangeAlgorithmIndexForDebug()
+        {
+            return this.comboBoxKeyChangeAlogrithm?.SelectedIndex ?? -1;
+        }
+
+        public int GetMacAlgorithmIndexForDebug()
+        {
+            return this.comboBoxMACAlogrithm?.SelectedIndex ?? -1;
         }
     }
 }

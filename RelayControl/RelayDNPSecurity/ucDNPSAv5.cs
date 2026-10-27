@@ -290,10 +290,9 @@ namespace RelayDNPSecurity
                     break;
                 case 4:
                     authenticationEnabled = ucDNPSAv5Settings1.AuthenticationEnabled;
-                    if (authenticationEnabled)
-                        exceptionMessage = _AuthSymKeyAlgorithmMismatch;
-                    else
-                        exceptionMessage = null;
+                    exceptionMessage =
+                        _AuthSymKeyAlgorithmMismatch +
+                        $" (AuthEnabled={authenticationEnabled}, KeyAlgIdx={ucDNPSAv5Settings1.GetKeyChangeAlgorithmIndexForDebug()}, MACAlgIdx={ucDNPSAv5Settings1.GetMacAlgorithmIndexForDebug()})";
                     break;
             }
 
@@ -449,6 +448,50 @@ namespace RelayDNPSecurity
                 Application.UseWaitCursor = false;
                 Cursor.Current = Cursors.Default;
             }
+        }
+
+        public bool ValidateAuthorityKeyForSelectedAlgorithm(out string validationError)
+        {
+            validationError = null;
+
+            int keyAlg = this.ucDNPSAv5Settings1.GetKeyChangeAlgorithmIndexForDebug();
+            int keyLen = this.ucDNPSAv5AuthoritySym1.GetCurrentKeyLengthForDebug();
+
+            if (keyAlg < 0)
+            {
+                validationError = "Key Change Algorithm is not selected.";
+                return false;
+            }
+
+            if (keyLen <= 0)
+            {
+                validationError = "Authority Symmetrical Key is empty or invalid.";
+                return false;
+            }
+
+            // Firmware rule from dnp_CheckForKeyChangeAlgorithmMismatch():
+            // method 0 => 16 bytes
+            // method 1 or 2 => 32 bytes
+            if (keyAlg == 0 && keyLen != 16)
+            {
+                validationError = $"Key Change Algorithm {keyAlg} requires a 16-byte Authority Key, but current key length is {keyLen}.";
+                return false;
+            }
+
+            if ((keyAlg == 1 || keyAlg == 2) && keyLen != 32)
+            {
+                validationError = $"Key Change Algorithm {keyAlg} requires a 32-byte Authority Key, but current key length is {keyLen}.";
+                return false;
+            }
+
+            // Unknown future algorithms - fail safe
+            if (keyAlg > 2)
+            {
+                validationError = $"Unsupported Key Change Algorithm index {keyAlg}.";
+                return false;
+            }
+
+            return true;
         }
 
     }
