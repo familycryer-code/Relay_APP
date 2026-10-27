@@ -224,11 +224,11 @@ namespace RelayControlLibrary
         private void setConEd()
         {
             this.checkBoxCircleClose.Visible = true;// false;
-            //this.panelBlockedOpenOverride.Visible = false;
             this.buttonRelaxClose.Visible = false;
             this.numericUpDownPDV.Value = 0.4m;
             this.numericUpDownPDV.Maximum = 0.4m;
-            this.numericUpDownPDV.Minimum = 0.4m;
+            this.numericUpDownPDV.Minimum = 0.0m;
+            this.numericUpDownPDV.Increment = 0.1m;
         }
 
         private decimal Clamp(decimal v, decimal min, decimal max)
