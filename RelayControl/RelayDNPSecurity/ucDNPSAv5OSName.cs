@@ -39,8 +39,7 @@ namespace RelayDNPSecurity
             get { return this.textBoxOSName.Text; }
             set
             {
-                // this.textBoxOSName.Text = value;
-                this.textBoxOSName.Text = _OSDefaultName + value;
+                this.textBoxOSName.Text = value ?? string.Empty;
             }
         }
 
@@ -108,13 +107,11 @@ namespace RelayDNPSecurity
 
         public void sendOSName()
         {
-            // this.buttonGenerateName.BackColor = Color.Blue;
             SendEventArgs sSEA = new SendEventArgs(_packetLength);
             sSEA.WithAck = true;
             try
             {
                 int i = 3;
-          //      MessageBox.Show("10 sending command D to master"); // Only for testing - to be removed
                 sSEA.SendPacket[0] = ProjectConstants._DNPControlOpCode;
                 sSEA.SendPacket[1] = (byte)'O'; // For OS Name
                 sSEA.SendPacket[2] = (byte)this.textBoxOSName.Text.Length;
@@ -126,6 +123,10 @@ namespace RelayDNPSecurity
                 }
 
                 sSEA.SendPacket[sSEA.SendPacket.Length - 1] = 0x0D;
+
+                // ADD THESE 2 LINES
+                string outbound = Encoding.ASCII.GetString(sSEA.SendPacket, 3, sSEA.SendPacket[2]).TrimEnd('\0', '\r', '\n');
+                System.Diagnostics.Trace.WriteLine($"[DNPSAv5] OSName SEND ascii='{outbound}', len={outbound.Length}, declaredLen={sSEA.SendPacket[2]}");
 
                 this.onSend(sSEA);
             }

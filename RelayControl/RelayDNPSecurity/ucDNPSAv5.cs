@@ -236,9 +236,7 @@ namespace RelayDNPSecurity
             }
         }
 
-        //private void setOSName(byte[] bytePacket, int p)
-        // update setOSName(...)
-        // REPLACE setOSName(...)
+
         public void setOSName(byte[] bytePacket, int p)
         {
             try
@@ -246,41 +244,48 @@ namespace RelayDNPSecurity
                 if (bytePacket == null)
                     throw new Exception("setOSName received null packet");
 
-                string workingString = string.Empty;
-
                 if (p == 1)
                 {
                     if (bytePacket.Length < 2)
                         throw new Exception($"setOSName p1 short packet len={bytePacket.Length}");
 
                     this.remoteOSNameLength = bytePacket[1];
-                    int copyLen = Math.Min(Math.Min(this.remoteOSNameLength, 70), Math.Max(0, bytePacket.Length - 2));
 
-                    workingString = copyLen > 0 ? Encoding.ASCII.GetString(bytePacket, 2, copyLen) : string.Empty;
-                    this.oSName = workingString;
-                    Log($"setOSName p1: remoteOSNameLength={this.remoteOSNameLength}, copyLen={copyLen}");
+                    int available = Math.Max(0, bytePacket.Length - 2);
+                    int copyLen = Math.Min(this.remoteOSNameLength, available);
 
-                    this.ucDNPSAv5OSName1.OSName = this.SerialNumber.ToString();
+                    string part1 = copyLen > 0 ? Encoding.ASCII.GetString(bytePacket, 2, copyLen) : string.Empty;
+                    this.oSName = part1.TrimEnd('\0');
 
-                    if (this.oSName.Contains("?") && this.ucDNPSAv5OSName1.RequestOSNameClicked)
-                    {
-                        this.ucDNPSAv5OSName1.RequestOSNameClicked = false;
-                        this.showSAV5ErrorMessage();
-                    }
+                    Log($"setOSName p1: remoteOSNameLength={this.remoteOSNameLength}, available={available}, copyLen={copyLen}, part1Len={this.oSName.Length}");
+
+                    this.ucDNPSAv5OSName1.OSName = this.oSName;
+                    Log($"OSName RECV p1 ascii='{this.oSName}', len={this.oSName.Length}, remoteLen={this.remoteOSNameLength}");
                 }
                 else if (p == 2)
                 {
-                    int requested = this.remoteOSNameLength < 35 ? this.remoteOSNameLength : 35;
-                    int copyLen = Math.Min(requested, Math.Max(0, bytePacket.Length - 1));
-                    workingString = copyLen > 0 ? Encoding.ASCII.GetString(bytePacket, 1, copyLen) : string.Empty;
-                    Log($"setOSName p2: requested={requested}, copyLen={copyLen}");
+                    int remaining = Math.Max(0, this.remoteOSNameLength - this.oSName.Length);
+                    int available = Math.Max(0, bytePacket.Length - 1);
+                    int copyLen = Math.Min(remaining, available);
 
-                    this.oSName += workingString;
+                    string part2 = copyLen > 0 ? Encoding.ASCII.GetString(bytePacket, 1, copyLen) : string.Empty;
+                    part2 = part2.TrimEnd('\0');
+
+                    this.oSName = (this.oSName + part2).TrimEnd('\0');
+
+                    Log($"setOSName p2: remaining={remaining}, available={available}, copyLen={copyLen}, totalLen={this.oSName.Length}");
+
                     this.ucDNPSAv5OSName1.OSName = this.oSName;
                 }
                 else
                 {
                     throw new Exception(p.ToString() + " is a bad number for setOSName()");
+                }
+
+                if (this.oSName.Contains("?") && this.ucDNPSAv5OSName1.RequestOSNameClicked)
+                {
+                    this.ucDNPSAv5OSName1.RequestOSNameClicked = false;
+                    this.showSAV5ErrorMessage();
                 }
             }
             catch (Exception ex)
@@ -288,11 +293,10 @@ namespace RelayDNPSecurity
                 Log($"setOSName exception: {ex.Message}");
                 EndBusy("setOSName exception");
                 this.showSAV5ErrorMessage();
-                return;
             }
         }
 
-      
+
 
         private void showSAV5ErrorMessage()
         {
