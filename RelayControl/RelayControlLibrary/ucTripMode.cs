@@ -2436,14 +2436,41 @@ namespace RelayControlLibrary
         {
 
 #if CONED
-            // ConEd percent-mode defaults (set to correct ConEd values)
+            // These controls are already in the Percent display domain.
+            // Replace the CT-scaled baseline values with percentage defaults.
+            this.numericUpDown_GreenDelay.Value =
+                Clamp(250m,
+                      this.numericUpDown_GreenDelay.Minimum,
+                      this.numericUpDown_GreenDelay.Maximum);
+
+            this.numericUpDown_GreenMagX.Value =
+                Clamp(3m,
+                      this.numericUpDown_GreenMagX.Minimum,
+                      this.numericUpDown_GreenMagX.Maximum);
+
+            this.numericUpDown_GreenMagY.Value =
+                Clamp(3m,
+                      this.numericUpDown_GreenMagY.Minimum,
+                      this.numericUpDown_GreenMagY.Maximum);
+
+            this.numericUpDown_InCurrkW.Value =
+                Clamp(25m,
+                      this.numericUpDown_InCurrkW.Minimum,
+                      this.numericUpDown_InCurrkW.Maximum);
+
+            this.numericUpDown_InCurrkVAR.Value =
+                Clamp(50m,
+                      this.numericUpDown_InCurrkVAR.Minimum,
+                      this.numericUpDown_InCurrkVAR.Maximum);
+
+            // ConEd percent-mode defaults (existing behavior)
             this.numericUpDownInsensTrip.Value =
                 Clamp(50m,
                       this.numericUpDownInsensTrip.Minimum,
                       this.numericUpDownInsensTrip.Maximum);
 
             this.numericUpDownSensTrip.Value =
-                Clamp(0.15m,   // <-- replace with ConEd-approved Sensitive % default if different
+                Clamp(0.15m,
                       this.numericUpDownSensTrip.Minimum,
                       this.numericUpDownSensTrip.Maximum);
 
@@ -2453,57 +2480,57 @@ namespace RelayControlLibrary
                       this.numericUpDownWVCurrent.Maximum);
 
 #elif SCL || DOMINION || COMED || ENMAX || PSEG || TAUNTON || BGE
-    this.numericUpDownInsensTrip.Value =
-        Clamp(50m,
-              this.numericUpDownInsensTrip.Minimum,
-              this.numericUpDownInsensTrip.Maximum);
+            this.numericUpDownInsensTrip.Value =
+                Clamp(50m,
+                      this.numericUpDownInsensTrip.Minimum,
+                      this.numericUpDownInsensTrip.Maximum);
 
-    this.numericUpDownSensTrip.Value =
-        Clamp(.15m,
-              this.numericUpDownSensTrip.Minimum,
-              this.numericUpDownSensTrip.Maximum);
+            this.numericUpDownSensTrip.Value =
+                Clamp(.15m,
+                      this.numericUpDownSensTrip.Minimum,
+                      this.numericUpDownSensTrip.Maximum);
 
-    this.numericUpDownWVCurrent.Value =
-        Clamp(50m,
-              this.numericUpDownWVCurrent.Minimum,
-              this.numericUpDownWVCurrent.Maximum);
+            this.numericUpDownWVCurrent.Value =
+                Clamp(50m,
+                      this.numericUpDownWVCurrent.Minimum,
+                      this.numericUpDownWVCurrent.Maximum);
 
 #elif LONDON_HYDRO
-    this.numericUpDownInsensTrip.Value =
-        Clamp(50m,
-              this.numericUpDownInsensTrip.Minimum,
-              this.numericUpDownInsensTrip.Maximum);
+            this.numericUpDownInsensTrip.Value =
+                Clamp(50m,
+                      this.numericUpDownInsensTrip.Minimum,
+                      this.numericUpDownInsensTrip.Maximum);
 
-    this.numericUpDownSensTrip.Value =
-        Clamp(.186m,
-              this.numericUpDownSensTrip.Minimum,
-              this.numericUpDownSensTrip.Maximum);
+            this.numericUpDownSensTrip.Value =
+                Clamp(.186m,
+                      this.numericUpDownSensTrip.Minimum,
+                      this.numericUpDownSensTrip.Maximum);
 
-    this.numericUpDownWVCurrent.Value =
-        Clamp(50m,
-              this.numericUpDownWVCurrent.Minimum,
-              this.numericUpDownWVCurrent.Maximum);
+            this.numericUpDownWVCurrent.Value =
+                Clamp(50m,
+                      this.numericUpDownWVCurrent.Minimum,
+                      this.numericUpDownWVCurrent.Maximum);
 
 #elif DIGITALGRIDINC
-    this.numericUpDownInsensTrip.Value =
-        Clamp(2.5m,
-              this.numericUpDownInsensTrip.Minimum,
-              this.numericUpDownInsensTrip.Maximum);
+            this.numericUpDownInsensTrip.Value =
+                Clamp(2.5m,
+                      this.numericUpDownInsensTrip.Minimum,
+                      this.numericUpDownInsensTrip.Maximum);
 
-    this.numericUpDownSensTrip.Value =
-        Clamp(7.5m,
-              this.numericUpDownSensTrip.Minimum,
-              this.numericUpDownSensTrip.Maximum);
+            this.numericUpDownSensTrip.Value =
+                Clamp(7.5m,
+                      this.numericUpDownSensTrip.Minimum,
+                      this.numericUpDownSensTrip.Maximum);
 
-    this.numericUpDownWVCurrent.Value =
-        Clamp(2.5m,
-              this.numericUpDownWVCurrent.Minimum,
-              this.numericUpDownWVCurrent.Maximum);
+            this.numericUpDownWVCurrent.Value =
+                Clamp(2.5m,
+                      this.numericUpDownWVCurrent.Minimum,
+                      this.numericUpDownWVCurrent.Maximum);
 
-    this.numericUpDownAngle.Value =
-        Clamp(90m,
-              this.numericUpDownAngle.Minimum,
-              this.numericUpDownAngle.Maximum);
+            this.numericUpDownAngle.Value =
+                Clamp(90m,
+                      this.numericUpDownAngle.Minimum,
+                      this.numericUpDownAngle.Maximum);
 
 #endif
         }
