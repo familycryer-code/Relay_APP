@@ -2620,13 +2620,10 @@ namespace RelayControlLibrary
 
         private void showGullWing(bool p)
         {
-            if (this.Customer != Customers.CONED)
-            {
                 this.gullWingEnabled = p;
                 this.labelGullWingAngle.Visible = p;
                 this.labelGullWingUnits.Visible = p;
                 this.numericUpDownGullWingAngle.Visible = p;
-            }
         }
 
         #region Saved States
