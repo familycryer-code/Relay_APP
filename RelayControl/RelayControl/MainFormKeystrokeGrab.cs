@@ -81,24 +81,41 @@ namespace RelayControl
 
         private void ForceUpdateSerialNumber()
         {
-            tempForm = new formForceUpdateSerialNumber();
+            // UI-only safety: ensure no stale wait cursor before showing modal
+            Application.UseWaitCursor = false;
+            Cursor.Current = Cursors.Default;
+            this.UseWaitCursor = false;
 
+            tempForm = new formForceUpdateSerialNumber();
             tempForm.UpdateSerialNumber += updateSerialNumber;
-            tempForm.ShowDialog();
+
+            try
+            {
+                tempForm.ShowDialog(this);
+            }
+            finally
+            {
+                // UI-only safety cleanup after modal closes
+                Application.UseWaitCursor = false;
+                Cursor.Current = Cursors.Default;
+                this.UseWaitCursor = false;
+
+                if (tempForm != null)
+                {
+                    tempForm.UpdateSerialNumber -= updateSerialNumber;
+                    tempForm.Dispose();
+                    tempForm = null;
+                }
+            }
         }
 
         private void updateSerialNumber(object e, UpdateSerialNumberEventArgs uSNEA)
         {
             this.ucTransmitter1.SerialNumber = (int)uSNEA.SerialNumber;
             this.ucTransmitter1.SendTransmitterSettings();
-            //this.ucTransmitter1.buttonSendAllDNPSettings_Click(this, new EventArgs());
-            if (tempForm != null)
-            {
-                tempForm.UpdateSerialNumber -= updateSerialNumber;
-                this.tempForm.Close();
-                this.tempForm = null;
-            }
 
+            // Close dialog; outer finally handles unhook/dispose/cursor reset
+            tempForm?.Close();
         }
 
         private void ResetTransmitterSettings()
