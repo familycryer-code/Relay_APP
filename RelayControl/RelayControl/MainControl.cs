@@ -1194,11 +1194,7 @@ namespace RelayControl
                 if (!this.sendAll)
                 {
                     this.sendPacketAck(sEA.SendPacket, sourceText);
-                    //if (sEA.RequestAll)
-                    //{
-                    //this.requestAllData("standardizedSendData");
-                    //this.parametersLoaded = true;
-                    //}
+                    
                 }
                 else
                 {
@@ -5063,7 +5059,7 @@ namespace RelayControl
                     if (btn_PermCl_Active.BackColor == Color.Yellow)
                     {
                         this.btn_PermCl_Active.BackColor = Color.Transparent;
-                        this.SendPCData(); // once PC comes out of its active time, send the float time in allowed range to the master processor
+                        this.RestorePermissiveCloseSettingsAfterFire(); // once PC comes out of its active time, send the float time in allowed range to the master processor
                     }
                     else
                         this.btn_PermCl_Active.BackColor = Color.Transparent;
@@ -9191,8 +9187,8 @@ namespace RelayControl
                 WaitForAckIdle(3000, "After CloseMode");
 
 #if CONED
-                this.SendPCData(requestAllAfterWrite: false);
-                WaitForAckIdle(3000, "After PCData");
+                this.SendPermissiveCloseSettings(requestAllAfterWrite: false);
+                WaitForAckIdle(3000, "After PermissiveCloseSettings");
 #endif
 
                 this.SendCTRatioAndPhasing(requestAfter: false);
@@ -11678,9 +11674,9 @@ namespace RelayControl
                 logger.Info("SetBusyUi(true) done");
 
                 _pcApplyPendingConfirmation = true;
-                SendPCData(requestAllAfterWrite: false);
+                SendPermissiveCloseSettings(requestAllAfterWrite: false);
 
-                logger.Info("SendPCData returned");
+                logger.Info("SendPermissiveCloseSettings returned");
             }
             catch (Exception ex)
             {
@@ -11703,9 +11699,9 @@ namespace RelayControl
 
 
 
-        private void SendPCData(bool requestAllAfterWrite = false)
+        private void SendPermissiveCloseSettings(bool requestAllAfterWrite = false)
         {
-            logger.Info($"SendPCData ENTER requestAllAfterWrite={requestAllAfterWrite}");
+            logger.Info($"SendPermissiveCloseSettings ENTER requestAllAfterWrite={requestAllAfterWrite}");
 
             UInt16 rawVoltage = (UInt16)Math.Round(
                 numericUpDown_PC_voltage.Value / Constants.TwelveFracBits,
@@ -11720,33 +11716,85 @@ namespace RelayControl
             packet[5] = (byte)((rawVoltage >> 8) & 0xFF);  // HIGH
             packet[6] = 0x0D;
 
-            logger.Info($"pcPacket={BitConverter.ToString(packet)}");
+            logger.Info($"pcSettingsPacket={BitConverter.ToString(packet)}");
 
             var sea = new SendEventArgs(packet.Length)
             {
                 SendPacket = packet,
-                WithAck = true,
+                WithAck = true,   // settings write is ACKed
                 RequestAll = requestAllAfterWrite
             };
 
-            // guard: MainControl must not send relay commands while the relay programming lifecycle is active
             if (IsRelayProgrammingLifecycleActive())
             {
                 logger.Warn("MainControl suppressed relay send while ucRelayProgramming owns active lifecycle.");
                 return;
             }
 
-            this.standardizedSendData(this, sea); // or OnSend path if PC lives in a UC
-            logger.Info("PC packet sent");
+            this.standardizedSendData(this, sea);
+            logger.Info("Permissive close settings packet sent");
 
             if (!requestAllAfterWrite)
             {
-                // targeted refresh only, no blocking sleep
-                this.request_PCdata();
+                this.request_PCdata(); // optional readback
                 logger.Info("request_PCdata sent");
             }
 
-            logger.Info("SendPCData EXIT");
+            logger.Info("SendPermissiveCloseSettings EXIT");
+        }
+
+        private void TriggerPermissiveCloseNow()
+        {
+            logger.Info("TriggerPermissiveCloseNow ENTER");
+
+            if (btn_PermCl_Active.BackColor == Color.Transparent)
+            {
+                this.btn_PermCl_Active.BackColor = Color.Yellow;
+
+                decimal tempVoltage = GetFixed_12FracBits(numericUpDown_PC_voltage.Value);
+                this.comboBox_PC.SelectedIndex = 0; // Enable Permissive Close
+
+                byte[] packet = new byte[7];
+                packet[0] = (byte)'}';
+                packet[1] = 1;               // Enable Permissive Close
+                packet[2] = 0;               // special fire-now behavior
+                packet[3] = (byte)numericUpDown_PC_activeTime.Value;
+                packet[4] = (byte)((int)tempVoltage & 0xFF);        // LOW
+                packet[5] = (byte)(((int)tempVoltage >> 8) & 0xFF); // HIGH
+                packet[6] = 0x0D;
+
+                this.sendPacket(packet);     // fire-only (no ACK flow)
+                logger.Info($"pcFireNowPacket={BitConverter.ToString(packet)}");
+            }
+
+            logger.Info("TriggerPermissiveCloseNow EXIT");
+        }
+
+        private void RestorePermissiveCloseSettingsAfterFire()
+        {
+            if (!this.relayFound || IsRelayProgrammingLifecycleActive())
+            {
+                logger.Warn("Permissive Close restore suppressed: relay unavailable or programming active.");
+                return;
+            }
+
+            UInt16 rawVoltage = (UInt16)Math.Round(
+                numericUpDown_PC_voltage.Value / Constants.TwelveFracBits,
+                MidpointRounding.AwayFromZero);
+
+            byte[] packet = new byte[7];
+            packet[0] = (byte)'}';
+            packet[1] = (comboBox_PC.SelectedIndex == 0) ? (byte)1 : (byte)0;
+            packet[2] = (byte)numericUpDown_PC_floatTime.Value;
+            packet[3] = (byte)numericUpDown_PC_activeTime.Value;
+            packet[4] = (byte)(rawVoltage & 0xFF);
+            packet[5] = (byte)((rawVoltage >> 8) & 0xFF);
+            packet[6] = 0x0D;
+
+            logger.Info("Permissive Close restore dispatch: packet=[{0}]",
+                BitConverter.ToString(packet));
+
+            this.sendPacket(packet); // No GUI ACK tracking or busy cursor.
         }
 
         private void request_PCdata()
@@ -11849,6 +11897,8 @@ namespace RelayControl
 
         private void btn_getLC_Click(object sender, EventArgs e)
         {
+            logger.Info("btn_getLC_Click: user requested get lightning count");
+
             SendEventArgs sEA = new SendEventArgs(82);
 
             sEA.SendPacket[0] = 0x17;
@@ -11856,23 +11906,43 @@ namespace RelayControl
             sEA.SendPacket[4] = 0x01;
             sEA.SendPacket[81] = 0x0D;
 
+            logger.Info($"Lightning GET dispatch: length={sEA.SendPacket.Length}, " +
+                $"packet=[{BitConverter.ToString(sEA.SendPacket)}]");
+
             this.sendPacket(sEA.SendPacket);
+
+            logger.Info("Lightning GET: sendPacket returned; relay response not yet confirmed");
         }
 
         private void btn_clrLC_Click(object sender, EventArgs e)
         {
-            var response = MessageBox.Show("Are you sure you want to clear the count?", "Clear Lightning Count?", MessageBoxButtons.YesNo);
+            logger.Info("btn_clrLC_Click: user requested clear lightning count");
 
-            if (response == DialogResult.Yes)
+            var response = MessageBox.Show(
+                "Are you sure you want to clear the count?",
+                "Clear Lightning Count?",
+                MessageBoxButtons.YesNo);
+
+            logger.Info($"Lightning CLEAR confirmation: {response}");
+
+            if (response != DialogResult.Yes)
             {
-                SendEventArgs sEA = new SendEventArgs(82);
-
-                sEA.SendPacket[0] = 0x17;
-                sEA.SendPacket[2] = 0x10;
-                sEA.SendPacket[81] = 0x0D;
-
-                this.sendPacket(sEA.SendPacket);
+                logger.Info("Lightning CLEAR cancelled; no packet dispatched");
+                return;
             }
+
+            SendEventArgs sEA = new SendEventArgs(82);
+
+            sEA.SendPacket[0] = 0x17;
+            sEA.SendPacket[2] = 0x10;
+            sEA.SendPacket[81] = 0x0D;
+
+            logger.Info($"Lightning CLEAR dispatch: length={sEA.SendPacket.Length}, " +
+                $"packet=[{BitConverter.ToString(sEA.SendPacket)}]");
+
+            this.sendPacket(sEA.SendPacket);
+
+            logger.Info("Lightning CLEAR: sendPacket returned; relay response not yet confirmed");
         }
 
         private void btn_LoadProfile_Click(object sender, EventArgs e)
