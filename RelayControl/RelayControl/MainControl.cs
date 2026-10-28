@@ -1799,13 +1799,17 @@ namespace RelayControl
         private void TryRetryMissingBackupSections()
         {
             SectionBits missing = this.requiredBackupMask & ~this.receivedBackupMask;
+            txRetrySeq++;
+
+            logger.Info(
+                "TXRETRY seq={0} missing={1} required={2} received={3} state={4} syncPhase={5} backupState={6} inProgress={7} awaiting={8}",
+                txRetrySeq, missing, this.requiredBackupMask, this.receivedBackupMask, this.ProgramState, this.syncPhase, this.backupState, this.backupInProgress, txAwaitingResponse);
 
             if (missing == SectionBits.None)
             {
                 this.CompleteBackupAndContinue(null);
                 return;
             }
-
 
             if ((missing & SectionBits.ArcFault) != 0)
                 this.arcFault_requestArcFaultMonitoring();
@@ -4258,8 +4262,17 @@ namespace RelayControl
 
         private void setTransmitterSettings(byte[] bytePacket)
         {
-            logger.Info("setTransmitterSettings: Received transmitter settings packet of length {0}", bytePacket.Length);
-            
+            txRespSeq++;
+            var ageMs = txLastRequestUtc == DateTime.MinValue ? -1 : (DateTime.UtcNow - txLastRequestUtc).TotalMilliseconds;
+
+            logger.Info(
+                "TXRESP seq={0} len={1} state={2} syncPhase={3} backupState={4} inProgress={5} awaitingBefore={6} msSinceLastReq={7:0} lastReqReason={8}",
+                txRespSeq, bytePacket?.Length ?? 0, this.ProgramState, this.syncPhase, this.backupState, this.backupInProgress, txAwaitingResponse, ageMs, txLastRequestReason);
+
+            txAwaitingResponse = false;
+
+            this.txSettingsRequestInFlight = false;
+
             byte[] settings = new byte[bytePacket.Length];
             int tempI = 0;
 
@@ -6670,24 +6683,71 @@ namespace RelayControl
 
         }
 
+        // class fields (diagnostics only)
+        private int txReqSeq = 0;
+        private int txRespSeq = 0;
+        private int txRetrySeq = 0;
+        private DateTime txLastRequestUtc = DateTime.MinValue;
+        private string txLastRequestReason = "";
+        private bool txAwaitingResponse = false;   // observe-only for now
+
+        private bool txSettingsRequestInFlight = false;  // cannot retry without timeout from no repsonse.
+
         private void requestTransmitterSettings(
             string reason,
             [System.Runtime.CompilerServices.CallerMemberName] string member = "",
             [System.Runtime.CompilerServices.CallerFilePath] string file = "",
             [System.Runtime.CompilerServices.CallerLineNumber] int line = 0)
-                {
+        {
             if (string.IsNullOrWhiteSpace(reason))
-                throw new ArgumentException("requestTransmitterSettings requires a non-empty reason.", nameof(reason));
+                throw new ArgumentException(
+                    "requestTransmitterSettings requires a non-empty reason.",
+                    nameof(reason));
 
-            logger.Warn("RTS call reason={0}, member={1}, file={2}, line={3}, programState={4}",
+            if (this.txSettingsRequestInFlight)
+            {
+                logger.Info(
+                    "RTS skipped (in-flight) reason={0}, member={1}, file={2}, line={3}, programState={4}",
+                    reason, member, System.IO.Path.GetFileName(file), line, this.ProgramState);
+                return;
+            }
+
+            txReqSeq++;
+            var now = DateTime.UtcNow;
+            var ageMs = txLastRequestUtc == DateTime.MinValue
+                ? -1
+                : (now - txLastRequestUtc).TotalMilliseconds;
+
+            logger.Warn(
+                "RTS call reason={0}, member={1}, file={2}, line={3}, programState={4}",
                 reason, member, System.IO.Path.GetFileName(file), line, this.ProgramState);
+
+            logger.Warn(
+                "TXREQ seq={0} reason={1} state={2} syncPhase={3} backupState={4} inProgress={5} awaitingBefore={6} lastReqAgeMs={7:0} lastReqReason={8}",
+                txReqSeq, reason, this.ProgramState, this.syncPhase,
+                this.backupState, this.backupInProgress, txAwaitingResponse,
+                ageMs, txLastRequestReason);
+
+            txLastRequestUtc = now;
+            txLastRequestReason = reason;
+            txAwaitingResponse = true;
+            this.txSettingsRequestInFlight = true;
 
             byte[] sendArray = new byte[3];
             sendArray[0] = (byte)'X';
             sendArray[1] = 0x55;
             sendArray[2] = 0x0D;
 
-            this.sendPacket(sendArray);
+            try
+            {
+                this.sendPacket(sendArray);
+            }
+            catch
+            {
+                this.txSettingsRequestInFlight = false;
+                txAwaitingResponse = false;
+                throw;
+            }
         }
 
         private void buttonRequestRelayRegisters_Click(object sender, EventArgs e)
@@ -10031,7 +10091,18 @@ namespace RelayControl
 
         private void timerResponseTimeOut_Tick(object sender, EventArgs e)
         {
+            
+            var ageMs = txLastRequestUtc == DateTime.MinValue ? -1 : (DateTime.UtcNow - txLastRequestUtc).TotalMilliseconds;
+
+            logger.Warn(
+                "TXTIMEOUT awaitingBefore={0} msSinceLastReq={1:0} lastReqReason={2} state={3} syncPhase={4} backupState={5} inProgress={6}",
+                txAwaitingResponse, ageMs, txLastRequestReason, this.ProgramState, this.syncPhase, this.backupState, this.backupInProgress);
+
+            txAwaitingResponse = false;
+
             this.timerResponseTimeOut.Enabled = false;
+
+            this.txSettingsRequestInFlight = false;
 
             bool isDiscoveryState = this.ProgramState == ProgramStates.CheckingForRelay;
 
@@ -10047,7 +10118,7 @@ namespace RelayControl
             }
             else
             {
-                
+
             }
         }
 
