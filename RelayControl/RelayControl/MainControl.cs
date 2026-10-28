@@ -3224,6 +3224,7 @@ namespace RelayControl
                     break;
 
                 case IncomingCommCommands.PCdata:
+                    logger.Info("Received Permissive Close Data");
                     this.setPermissiveCloseData(bytePacket);
                     break;
 
@@ -12773,6 +12774,12 @@ namespace RelayControl
                     return;
             }
             logger.Info("Back Up Complete.");
+
+            // fix this after REV 10 because PC data will be part of backup and restore, so no need to request it here
+#if CONED
+            this.request_PCdata();
+#endif
+
         }
     }
 
