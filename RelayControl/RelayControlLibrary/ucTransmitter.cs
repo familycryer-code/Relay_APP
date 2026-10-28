@@ -379,7 +379,7 @@ namespace RelayControlLibrary
 
         public void SetAllValues(byte[] bA)
         {
-            logger.Info("SetAllValues");
+           
             if (this.InvokeRequired)
             {
                 setAllCallBack sACB = new setAllCallBack(this.setAllValues);

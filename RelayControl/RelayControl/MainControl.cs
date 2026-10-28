@@ -866,8 +866,7 @@ namespace RelayControl
                 bool canUseDnpComm = IsDnpCommSupported();
 
                 // Enable path
-                if (value &&
-                    canUseDnpComm)
+                if (value && canUseDnpComm)
                 {
                     addDNPTabs();
                     // Keep existing DNP point wiring behavior
@@ -4423,6 +4422,7 @@ namespace RelayControl
 
                 this.ucTransmitter1.DNPEnabled = txUplinkFeatureEnabled;
 
+                /*
                 // DNP comm capability / status
                 if (this.Customer == Customers.TORONTO_HYDRO)
                 {
@@ -4432,6 +4432,7 @@ namespace RelayControl
                 {
                     this.DNPEnabled = IsDnpCommSupported();
                 }
+                */
 
                 if ((bytePacket[28] & 0x08) == 0x08)
                 {
@@ -4583,14 +4584,36 @@ namespace RelayControl
 
         private delegate void showLabelCallBack(bool b, Label l);
 
-        private void showLabel(bool b, Label l)
+        private void showLabel(
+    bool b,
+    Label l,
+    [CallerMemberName] string caller = "",
+    [CallerFilePath] string file = "",
+    [CallerLineNumber] int line = 0)
         {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
             try
             {
-                if (l.InvokeRequired)
+                bool needsInvoke = l.InvokeRequired;
+
+                logger.Info(
+                    "showLabel ENTER type=Label name={0} visible={1} caller={2} file={3} line={4} thread={5} invokeRequired={6}",
+                    l.Name, b, caller, System.IO.Path.GetFileName(file), line,
+                    System.Threading.Thread.CurrentThread.ManagedThreadId, needsInvoke);
+
+                if (needsInvoke)
                 {
-                    showLabelCallBack sLCB = new showLabelCallBack(this.showLabel);
-                    this.Invoke(sLCB, new object[] { b, l });
+                    logger.Info(
+                        "showLabel INVOKE WAIT type=Label name={0} caller={1}",
+                        l.Name, caller);
+
+                    // Forward original caller information across the UI-thread hop.
+                    this.Invoke((Action)(() => this.showLabel(b, l, caller, file, line)));
+
+                    logger.Info(
+                        "showLabel INVOKE RETURN type=Label name={0} caller={1} elapsedMs={2}",
+                        l.Name, caller, sw.ElapsedMilliseconds);
                 }
                 else
                 {
@@ -4599,20 +4622,51 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                this.messageHandler("Error on Label", "Error Invoking Lable Visibility on: " + l.Name + " " + ex.Message);
+                logger.Error(ex,
+                    "showLabel FAILED type=Label caller={0} file={1} line={2}",
+                    caller, System.IO.Path.GetFileName(file), line);
+
+                this.messageHandler("Error on Label",
+                    "Error Invoking Label Visibility on: " + l.Name + " " + ex.Message);
+            }
+            finally
+            {
+                logger.Info(
+                    "showLabel EXIT type=Label caller={0} thread={1} elapsedMs={2}",
+                    caller, System.Threading.Thread.CurrentThread.ManagedThreadId,
+                    sw.ElapsedMilliseconds);
             }
         }
 
-        private delegate void showTSSLCallBack(bool b, ToolStripStatusLabel tSSL);
-
-        private void showLabel(bool b, ToolStripStatusLabel tSSL)
+        private void showLabel(
+            bool b,
+            ToolStripStatusLabel tSSL,
+            [CallerMemberName] string caller = "",
+            [CallerFilePath] string file = "",
+            [CallerLineNumber] int line = 0)
         {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
             try
             {
-                if (this.statusStripMain.InvokeRequired)
+                bool needsInvoke = this.statusStripMain.InvokeRequired;
+
+                logger.Info(
+                    "showLabel ENTER type=ToolStripStatusLabel name={0} visible={1} caller={2} file={3} line={4} thread={5} invokeRequired={6}",
+                    tSSL.Name, b, caller, System.IO.Path.GetFileName(file), line,
+                    System.Threading.Thread.CurrentThread.ManagedThreadId, needsInvoke);
+
+                if (needsInvoke)
                 {
-                    showTSSLCallBack sLCB = new showTSSLCallBack(this.showLabel);
-                    this.Invoke(sLCB, new object[] { b, tSSL });
+                    logger.Info(
+                        "showLabel INVOKE WAIT type=ToolStripStatusLabel name={0} caller={1}",
+                        tSSL.Name, caller);
+
+                    this.Invoke((Action)(() => this.showLabel(b, tSSL, caller, file, line)));
+
+                    logger.Info(
+                        "showLabel INVOKE RETURN type=ToolStripStatusLabel name={0} caller={1} elapsedMs={2}",
+                        tSSL.Name, caller, sw.ElapsedMilliseconds);
                 }
                 else
                 {
@@ -4621,7 +4675,19 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                this.messageHandler("Error on Label", "Error Invoking Label Visibility on: " + tSSL.Name + " " + ex.Message);
+                logger.Error(ex,
+                    "showLabel FAILED type=ToolStripStatusLabel caller={0} file={1} line={2}",
+                    caller, System.IO.Path.GetFileName(file), line);
+
+                this.messageHandler("Error on Label",
+                    "Error Invoking Label Visibility on: " + tSSL.Name + " " + ex.Message);
+            }
+            finally
+            {
+                logger.Info(
+                    "showLabel EXIT type=ToolStripStatusLabel caller={0} thread={1} elapsedMs={2}",
+                    caller, System.Threading.Thread.CurrentThread.ManagedThreadId,
+                    sw.ElapsedMilliseconds);
             }
         }
 
@@ -4636,8 +4702,7 @@ namespace RelayControl
 
             this.DNPEnabled = dnpCommSupported;
 
-            if (!dnpCommSupported &&
-                (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable))
+            if (!dnpCommSupported && (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable))
             {
                 this.ucTransmitter1.DNPEnabled = false;
             }
@@ -7415,6 +7480,9 @@ namespace RelayControl
             if (isStartupDiscovery && this.relayFound && !startupFullDownloadStarted)
             {
                 startupFullDownloadStarted = true;
+                // One-time runtime capability sync (instead of per-packet in setTransmitterSettings)
+                this.checkDNPEnabled();
+
                 this.ucRelayProgramming1.InitializeAutoload();
                
             }
@@ -11009,10 +11077,11 @@ namespace RelayControl
                 BeginBackupCapture();
                 BeginRequiredParameterDownload(nameof(BackUpRelayNoFile));
 
-                this.ucShortRange1.Request_SignalStrength();
-                this.requestTransmitterSettings("BackUpRelayNoFile");
                 this.requestRelayParameters();
 
+                this.ucShortRange1.Request_SignalStrength();
+                this.requestTransmitterSettings("BackUpRelayNoFile");
+                
                 logger.Info("Backup requests dispatched. Waiting for backup completion/timeout callbacks.");
             }
             catch (Exception ex)
