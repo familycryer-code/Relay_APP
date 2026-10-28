@@ -4278,23 +4278,34 @@ namespace RelayControl
 
             timerResponseTimeOut.Enabled = false;
 
-            // This is the completion of the request-transmitter-settings response
-            // If the UI was marked busy for this request, clear it here.
-            SetBusyUi(false, "setTransmitterSettings");
+
+            bool gateBackupInProgress = this.backupInProgress;
+            bool gateBackupCapturing = this.backupState == BackupState.Capturing;
+            bool gateDownloadingState = this.ProgramState == ProgramStates.DownloadingAllParameters;
+
+            logger.Info(
+                "TXBUSYGATE backupInProgress={0} backupCapturing={1} downloadingState={2} programState={3} backupState={4} syncPhase={5}",
+                gateBackupInProgress, gateBackupCapturing, gateDownloadingState,
+                this.ProgramState, this.backupState, this.syncPhase);
+
+            // Behavior unchanged for now: skip release if ANY condition is true.
+            if (gateBackupInProgress || gateBackupCapturing || gateDownloadingState)
+            {
+                logger.Info("setTransmitterSettings: busy release skipped (download active)");
+            }
+            else
+            {
+                // This is the completion of the request-transmitter-settings response
+                // If the UI was marked busy for this request, clear it here.
+                SetBusyUi(false, "setTransmitterSettings");
+            }
+
 
             // update lightning count
             this.lbl_LightningCount.Text = lightC.lightningCount.ToString();
 
             this.ucTransmitter1.PacketLength = bytePacket.Length;
-            //Thread.Sleep(1000);   // delay 1second
-            /*
-            if (dataBackup_fromRelay == true)
-            {
-                byte[] snapshot = new byte[Math.Min(bytePacket.Length, 32)];
-                Array.Copy(bytePacket, snapshot, snapshot.Length);
-                CaptureBackupSection("Transmitter Parameters", snapshot);
-            }
-            */
+           
             for (int i = 0; i < settings.Length; ++i)
             {
                 settings[i] = bytePacket[i];
