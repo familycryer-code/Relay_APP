@@ -609,7 +609,7 @@ namespace RelayControl
 
 #endif // DEBUG || ENGINEERING
 
-                UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
+                //UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
 
                 // Set the Title / Caption of groupBoxes bold; child controls regular
                 groupBox_RelayInfo.Font = new Font(groupBox_RelayInfo.Font, FontStyle.Bold);
@@ -1814,7 +1814,7 @@ namespace RelayControl
                 this.requestSafeServiceSettings();
 
             if ((missing & SectionBits.TxSettings) != 0)
-                this.requestTransmitterSettings();
+                this.requestTransmitterSettings("backup:retry-missing:TxSettings");
 
             if ((missing & SectionBits.RelayParams) != 0)
                 this.requestRelayParameters();
@@ -2173,7 +2173,7 @@ namespace RelayControl
                 case RelayProgrammingSendCommands.TransmitterSettings:
                     this.ucTransmitter1.SetAllValues(rPEA.BytesToSend);
                     this.ucTransmitter1.SendTransmitterSettings();
-                    UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
+                    //UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
                     break;
 
                 case RelayProgrammingSendCommands.RawData:
@@ -2308,11 +2308,13 @@ namespace RelayControl
                    revision.Contains("DNP");
         }
 
+        /*
         private void UpdateDnpCommStatusFromRelayState(bool relayDnpActive)
         {
             // Do not drive ucTransmitter1.DNPCommLabelStatus from MainControl.
             // The transmitter control owns DNP status from relay TX readback.
         }
+        */
 
         private Point PanelLocation = new Point(300, 12);
         private RelayControlLibrary.RelayMode relayMode = new RelayControlLibrary.RelayMode();
@@ -3205,7 +3207,7 @@ namespace RelayControl
                     break;
 
                 case IncomingCommCommands.RelayRegisters:
-                    this.setRelayRegisters(bytePacket);
+                    this.setRelayRegisters(bytePacket, "packetFormulated");
                     break;
 
                 case IncomingCommCommands.NoMemFix:
@@ -4324,6 +4326,8 @@ namespace RelayControl
                 this.ucRelayProgramming1.SerialNumber = (UInt32)tempI;
                 this.ucDNPSAv51.SerialNumber = tempI;
 
+                logger.Info("tempI (serial number) = {0}", tempI);
+
                 // 3076 indicates default/fallback serial due to bad memory; do not use for GE/WH mismatch checks
                 if (tempI != 3076)
                 {
@@ -4629,10 +4633,29 @@ namespace RelayControl
             this.enableDNPMonitoring(false);
         }
 
-        private void setRelayRegisters(byte[] bytePacket)
+        private void setRelayRegisters(
+            byte[] bytePacket,
+            string reason,
+            [System.Runtime.CompilerServices.CallerMemberName] string member = "",
+            [System.Runtime.CompilerServices.CallerFilePath] string file = "",
+            [System.Runtime.CompilerServices.CallerLineNumber] int line = 0)
         {
+            if (string.IsNullOrWhiteSpace(reason))
+                throw new ArgumentException(
+                    "setRelayRegisters requires a non-empty reason.", nameof(reason));
+
+            logger.Warn(
+                "setRelayRegisters called. reason={0}, member={1}, file={2}, line={3}, checkSerialNumber={4}, expectingRelayRegisters={5}, programState={6}",
+                reason,
+                member,
+                System.IO.Path.GetFileName(file),
+                line,
+                this.checkSerialNumber,
+                this.expectingRelayRegisters,
+                this.ProgramState);
+
             this.expectingRelayRegisters = false;
-            setRelayStatusLabels(bytePacket);
+            this.setRelayStatusLabels(bytePacket);
         }
 
         private void setRelayStatusLabels(byte[] bytePacket)
@@ -4646,10 +4669,22 @@ namespace RelayControl
             this.missedMonitoringCount = 0;
             this.ucShortRange1.relayFound_forRNCMonitoring = true;
             this.relayFound_forDNPdataMonitoring = true;
-            if (this.checkSerialNumber == true)
-                this.requestTransmitterSettings();
+
+
+            if (this.checkSerialNumber)
+            {
+                if (this.ProgramState == ProgramStates.DownloadingAllParameters)
+                {
+                    logger.Info("Serial check pending: deferring to parameter-download TX readback.");
+                }
+                else
+                {
+                    this.requestTransmitterSettings("setRelayStatusLabels");
+                }
+            }
 
             this.enableFlagsAndStatus(true);
+
             try
             {
                 this.uc8CheckBoxFlagsRelayFlags1.SetValues(bytePacket[1]);
@@ -6409,7 +6444,7 @@ namespace RelayControl
                     else
                     {
                         this.dataRetryCount++;
-                        this.requestTransmitterSettings();
+                        this.requestTransmitterSettings("timerFindRelayTimeout_Tick");
                     }
                 }
                 else
@@ -6522,7 +6557,7 @@ namespace RelayControl
                     else
                     {
                         this.dataRetryCount++;
-                        this.requestTransmitterSettings();
+                        this.requestTransmitterSettings("timerSCITimeOut_Tick");
                     }
                 }
                 else
@@ -6631,23 +6666,28 @@ namespace RelayControl
 
             this.sendPacket(sendArray);
 
-            UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
+            //UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
 
         }
 
-        private void requestTransmitterSettings()
-        {
-            logger.Info("requestTransmitterSettings() called");
-            byte[] sendArray = new byte[3];
+        private void requestTransmitterSettings(
+            string reason,
+            [System.Runtime.CompilerServices.CallerMemberName] string member = "",
+            [System.Runtime.CompilerServices.CallerFilePath] string file = "",
+            [System.Runtime.CompilerServices.CallerLineNumber] int line = 0)
+                {
+            if (string.IsNullOrWhiteSpace(reason))
+                throw new ArgumentException("requestTransmitterSettings requires a non-empty reason.", nameof(reason));
 
+            logger.Warn("RTS call reason={0}, member={1}, file={2}, line={3}, programState={4}",
+                reason, member, System.IO.Path.GetFileName(file), line, this.ProgramState);
+
+            byte[] sendArray = new byte[3];
             sendArray[0] = (byte)'X';
             sendArray[1] = 0x55;
             sendArray[2] = 0x0D;
 
             this.sendPacket(sendArray);
-
-            UpdateDnpCommStatusFromRelayState(this.DNPEnabled);
-
         }
 
         private void buttonRequestRelayRegisters_Click(object sender, EventArgs e)
@@ -7244,7 +7284,7 @@ namespace RelayControl
 
         private void requestAllData(string caller = "unknown")
         {
-            logger.Trace("requestAllData called. caller={0}, sendAllFlag={1}, sendAll={2}, programState={3}",
+            logger.Info("requestAllData called. caller={0}, sendAllFlag={1}, sendAll={2}, programState={3}",
                 caller, sendAllF.SendAllFlag, this.sendAll, this.ProgramState);
 
             if (this.ucRelayProgramming1 == null)
@@ -8473,7 +8513,7 @@ namespace RelayControl
             this.buttonRQEventData.Enabled = false;
             this.requestLiveDataToolStripMenuItem1.Enabled = false;
 
-            this.requestTransmitterSettings();
+            this.requestTransmitterSettings("requestEventDownload");
             DialogResult dR = this.messageHandler("Continue?", "This will take a while. \r\n Please Be Patient.", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
             if (dR != DialogResult.OK)
@@ -10159,14 +10199,14 @@ namespace RelayControl
                 if (!isDnpSupported)
                 {
                     logger.Warn("Ignoring DNP settings packet because DNP comm is not supported for current customer/revision.");
-                    UpdateDnpCommStatusFromRelayState(false);
+                    //UpdateDnpCommStatusFromRelayState(false);
                 }
                 else
                 {
                     this.ucTransmitter1.SetAll(bytePacket);
                     this.ucDNP.SetAll(bytePacket);
 
-                    UpdateDnpCommStatusFromRelayState(true);
+                    //UpdateDnpCommStatusFromRelayState(true);
                 }
             }
             catch (Exception ex)
@@ -10887,7 +10927,7 @@ namespace RelayControl
                 BeginRequiredParameterDownload(nameof(BackUpRelayNoFile));
 
                 this.ucShortRange1.Request_SignalStrength();
-                this.requestTransmitterSettings();
+                this.requestTransmitterSettings("BackUpRelayNoFile");
                 this.requestRelayParameters();
 
                 logger.Info("Backup requests dispatched. Waiting for backup completion/timeout callbacks.");
@@ -10940,7 +10980,7 @@ namespace RelayControl
                 this.ucShortRange1.Request_SignalStrength();
                 this.requestRelayParameters();
                 this.requestCalibrationConstants();
-                this.requestTransmitterSettings();
+                this.requestTransmitterSettings("BackUpRelayDatatoFile");
                 this.requestSafeServiceSettings();
                 this.arcFault_requestArcFaultMonitoring();
 
