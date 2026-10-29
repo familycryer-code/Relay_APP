@@ -812,8 +812,8 @@ namespace RelayControl
 
         private bool IsDnpCommSupported()
         {
-            return IsDnpCustomer() &&
-                   RelaySupportsDnp();
+            return IsDnpCustomer();
+                   // && RelaySupportsDnp(); not needed for Rev 10
         }
 
         private void EnsureTabPageVisible(TabPage page, TabPage insertBefore = null)
@@ -1634,7 +1634,7 @@ namespace RelayControl
 
         private void checkSavedLocationAndFindRelay([CallerMemberName] string caller = null)
         {
-           
+            logger.Info("DISCOVERY START caller={0}", caller);
 
             this.monitoring(false);
             this.RegisterPolling(false);
@@ -1655,7 +1655,9 @@ namespace RelayControl
             try
             {
                 this.portNames = getPortNames();
-               
+                logger.Info("DISCOVERY ports=[{0}], savedPort={1}",
+    string.Join(", ", this.portNames), this.savedComPort);
+
             }
             catch (Exception ex)
             {
@@ -2232,16 +2234,21 @@ namespace RelayControl
                 return;
             }
 
-            /*
-            if (sEA.SendPacket[0] == (byte)'X') // explicit request packet
-            {
-                // keep explicit full read request behavior
-                this.requestAllData("ucTransmitter1_Send");
-                return;
-            }
-            */
 
-            // Normal TX settings apply path
+            // Only TX settings writes—not DNP Apply or settings requests.
+            if (sEA.SendPacket[0] == (byte)'Y')
+            {
+                if (sEA.SendPacket.Length <= 29)
+                {
+                    this.messageHandler("Transmitter Settings",
+                        "Transmitter settings packet is too short.");
+                    return;
+                }
+
+                this.pendingTxUplinkEnabled =
+                    (sEA.SendPacket[29] & 0x04) != 0;
+            }
+
             this.sendPacketAck(sEA.SendPacket, "Transmitter Settings Send");
 
             // Do NOT trigger full requestAllData here.
@@ -2401,7 +2408,11 @@ namespace RelayControl
                     // Diagnostic: if this is an ACK byte, log it explicitly
                     if (lastByte == 0x06)
                     {
-                      
+                        if (this.expectingAck && this.AcknowledgeCaller == "Transmitter Settings Send")
+                        {
+                            logger.Info("SWITCH ACK received for transmitter settings");
+                        }
+
                         this.SendConfirmed = true;
                         this.expectingAck = false;
 
@@ -2481,12 +2492,39 @@ namespace RelayControl
             {
                 booleanInvoke bI = new booleanInvoke(this.packetAcknowledged);
                 this.Invoke(bI, new object[] { b });
-               
+                return;
             }
-            else
+
+            if (b &&
+                this.AcknowledgeCaller == "Transmitter Settings Send" &&
+                this.pendingTxUplinkEnabled.HasValue)
             {
-                this.ucRelayProgramming1.PacketAcknowledged(b);
+                bool requestedEnabled = this.pendingTxUplinkEnabled.Value;
+                this.pendingTxUplinkEnabled = null;
+
+                try
+                {
+                    bool switchRequired = IsUplinkSwitchRequired(requestedEnabled);
+
+                    logger.Info(
+                        "UPLINK ACK: relayEnabled={0}, requestedEnabled={1}, switchRequired={2}",
+                        this.lastRelayUplinkEnabled,
+                        requestedEnabled,
+                        switchRequired);
+
+                    if (switchRequired)
+                    {
+                        this.BeginInvoke((Action)RecoverAfterUplinkSwitch);
+                    }
+                }
+                catch (InvalidOperationException ex)
+                {
+                    logger.Error(ex, "Unable to determine DNP uplink transition.");
+                    this.messageHandler("DNP Uplink", ex);
+                }
             }
+
+            this.ucRelayProgramming1.PacketAcknowledged(b);
         }
 
         private void checkRawData(object sender, EventArgs e)
@@ -4410,8 +4448,9 @@ namespace RelayControl
 
                 // TX uplink feature bit (independent from DNP comm capability)
                 bool txUplinkFeatureEnabled = (bytePacket[28] & 0x04) == 0x04;
-
+                this.lastRelayUplinkEnabled = txUplinkFeatureEnabled;  
                 this.ucTransmitter1.DNPEnabled = txUplinkFeatureEnabled;
+
 
                 /*
                 // DNP comm capability / status
@@ -4484,7 +4523,134 @@ namespace RelayControl
             }
         }
 
-        
+        private bool? lastRelayUplinkEnabled;
+        private bool? pendingTxUplinkEnabled;
+        private bool uplinkRecoveryInProgress;
+
+        private bool IsUplinkSwitchRequired(bool requestedEnabled)
+        {
+            if (!this.lastRelayUplinkEnabled.HasValue)
+            {
+                throw new InvalidOperationException(
+                    "Read transmitter settings before changing the DNP uplink.");
+            }
+
+            return this.lastRelayUplinkEnabled.Value != requestedEnabled;
+        }
+
+        private async void RecoverAfterUplinkSwitch()
+        {
+            if (this.uplinkRecoveryInProgress)
+                return;
+
+            this.uplinkRecoveryInProgress = true;
+
+            bool wasEnabled = this.Enabled;
+            bool pollingWasPaused = this.pauseMonitoring;
+            bool pollingTimerWasEnabled = this.timerRegisterPolling.Enabled;
+            bool connected = false;
+
+            using (var throbber = new SendAll_Message_PopUp())
+            {
+                try
+                {
+                    throbber.Text = "Switching DNP Uplink";
+                    throbber.WindowState = FormWindowState.Normal;
+                    throbber.StartPosition = FormStartPosition.CenterParent;
+
+                    
+
+                    Label status = throbber.Controls["label1"] as Label;
+                    if (status != null)
+                        status.Text = "Switching communications. Please wait...";
+
+                    this.timerRegisterPolling.Stop();
+                    this.RegisterPolling(false);
+
+                    throbber.AutoSize = false;
+                    throbber.FormBorderStyle = FormBorderStyle.FixedDialog;
+                    throbber.MaximizeBox = false;
+
+                    throbber.Show(this);
+
+                    throbber.WindowState = FormWindowState.Normal;
+                    throbber.ClientSize = new Size(520, 85);
+                    throbber.Location = new Point(this.Left + (this.Width - throbber.Width) / 2, this.Top + (this.Height - throbber.Height) / 2);
+
+                    this.Enabled = false;
+
+
+
+                    await Task.Delay(5000);
+
+                    if (this.IsDisposed || this.Disposing)
+                        return;
+
+                    if (status != null)
+                        status.Text = "Confirming relay connection...";
+
+                    this.firstPortCheckAttempt = true;
+                    this.findRelayToolStripMenuItem_Click(this, EventArgs.Empty);
+
+                    var elapsed = System.Diagnostics.Stopwatch.StartNew();
+
+                    while (this.ProgramState == ProgramStates.CheckingForRelay &&
+                           !this.relayFound)
+                    {
+                        if (elapsed.Elapsed >= TimeSpan.FromSeconds(20))
+                        {
+                            throw new TimeoutException(
+                                "Relay connection confirmation timed out.");
+                        }
+
+                        await Task.Delay(100);
+
+                        if (this.IsDisposed || this.Disposing)
+                            return;
+                    }
+
+                    connected = this.relayFound &&
+                                this.ProgramState == ProgramStates.Running;
+
+                    if (!connected)
+                    {
+                        throw new InvalidOperationException(
+                            "Relay connection could not be confirmed.");
+                    }
+
+                    logger.Info("UPLINK recovery: relay connection confirmed.");
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "UPLINK recovery failed.");
+
+                    if (!this.IsDisposed && !this.Disposing)
+                    {
+                        if (this.timerCheckPortTime != null)
+                            this.timerCheckPortTime.Stop();
+
+                        this.ProgramState = ProgramStates.FailedToFindRelay;
+                        this.relayNotFound();
+                        throbber.Hide();
+                        this.messageHandler("DNP Uplink Recovery", ex);
+                    }
+                }
+                finally
+                {
+                    throbber.Close();
+                    this.uplinkRecoveryInProgress = false;
+
+                    if (!this.IsDisposed && !this.Disposing)
+                    {
+                        this.Enabled = wasEnabled;
+                        this.RegisterPolling(connected && !pollingWasPaused);
+                        this.timerRegisterPolling.Enabled =
+                            connected && pollingTimerWasEnabled;
+                    }
+                }
+            }
+        }
+
 
         /*
         private void startMonitoringWBSettings()
@@ -4659,16 +4825,17 @@ namespace RelayControl
             if (string.IsNullOrWhiteSpace(reason))
                 throw new ArgumentException(
                     "setRelayRegisters requires a non-empty reason.", nameof(reason));
-
+            /*
             logger.Warn(
                 "setRelayRegisters called. reason={0}, member={1}, file={2}, line={3}, checkSerialNumber={4}, expectingRelayRegisters={5}, programState={6}",
-                reason,
+               reason,
                 member,
                 System.IO.Path.GetFileName(file),
                 line,
                 this.checkSerialNumber,
                 this.expectingRelayRegisters,
                 this.ProgramState);
+            */
 
             this.expectingRelayRegisters = false;
             this.setRelayStatusLabels(bytePacket);
@@ -7124,15 +7291,23 @@ namespace RelayControl
                 string currentPort = this.portNames[0];
              
                 this.toolStripStatusLabelMain.Text = "Checking " + currentPort + " for Relay";
+                logger.Info("DISCOVERY trying port={0}, remaining={1}",
+    currentPort, this.portNames.Count);
 
-                if (!this.checkPortAvailability(currentPort))
+                logger.Info("DISCOVERY opening port={0}", currentPort);
+
+                bool available = this.checkPortAvailability(currentPort);
+
+                logger.Info("DISCOVERY open completed port={0}, available={1}",
+                    currentPort, available);
+
+                if (!available)
                 {
-                   
                     this.portNames.RemoveAt(0);
                     continue;
                 }
 
-               
+
 
                 this.clearRemoteBuffer();
                 this.requestMasterRevisionNumber(nameof(checkPortsForRelay));
@@ -7185,8 +7360,9 @@ namespace RelayControl
                 this.serialPort1.Open();
                 this.clearSerialPortBuffers(this.serialPort1);
             }
-            catch
+            catch (Exception ex)
             {
+                logger.Warn(ex, "DISCOVERY port availability failed for {0}", s);
                 return false;
             }
 
@@ -7270,7 +7446,12 @@ namespace RelayControl
 
         private void timerCheckPortTime_Tick(object sender, EventArgs e)
         {
-            // Hard-stop discovery timer instance immediately
+            logger.Info(
+    "DISCOVERY timeout port={0}, state={1}, relayFound={2}, firstAttempt={3}",
+    this.serialPort1.PortName,
+    this.ProgramState,
+    this.relayFound,
+    this.firstPortCheckAttempt);
             if (this.timerCheckPortTime != null)
             {
                 this.timerCheckPortTime.Stop();
@@ -7279,18 +7460,11 @@ namespace RelayControl
                 this.timerCheckPortTime = null;
             }
 
-            // Discovery timeout logic only applies while actively checking for relay
             if (this.ProgramState != ProgramStates.CheckingForRelay)
-            {
-               
                 return;
-            }
 
             if (this.relayFound)
-            {
-                
                 return;
-            }
 
             if (this.firstPortCheckAttempt)
             {
@@ -7318,7 +7492,6 @@ namespace RelayControl
                             this.serialPort1.Close();
 
                         this.serialPort1.BaudRate = 19200;
-                        this.serialPort1.Open();
 
                         this.checkPortsForRelay(nameof(timerCheckPortTime_Tick));
                     }
@@ -8252,7 +8425,10 @@ namespace RelayControl
         private bool temp = true;
         private void timerRegisterPolling_Tick(object sender, EventArgs e)
         {
+            logger.Info("timerRegisterPolling_Tick ENTER: registersReceived={0}, portLost={1}, everyOtherMonitor={2}, transmitterMonitoringCount={3}, temp={4}",
+                this.registersReceived, this.portLost, this.everyOtherMonitor, this.transmitterMonitoringCount, this.temp);
             this.timerRegisterPolling.Enabled = false;
+
 
             if (this.pauseMonitoring)
             {
@@ -9979,6 +10155,7 @@ namespace RelayControl
 
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
+            logger.Info("tabControlMain_SelectedIndexChanged selectedTab={0}", this.tabControlMain.SelectedTab?.Name);  
             if (ucRelayProgramming1.IsProgrammingActiveOrInFlight())
                 return;
 
@@ -12788,20 +12965,8 @@ namespace RelayControl
         }
         public new void Open()
         {
-            try
-            {
-                base.Open();
-
-                /*
-                ** because of the issue with the FTDI USB serial device,
-                ** the call to the stream's finalize is suppressed
-                **
-                ** it will be un-suppressed in Dispose if the stream
-                ** is still good
-                */
-                GC.SuppressFinalize(BaseStream);
-            }
-            catch { }
+            base.Open();
+            GC.SuppressFinalize(BaseStream);
         }
 
         public new void Dispose()
