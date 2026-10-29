@@ -2064,7 +2064,7 @@ namespace RelayControlLibrary
 
             this.buttonTX.Enabled = true;
 
-            this.DNPEnabled = false;
+            //this.DNPEnabled = false;
 
             this.checkBoxMUXBOXOff.Checked = true;
 

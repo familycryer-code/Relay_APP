@@ -812,8 +812,7 @@ namespace RelayControl
 
         private bool IsDnpCommSupported()
         {
-            return this.masterRevision > REV0_MASTER_REVISION &&
-                   IsDnpCustomer() &&
+            return IsDnpCustomer() &&
                    RelaySupportsDnp();
         }
 
@@ -857,34 +856,24 @@ namespace RelayControl
             this.dNPDIGITALGRIDData.Dispose();
             this.dNPDIGITALGRIDData = null;
         }
-
         private bool DNPEnabled
         {
             get { return this.dNPEnabledSavedVal; }
             set
             {
-                bool canUseDnpComm = IsDnpCommSupported();
+                bool enabled = value && setDNPTabPoints();
 
-                // Enable path
-                if (value && canUseDnpComm)
+                if (!enabled)
                 {
-                    addDNPTabs();
-                    // Keep existing DNP point wiring behavior
-                    setDNPTabPoints();
-
-                    this.dNPEnabledSavedVal = true;
-                    this.ucRelayProgramming1.DNPRelay = true;
-                    return;
+                    DisposeDnpLiveDataControl();
+                    removeDNPTabs();
                 }
 
-                // Disable path (or unsupported customer / old revision / firmware without DNP)
-                removeDNPTabs();
-
-                this.dNPEnabledSavedVal = false;
-                this.ucRelayProgramming1.DNPRelay = false;
+                this.dNPEnabledSavedVal = enabled;
+                this.ucRelayProgramming1.DNPRelay = enabled;
             }
         }
-        private void setDNPTabPoints()
+        private bool setDNPTabPoints()
         {
             // IMPORTANT:
             // Host the DNP user control on the tab the user is actually viewing ("DNP Live Data")
@@ -895,19 +884,19 @@ namespace RelayControl
             if (!showDnpTabs)
             {
                 logger.Info("DNP tabs not initialized because customer {0} is not Toronto Hydro.", this.Customer);
-                DisposeDnpLiveDataControl();
-                removeDNPTabs();
-                return;
+                //DisposeDnpLiveDataControl();
+                //removeDNPTabs();
+                return false;
             }
 
             if (!IsDnpCommSupported())
             {
                 logger.Info("DNP tabs disabled because DNP comm is not supported for customer {0} / relay revision.", this.Customer);
-                DisposeDnpLiveDataControl();
-                removeDNPTabs();
-                this.dNPEnabledSavedVal = false;
-                this.ucRelayProgramming1.DNPRelay = false;
-                return;
+                //DisposeDnpLiveDataControl();
+                //removeDNPTabs();
+                //this.dNPEnabledSavedVal = false;
+                //this.ucRelayProgramming1.DNPRelay = false;
+                return false;
             }
 
             addDNPTabs();
@@ -940,6 +929,7 @@ namespace RelayControl
                 $"CtrlDock={this.dNPDIGITALGRIDData?.Dock}");
 
             UpdateDnpTabTitle();  // name them..
+            return true;
         }
 
         private bool gERelay = false;
@@ -4584,36 +4574,13 @@ namespace RelayControl
 
         private delegate void showLabelCallBack(bool b, Label l);
 
-        private void showLabel(
-    bool b,
-    Label l,
-    [CallerMemberName] string caller = "",
-    [CallerFilePath] string file = "",
-    [CallerLineNumber] int line = 0)
+        private void showLabel(bool b, Label l)
         {
-            var sw = System.Diagnostics.Stopwatch.StartNew();
-
             try
             {
-                bool needsInvoke = l.InvokeRequired;
-
-                logger.Info(
-                    "showLabel ENTER type=Label name={0} visible={1} caller={2} file={3} line={4} thread={5} invokeRequired={6}",
-                    l.Name, b, caller, System.IO.Path.GetFileName(file), line,
-                    System.Threading.Thread.CurrentThread.ManagedThreadId, needsInvoke);
-
-                if (needsInvoke)
+                if (l.InvokeRequired)
                 {
-                    logger.Info(
-                        "showLabel INVOKE WAIT type=Label name={0} caller={1}",
-                        l.Name, caller);
-
-                    // Forward original caller information across the UI-thread hop.
-                    this.Invoke((Action)(() => this.showLabel(b, l, caller, file, line)));
-
-                    logger.Info(
-                        "showLabel INVOKE RETURN type=Label name={0} caller={1} elapsedMs={2}",
-                        l.Name, caller, sw.ElapsedMilliseconds);
+                    this.Invoke((Action)(() => this.showLabel(b, l)));
                 }
                 else
                 {
@@ -4622,51 +4589,19 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                logger.Error(ex,
-                    "showLabel FAILED type=Label caller={0} file={1} line={2}",
-                    caller, System.IO.Path.GetFileName(file), line);
-
-                this.messageHandler("Error on Label",
+                this.messageHandler(
+                    "Error on Label",
                     "Error Invoking Label Visibility on: " + l.Name + " " + ex.Message);
-            }
-            finally
-            {
-                logger.Info(
-                    "showLabel EXIT type=Label caller={0} thread={1} elapsedMs={2}",
-                    caller, System.Threading.Thread.CurrentThread.ManagedThreadId,
-                    sw.ElapsedMilliseconds);
             }
         }
 
-        private void showLabel(
-            bool b,
-            ToolStripStatusLabel tSSL,
-            [CallerMemberName] string caller = "",
-            [CallerFilePath] string file = "",
-            [CallerLineNumber] int line = 0)
+        private void showLabel(bool b, ToolStripStatusLabel tSSL)
         {
-            var sw = System.Diagnostics.Stopwatch.StartNew();
-
             try
             {
-                bool needsInvoke = this.statusStripMain.InvokeRequired;
-
-                logger.Info(
-                    "showLabel ENTER type=ToolStripStatusLabel name={0} visible={1} caller={2} file={3} line={4} thread={5} invokeRequired={6}",
-                    tSSL.Name, b, caller, System.IO.Path.GetFileName(file), line,
-                    System.Threading.Thread.CurrentThread.ManagedThreadId, needsInvoke);
-
-                if (needsInvoke)
+                if (this.statusStripMain.InvokeRequired)
                 {
-                    logger.Info(
-                        "showLabel INVOKE WAIT type=ToolStripStatusLabel name={0} caller={1}",
-                        tSSL.Name, caller);
-
-                    this.Invoke((Action)(() => this.showLabel(b, tSSL, caller, file, line)));
-
-                    logger.Info(
-                        "showLabel INVOKE RETURN type=ToolStripStatusLabel name={0} caller={1} elapsedMs={2}",
-                        tSSL.Name, caller, sw.ElapsedMilliseconds);
+                    this.Invoke((Action)(() => this.showLabel(b, tSSL)));
                 }
                 else
                 {
@@ -4675,19 +4610,9 @@ namespace RelayControl
             }
             catch (Exception ex)
             {
-                logger.Error(ex,
-                    "showLabel FAILED type=ToolStripStatusLabel caller={0} file={1} line={2}",
-                    caller, System.IO.Path.GetFileName(file), line);
-
-                this.messageHandler("Error on Label",
+                this.messageHandler(
+                    "Error on Label",
                     "Error Invoking Label Visibility on: " + tSSL.Name + " " + ex.Message);
-            }
-            finally
-            {
-                logger.Info(
-                    "showLabel EXIT type=ToolStripStatusLabel caller={0} thread={1} elapsedMs={2}",
-                    caller, System.Threading.Thread.CurrentThread.ManagedThreadId,
-                    sw.ElapsedMilliseconds);
             }
         }
 
@@ -4698,11 +4623,11 @@ namespace RelayControl
 
         private void checkDNPEnabled()
         {
-            bool dnpCommSupported = IsDnpCommSupported();
+            this.DNPEnabled = IsDnpCommSupported();
 
-            this.DNPEnabled = dnpCommSupported;
-
-            if (!dnpCommSupported && (ucTransmitter1.DNPEnabled || ucTransmitter1.CheckDNPEnable))
+            if (!this.DNPEnabled &&
+                (this.ucTransmitter1.DNPEnabled ||
+                 this.ucTransmitter1.CheckDNPEnable))
             {
                 this.ucTransmitter1.DNPEnabled = false;
             }
