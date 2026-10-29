@@ -1183,15 +1183,15 @@ namespace RelayControl
 
             if (sEA.WithAck)
             {
-                if (!this.sendAll)
-                {
+                //if (!this.sendAll)
+                //{
                     this.sendPacketAck(sEA.SendPacket, sourceText);
                     
-                }
-                else
-                {
-                    this.sendPacket(sEA.SendPacket);
-                }
+                //}
+               // else
+                //{
+                   // this.sendPacket(sEA.SendPacket);
+                //}
             }
             else
             {
@@ -7783,9 +7783,8 @@ namespace RelayControl
         private byte[] pendingRelayTypePhasingPacket;
         private string pendingRelayTypePhasingCaller;
 
-        private void QueueRelayTypePhasingSendIfAllowed(byte[] packet, string caller)
+        private void QueueRelayTypePhasingSendIfAllowed(byte[] packet, string caller, bool allowDuringDownload = false)
         {
-            // If a real ACK is outstanding, do not allow the queued packet to race ahead.
             if (this.expectingAck)
             {
                 logger.Info("Queued Relay Type/Phasing send after ACK still active. expectingAck=True, caller={0}", caller);
@@ -7794,7 +7793,8 @@ namespace RelayControl
                 return;
             }
 
-            if (this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters)
+            if (!allowDuringDownload &&
+                (this.requestedAllParameters || this.ProgramState == ProgramStates.DownloadingAllParameters))
             {
                 logger.Info("Delayed Relay Type/Phasing send because parameter download active. caller={0}", caller);
                 this.pendingRelayTypePhasingPacket = packet;
