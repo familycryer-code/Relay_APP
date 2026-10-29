@@ -3218,6 +3218,7 @@ namespace RelayControl
                     break;
 
                 case IncomingCommCommands.ATdata:
+                    logger.Info("Received Adaptive Trip Data");
                     this.ucTripMode2.SetAdaptiveValuesFromPacket(bytePacket);
                     break;
 
@@ -12764,15 +12765,18 @@ namespace RelayControl
                     SetBusyUi(false, "Parameters Loaded Successfully");
                     this.enableAll(true);
                     screenD.screenDisable = false;
+#if CONED
+                    this.request_PCdata();
+                    this.request_ATdata();
+#endif
+
                     this.messageHandler("Parameters Loaded", "Parameters Loaded Successfully");
                     return;
             }
             logger.Info("Back Up Complete.");
 
-            // fix this after REV 10 because PC data will be part of backup and restore, so no need to request it here
-#if CONED
-            this.request_PCdata();
-#endif
+            // fix this after REV 10 because PC and AT data will be part of backup and restore, so no need to request it here
+
 
         }
     }
