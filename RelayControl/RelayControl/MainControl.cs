@@ -686,6 +686,9 @@ namespace RelayControl
                 this.ucSafeService1.comboBox_DataViews.DropDownStyle = ComboBoxStyle.DropDownList;
                 this.ucTripMode2.comboBox_TripStyle.DropDownStyle = ComboBoxStyle.DropDownList;
                 this.ucTripMode2.comboBox_TripType.DropDownStyle = ComboBoxStyle.DropDownList;
+
+                this.ucTripMode2.IsAckPending = () => this.IsExpectingAck;
+                this.ucCloseMode1.IsAckPending = () => this.IsExpectingAck;
             }
             catch (Exception ex)
             {
@@ -7008,38 +7011,22 @@ namespace RelayControl
                     packet[1] = (byte)'P';
 
                 // Phasing
+                // Phasing
                 var phasing = this.comboBox_Phasings?.SelectedItem?.ToString();
 
-                if (this.Customer == Customers.CONED)
+                if (string.Equals(phasing, "ABC : CAB : BCA",
+                    StringComparison.OrdinalIgnoreCase))
                 {
-                    // ConEd-specific encoding: use the legacy conedPhasing value if present
-                    // Otherwise fall back to standard mapping
-                    if (this.conedPhasing != 0)
-                    {
-                        packet[2] = (byte)this.conedPhasing;
-                    }
-                    else if (string.Equals(phasing, "ABC : CAB : BCA", StringComparison.OrdinalIgnoreCase))
-                    {
-                        packet[2] = 0x00;
-                    }
-                    else if (string.Equals(phasing, "CBA : BAC : ACB", StringComparison.OrdinalIgnoreCase))
-                    {
-                        packet[2] = 0x01;
-                    }
-                    else
-                    {
-                        packet[2] = 0x00;
-                    }
+                    packet[2] = 0x00;
+                }
+                else if (string.Equals(phasing, "CBA : BAC : ACB",
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    packet[2] = 0x01;
                 }
                 else
                 {
-                    // Standard mapping for all non-ConEd customers
-                    if (string.Equals(phasing, "ABC : CAB : BCA", StringComparison.OrdinalIgnoreCase))
-                        packet[2] = 0x00;
-                    else if (string.Equals(phasing, "CBA : BAC : ACB", StringComparison.OrdinalIgnoreCase))
-                        packet[2] = 0x01;
-                    else
-                        packet[2] = 0x00;
+                    packet[2] = 0x00;
                 }
 
                 // Voltage bit
@@ -9463,10 +9450,8 @@ namespace RelayControl
             try
             {
                 this.ucTripMode2.SendTripMode(requestAllAfterWrite: false);
-                WaitForAckIdle(3000, "After TripMode");
 
                 this.ucCloseMode1.sendCloseData(requestAllAfterWrite: false);
-                WaitForAckIdle(3000, "After CloseMode");
 
 #if CONED
                 this.SendPermissiveCloseSettings(requestAllAfterWrite: false);
@@ -9474,7 +9459,14 @@ namespace RelayControl
 #endif
 
                 this.SendCTRatioAndPhasing(requestAfter: false);
-                WaitForAckIdle(3000, "After CTRatioAndPhasing");
+
+                if (!WaitForAckIdle(3000, "After CTRatio"))
+                    throw new TimeoutException("Timed out waiting after CT ratio send.");
+
+                this.SendRelayPhasingAndType();
+
+                if (!WaitForAckIdle(3000, "After RelayPhasingAndType"))
+                    throw new TimeoutException("Timed out waiting after relay phasing/type send.");
 
                 this.ucPumpMode1.SendPumpMode(requestAllAfterWrite: false);
                 WaitForAckIdle(3000, "After PumpMode");

@@ -435,6 +435,48 @@ namespace RelayControlLibrary
             };
 
             OnSend(sea);
+            WaitForAckIdle(3000, "After Trip Mode");
+        }
+
+        public Func<bool> IsAckPending { get; set; }
+
+        private bool WaitForAckIdle(int timeoutMs, string step, int stableIdleMs = 75)
+        {
+            if (this.IsAckPending == null)
+            {
+                throw new InvalidOperationException(
+                    "ACK state callback has not been configured.");
+            }
+
+            var total = System.Diagnostics.Stopwatch.StartNew();
+            var idle = new System.Diagnostics.Stopwatch();
+
+            while (total.ElapsedMilliseconds < timeoutMs)
+            {
+                if (!this.IsAckPending())
+                {
+                    if (!idle.IsRunning)
+                        idle.Start();
+
+                    if (idle.ElapsedMilliseconds >= stableIdleMs)
+                    {
+                        logger.Info($"WaitForAckIdle OK step={step}, elapsedMs={total.ElapsedMilliseconds}, stableIdleMs={stableIdleMs}");
+                        return true;
+                    }
+                }
+                else
+                {
+                    // ACK became busy again; reset idle stability timer
+                    if (idle.IsRunning)
+                        idle.Reset();
+                }
+
+                Application.DoEvents(); // WinForms pump
+                Thread.Sleep(10);
+            }
+
+            logger.Info($"WaitForAckIdle TIMEOUT step={step}, expectingAck={this.IsAckPending()}, elapsedMs={total.ElapsedMilliseconds}, stableIdleMs={stableIdleMs}, idleMs={idle.ElapsedMilliseconds}");
+            return false;
         }
 
         public void SendTripMode(bool requestAllAfterWrite = false)

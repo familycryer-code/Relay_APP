@@ -199,7 +199,6 @@ namespace RelayControlLibrary
                 this.sEA.RequestAll = requestAllAfterWrite;
                 OnSend(sEA);
 
-                Thread.Sleep(1000);
             }
             catch (Exception ex)
             {
