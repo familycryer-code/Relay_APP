@@ -1380,8 +1380,8 @@ namespace RelayControlLibrary
                 this.TXSettings.FlagPolarity.H = !radioButtonFPHClose.Checked;
                 this.TXSettings.SetFlagPolartityByte();
                 logger.Info("FlagPolarity Byte=0x{0:X2}, SendPacket[10]=0x{1:X2}",
-    this.TXSettings.FlagPolarity.ByteValue,
-    this.TXSettings.SendPacket[10]);
+                this.TXSettings.FlagPolarity.ByteValue,
+                 this.TXSettings.SendPacket[10]);
 
                 //enable Flag Alarms
                 errorMessage = "Bad Error Flag Alarm Settings";

@@ -408,7 +408,7 @@ namespace RelayControlLibrary
             // Runtime customer point map (no compile-time #if)
             if (this.customer == Customers.CONED)
             {
-                this.binaryOutputs.Add("Call For Trip");
+                this.binaryOutputs.Add("NWP Control");
                 this.binaryOutputs.Add("Block From Closing");
                 this.binaryOutputs.Add("Unblock ( Auto )");
                 this.binaryOutputs.Add("Digital Out 1");
@@ -417,28 +417,22 @@ namespace RelayControlLibrary
                 this.binaryOutputs.Add("Clear Changes");
                 this.binaryOutputs.Add("Enable Relaxed Close");
                 this.binaryOutputs.Add("Disable Relaxed Close");
-
-                //Additional points per rev10 ConEd firmware
+                this.binaryOutputs.Add("N/A Control");
+                this.binaryOutputs.Add("N/A Control");
                 this.binaryOutputs.Add("Enabled Pump Mode Motor Cycles");
-                this.binaryOutputs.Add("Trip On Power Down");
-                this.binaryOutputs.Add("Override Blocked Close on Dead Network");
-                this.binaryOutputs.Add("Relay Algorithm");
-                this.binaryOutputs.Add("Not Used");
-                this.binaryOutputs.Add("Command Test");
-                this.binaryOutputs.Add("Not Used");
-                this.binaryOutputs.Add("Safe Service Mode Enable");
-                this.binaryOutputs.Add("Circle Close");
-                this.binaryOutputs.Add("Trim Curve");
-                this.binaryOutputs.Add("Enabled Pump Mode Relay Cycles");
-                this.binaryOutputs.Add("Pump Lockout Never Reclose");
-                this.binaryOutputs.Add("Clear Pump Protect Lockout");
-                this.binaryOutputs.Add("Clear Cycle Counter");
+                this.binaryOutputs.Add("Disable Pump Mode Motor Cycles");
+                this.binaryOutputs.Add("N/A Control");
+                this.binaryOutputs.Add("N/A Control");
+                this.binaryOutputs.Add("Permissive Close Enable");
                 this.binaryOutputs.Add("Sensitive Trip");
-                this.binaryOutputs.Add("Watt Var");
                 this.binaryOutputs.Add("Time Delay");
                 this.binaryOutputs.Add("Insenstive Trip");
-                this.binaryOutputs.Add("Enable Pump Mode Motor Timeout");
-                this.binaryOutputs.Add("Command Lockout");
+                this.binaryOutputs.Add("Adaptive Trip");
+                this.binaryOutputs.Add("N/A Control");
+                this.binaryOutputs.Add("Permissive Close Disable");
+                this.binaryOutputs.Add("N/A Control");
+                this.binaryOutputs.Add("N/A Control");
+                
             }
             else if (this.customer == Customers.SCE)
             {
@@ -935,24 +929,20 @@ namespace RelayControlLibrary
                 this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Reclose Angle Setting", false));
                 this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Phasing Voltage Offset Setting", false));
                 this.analogOutputs.Add(new AnalogPointDefinition("Relaxed Close Active Time", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("NWP Cycle Counter", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Close Mode Phasing Detection Offset", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Close Mode Phasing Detection Angle", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Phasing Mode", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Lockout time", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Cycles", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Motor Timeout", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Relay Cycle Limit", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Pump Mode Relay Cycle Time", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Current Imbalance", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Trip Delay", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Low Voltage", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Overcurrent", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Safe Service Mode Voltage Imbalance", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Trip Mode Trim Angle", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Trip Style", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Angle", false));
-                this.analogOutputs.Add(new AnalogPointDefinition("Watt-Var Current", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Not Applicable", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Adaptive Instant Trip Setting", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Green Zone Delay", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Green Zone X Mag", false));
+                this.analogOutputs.Add(new AnalogPointDefinition("Green Zone Y Mag", false));
+
             }
             else if (this.customer == Customers.SCE)
             {
