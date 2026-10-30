@@ -10428,6 +10428,8 @@ namespace RelayControl
 
         private void setTransmitterMonitorData(byte[] bytePacket)
         {
+            logger.Info("[SENSOR-B] Flags=0x{0:X2}, B={1}",
+        bytePacket[6], (bytePacket[6] & 0x02) != 0);
             this.ucTransmitterMonitoring1.SetAll(bytePacket);
             this.ucTransmitter1.setMonitoringData(bytePacket);
         }

@@ -1607,6 +1607,7 @@ namespace RelayControlLibrary
 
         public void setFlagPolarity(byte p)
         {
+            logger.Info("setFlagPolarity: p=0x{0:X2}", p);
             this.radioButtonFPAClose.Checked = (p & 0x01) == 0;
             this.radioButtonFPAOpen.Checked = (p & 0x01) != 0;
 
@@ -1656,14 +1657,7 @@ namespace RelayControlLibrary
             this.TXSettings.FlagPolarity.H = Convert.ToBoolean(dNPCoverFlags & 128);
             this.TXSettings.SetFlagPolartityByte();
 
-            this.radioButtonFPAClose.Checked = this.TXSettings.FlagPolarity.A;
-            this.radioButtonFPBClose.Checked = this.TXSettings.FlagPolarity.B;
-            this.radioButtonFPCClose.Checked = this.TXSettings.FlagPolarity.C;
-            this.radioButtonFPDClose.Checked = this.TXSettings.FlagPolarity.D;
-            this.radioButtonFPEClose.Checked = this.TXSettings.FlagPolarity.E;
-            this.radioButtonFPFClose.Checked = this.TXSettings.FlagPolarity.F;
-            this.radioButtonFPGClose.Checked = this.TXSettings.FlagPolarity.G;
-            this.radioButtonFPHClose.Checked = this.TXSettings.FlagPolarity.H;
+            this.setFlagPolarity(this.TXSettings.FlagPolarity.ByteValue);
 
         }
 
