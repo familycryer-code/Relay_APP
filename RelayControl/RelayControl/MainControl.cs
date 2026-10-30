@@ -3120,7 +3120,7 @@ namespace RelayControl
 
                 case IncomingCommCommands.GeneralCommand:
                     this.ucGeneralCommandHandler1.HandleCommand(bytePacket);
-                    //this.ucTransmitter1.RequestLightningCount();
+                    this.lbl_LightningCount.Text = lightC.lightningCount.ToString();
                     break;
 
                 case IncomingCommCommands.ArcFaultData:
@@ -10218,7 +10218,7 @@ namespace RelayControl
             else if (this.tabControlMain.SelectedTab == this.tabPage1)  // Relay Monitoring tab
             {
                 // read lightning count by default at start up
-                //this.btn_getLC_Click(this, new EventArgs());
+                this.btn_getLC_Click(this, new EventArgs());
             }
             else
             {

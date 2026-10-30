@@ -2800,7 +2800,7 @@ namespace RelayControl
             this.lbl_LightningCount.Name = "lbl_LightningCount";
             this.lbl_LightningCount.Size = new System.Drawing.Size(98, 31);
             this.lbl_LightningCount.TabIndex = 0;
-            this.lbl_LightningCount.Text = "1000";
+            this.lbl_LightningCount.Text = "--";
             this.lbl_LightningCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // textBox_TxID

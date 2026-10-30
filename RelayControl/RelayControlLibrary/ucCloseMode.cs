@@ -355,55 +355,9 @@ namespace RelayControlLibrary
             else
                 this.Mode = CloseModes.Normal;
 
-            this.SendTimedOut = false;
             relaxCloseC.RelaxCloseClick = false;
 
-            // keep close mode state synced to the UI prior to send
-            this.CloseModeDef.CloseMode = this.Mode;
-            this.CloseModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
-            this.CloseModeDef.OverrideBlockedClose = this.checkBox1.Checked;
-
-            // rebuild live curve
-            this.CloseCurve = new CloseCurveDefinition();
-            this.setVerticalLine();
-            this.setHorizontalLine();
-
-            UiTrace(
-                $"mode={this.Mode}, tilt={this.numericUpDownCloseTiltAngle.Value}, " +
-                $"reclose={this.numericUpDownRecloseVolts.Value}, pdv={this.numericUpDownPDV.Value}, " +
-                $"pda={this.numericUpDownPDA.Value}, delay={this.numericUpDownTimeDelay.Value}, " +
-                $"blockedOverride={this.CloseModeDef.OverrideBlockedClose}");
-
-            if ((mode != CloseModes.CircleAndRelax && mode != CloseModes.RelaxClose) ||
-                relayRevisionNumber < _singleCommandRelaxCloseUpdate)
-            {
-                // 1) send mode/control packet
-                mySEA = new SendEventArgs(_packetSize);
-                mySEA.SendPacket = RelayModeFunctions.BytePacketFor(this.CloseModeDef);
-                mySEA.WithAck = true;
-                mySEA.RequestAll = false;
-
-                UiTrace($"modePacket={BitConverter.ToString(mySEA.SendPacket)}, withAck={mySEA.WithAck}, requestAll={mySEA.RequestAll}");
-                this.OnSend(this, mySEA);
-                UiTrace("mode packet sent");
-                //slight delay to see if helps Apply All
-                //Thread.Sleep(100);
-
-
-                // 2) send curve packet
-                mySEA = new SendEventArgs(_packetSize);
-                mySEA.SendPacket = this.CloseCurve.BytePacket();
-                mySEA.WithAck = true;
-                mySEA.RequestAll = requestAllAfterWrite;
-
-                UiTrace($"curvePacket={BitConverter.ToString(mySEA.SendPacket)}, withAck={mySEA.WithAck}, requestAll={mySEA.RequestAll}");
-                this.OnSend(this, mySEA);
-                UiTrace("curve packet sent");
-            }
-            else
-            {
-                UiTrace("send skipped due to mode/revision gate");
-            }
+            this.SendCloseDataCore(requestAllAfterWrite);
 
             UiTrace("sendCloseData EXIT");
         }
@@ -674,12 +628,68 @@ namespace RelayControlLibrary
 
         public void sendRelaxClose()
         {
+            UiTrace("sendRelaxClose ENTER");
+
             if (this.checkBoxCircleClose.Checked)
                 this.Mode = CloseModes.CircleAndRelax;
             else
                 this.Mode = CloseModes.RelaxClose;
 
-            this.sendCloseData(false);
+            this.SendCloseDataCore(false);
+
+            relaxCloseC.RelaxCloseClick = false;
+            UiTrace("sendRelaxClose EXIT");
+        }
+
+        private void SendCloseDataCore(bool requestAllAfterWrite)
+        {
+            this.SendTimedOut = false;
+
+            // keep close mode state synced to the UI prior to send
+            this.CloseModeDef.CloseMode = this.Mode;
+            this.CloseModeDef.TimeDelay = (int)this.numericUpDownTimeDelay.Value;
+            this.CloseModeDef.OverrideBlockedClose = this.checkBox1.Checked;
+
+            // rebuild live curve
+            this.CloseCurve = new CloseCurveDefinition();
+            this.setVerticalLine();
+            this.setHorizontalLine();
+
+            UiTrace(
+                $"mode={this.Mode}, tilt={this.numericUpDownCloseTiltAngle.Value}, " +
+                $"reclose={this.numericUpDownRecloseVolts.Value}, pdv={this.numericUpDownPDV.Value}, " +
+                $"pda={this.numericUpDownPDA.Value}, delay={this.numericUpDownTimeDelay.Value}, " +
+                $"blockedOverride={this.CloseModeDef.OverrideBlockedClose}");
+
+            bool isRelax = (this.Mode == CloseModes.CircleAndRelax || this.Mode == CloseModes.RelaxClose);
+            bool sendCurve = !isRelax || relayRevisionNumber < _singleCommandRelaxCloseUpdate;
+
+            // 1) mode/control packet is always sent ('r' carries relax on newer relays)
+            mySEA = new SendEventArgs(_packetSize);
+            mySEA.SendPacket = RelayModeFunctions.BytePacketFor(this.CloseModeDef);
+            mySEA.WithAck = true;
+            mySEA.RequestAll = !sendCurve && requestAllAfterWrite;
+
+            UiTrace($"modePacket={BitConverter.ToString(mySEA.SendPacket)}, withAck={mySEA.WithAck}, requestAll={mySEA.RequestAll}");
+            this.OnSend(this, mySEA);
+            UiTrace("mode packet sent");
+
+            // 2) curve packet: normal modes, or relax on older relays
+            if (sendCurve)
+            {
+                mySEA = new SendEventArgs(_packetSize);
+                mySEA.SendPacket = this.CloseCurve.BytePacket();
+                mySEA.WithAck = true;
+                mySEA.RequestAll = requestAllAfterWrite;
+
+                UiTrace($"curvePacket={BitConverter.ToString(mySEA.SendPacket)}, withAck={mySEA.WithAck}, requestAll={mySEA.RequestAll}");
+                this.OnSend(this, mySEA);
+                UiTrace("curve packet sent");
+            }
+            else
+            {
+                UiTrace("curve packet skipped (single-command relax close)");
+            }
         }
 
         private decimal savedRecloseValue = 1.5m;

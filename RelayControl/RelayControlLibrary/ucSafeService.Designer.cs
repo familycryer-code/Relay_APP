@@ -314,7 +314,7 @@ namespace RelayControlLibrary
             // 
             this.numericUpDownOverCurrent.DecimalPlaces = 2;
             this.numericUpDownOverCurrent.Increment = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
             65536});
