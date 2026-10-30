@@ -59,6 +59,12 @@ namespace RelayControlLibrary
             this.IncomingCommands.Add(new IncommingCommand(1, "Request Clock Time", new IncommingCommandFunctionDelegate(this.incommingCommandClockTime)));
             this.IncomingCommands.Add(new IncommingCommand(2, "Test Interrupt Times", new IncommingCommandFunctionDelegate(this.handleTestInterruptTimes)));
             this.IncomingCommands.Add(new IncommingCommand(3, "Math Time", new IncommingCommandFunctionDelegate(this.incomingCommandSingleData)));
+            this.IncomingCommands.Add(new IncommingCommand(GC_OUT_ARCFLASHCOUNT, "Arc Flash Count", new IncommingCommandFunctionDelegate(this.incomingCommandArcFlashCount)));
+        }
+
+        private void incomingCommandArcFlashCount(byte[] b)
+        {
+            this.textBoxReturnValue.Text = lightC.lightningCount.ToString();
         }
 
         private void incommingCommandError(byte[] b)
@@ -149,6 +155,9 @@ namespace RelayControlLibrary
             return returnByte;
         }
 
+        // Firmware GeneralCommand.h: #define GC_OUT_ARCFLASHCOUNT 4
+        private const int GC_OUT_ARCFLASHCOUNT = 4;
+
         public void HandleCommand(byte[] packet)
         {
             IncommingCommand workingCommand = null;
@@ -165,13 +174,14 @@ namespace RelayControlLibrary
                 }
             }
 
-            //lightningCount_fromMasterProcessor(packet);
-            uint temp;
-            temp = packet[2];
-            temp <<= 8;
-            temp += packet[3];
-
-            lightC.lightningCount = temp;
+            // Only the arc flash count reply carries the lightning count
+            if (tempCommand == GC_OUT_ARCFLASHCOUNT)
+            {
+                uint temp = packet[2];
+                temp <<= 8;
+                temp += packet[3];
+                lightC.lightningCount = temp;
+            }
 
             if (workingCommand != null)
             {
