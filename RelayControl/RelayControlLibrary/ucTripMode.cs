@@ -493,6 +493,36 @@ namespace RelayControlLibrary
             {
                 this.TripModeDef.Mode = RelayModeFunctions.TripModeFrom(this.listBoxTripModes.Text);
 
+                bool useTimeDelayCurve = this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar;
+
+                bool useInsensitiveCurve =
+                    this.TripModeDef.Mode == TripModes.Insensitive;
+
+                decimal instantaneousMagnitude = this.instantaneousCurrent;
+                decimal insensitiveMagnitude = this.insensitiveCurrent;
+
+                // Capture the edited value before ACK waits can process relay readbacks.
+                if (useTimeDelayCurve || useInsensitiveCurve)
+                {
+                    decimal magnitude = this.numericUpDownInsensTrip.Value;
+
+                    if (this.displayType == eDisplayType.Percent)
+                        magnitude *= .050m;
+                    else if (this.displayType == eDisplayType.Protector)
+                        magnitude /= this.CTRatio;
+
+                    if (useTimeDelayCurve)
+                    {
+                        instantaneousMagnitude = magnitude;
+                        this.instantaneousCurrent = magnitude;
+                    }
+                    else
+                    {
+                        insensitiveMagnitude = magnitude;
+                        this.insensitiveCurrent = magnitude;
+                    }
+                }
+
                 TripModeDef.SensitiveTimeDelay = (int)this.numericUpDownSensitiveTimeDelay.Value;
                 TripModeDef.ExtendedDelay = (int)this.numericUpDownExtendedTimeDelay.Value;
 
@@ -555,29 +585,7 @@ namespace RelayControlLibrary
 
                 SendTripPacket(RelayModeFunctions.BytePacketFor(TripCurveGW, 1), withAck: true, requestAll: false);
 
-                decimal tempDecimal;
-
-                if (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar)
-                    tempDecimal = this.instantaneousCurrent;
-                else if (this.TripModeDef.Mode == TripModes.Insensitive)
-                    tempDecimal = this.insensitiveCurrent;
-                else
-                {
-                    if (this.displayType == eDisplayType.Relay)
-                        tempDecimal = this.numericUpDownInsensTrip.Value;
-                    else if (this.displayType == eDisplayType.Percent)
-                        tempDecimal = this.numericUpDownInsensTrip.Value * .050m;
-                    else
-                        tempDecimal = this.numericUpDownInsensTrip.Value / CTRatio;
-                }
-
-                bool useTimeDelayCurve = (this.TripModeDef.Mode == TripModes.TimeDelay || this.TripModeDef.Mode == TripModes.WattVar);
-                bool useInsensitiveCurve = (this.TripModeDef.Mode == TripModes.Insensitive);
-
-                if (useTimeDelayCurve)
-                    tempDecimal = this.instantaneousCurrent;
-                else if (useInsensitiveCurve)
-                    tempDecimal = this.insensitiveCurrent;
+               
 
                 TripCurveTimeDelay.CurveNumber = 3;
                 TripCurveTimeDelay.CurveType = TripCurveTypes.Magnitude;
@@ -585,7 +593,7 @@ namespace RelayControlLibrary
                 TripCurveTimeDelay.CodomainMinimum = Constants.MinFixedPointValue;
                 TripCurveTimeDelay.Offset = 0;
                 TripCurveTimeDelay.Tilt = 90;
-                TripCurveTimeDelay.Magnitude = this.instantaneousCurrent;
+                TripCurveTimeDelay.Magnitude = instantaneousMagnitude;
 
                 if (!useTimeDelayCurve)
                 {
@@ -606,7 +614,7 @@ namespace RelayControlLibrary
                 this.TripCurveInsensTripMag.CodomainMinimum = Constants.MinFixedPointValue;
                 this.TripCurveInsensTripMag.Offset = 0;
                 this.TripCurveInsensTripMag.Tilt = 90;
-                this.TripCurveInsensTripMag.Magnitude = this.insensitiveCurrent;
+                this.TripCurveInsensTripMag.Magnitude = insensitiveMagnitude;
 
                 if (!useInsensitiveCurve)
                     this.TripCurveInsensTripMag.CurveType = TripCurveTypes.NoCurve;
@@ -962,6 +970,11 @@ namespace RelayControlLibrary
                     this.labelInsensTripUnit.Visible = true;
                     this.labelInstantCurrent.Visible = true;
                     this.labelInsensTrip.Visible = false;
+
+                    this.numericUpDownInsensTrip.Value =
+                            Clamp(this.convertDisplay(this.instantaneousCurrent),
+                                  this.numericUpDownInsensTrip.Minimum,
+                                  this.numericUpDownInsensTrip.Maximum);
                     this.sensitiveTimeVisible(true);
                     this.SensitiveVisible(true);
                     this.TimeDelayVisible(true);
@@ -1386,7 +1399,7 @@ namespace RelayControlLibrary
                 tempD *= conversionFactor;
 
 
-                if (tempTM == TripModes.TimeDelay)
+                if (tempTM == TripModes.TimeDelay || tempTM == TripModes.WattVar)
                     this.numericUpDownInsensTrip.Value =
                         Clamp(tempD, this.numericUpDownInsensTrip.Minimum, this.numericUpDownInsensTrip.Maximum);
 
