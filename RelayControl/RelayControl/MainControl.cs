@@ -10147,7 +10147,15 @@ namespace RelayControl
 
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            logger.Info("tabControlMain_SelectedIndexChanged selectedTab={0}", this.tabControlMain.SelectedTab?.Name);  
+            logger.Info("tabControlMain_SelectedIndexChanged selectedTab={0}", this.tabControlMain.SelectedTab?.Name);
+
+            if (this.tabControlMain.SelectedTab == this.tabPageTransmitter)
+            {
+                logger.Info("[B-POLARITY] Communication Settings opened: Normal={0}, Inverted={1}",
+                    this.ucTransmitter1.radioButtonFPBClose.Checked,
+                    this.ucTransmitter1.radioButtonFPBOpen.Checked);
+            }
+
             if (ucRelayProgramming1.IsProgrammingActiveOrInFlight())
                 return;
 

@@ -233,6 +233,9 @@ namespace RelayControlLibrary
             }
 
             this.Load += ucTransmitter_Load;
+            logger.Info("[B-POLARITY] Startup: Normal={0}, Inverted={1}",
+    this.radioButtonFPBClose.Checked,
+    this.radioButtonFPBOpen.Checked);
 
         }
         private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -459,6 +462,12 @@ namespace RelayControlLibrary
                 //Set the Flag Polarity
                 this.TXSettings.FlagPolarity.ByteValue = bA[9];
                 this.setFlagPolarity(bA[9]);
+                logger.Info("[B-POLARITY] Relay readback: byte=0x{0:X2}, BBitSet={1}, Normal={2}, Inverted={3}",
+    bA[9],
+    (bA[9] & 0x02) != 0,
+    this.radioButtonFPBClose.Checked,
+    this.radioButtonFPBOpen.Checked);
+
                 statusNew.flagFromRelay = true;
                 flagP.transmitterFlagPolarity = bA[9];
                 //this.ucTransmitterMonitoring2.setFlagPolarity(bA[9]);
